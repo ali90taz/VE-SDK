@@ -284,3 +284,17 @@ file in this repository.
 </h4>
 
 ---
+
+<h3>Disclaimer</h3>
+
+<h4 align="left">
+<ul>
+<li>VitaEngine <b>is not affiliated with, endorsed by, or licensed by Sony
+Interactive Entertainment</b>.</li>
+<li><b>PS Vita</b> is a trademark of Sony Interactive Entertainment.</li>
+<li>Third-party names, assets and technologies belong to their respective owners.</li>
+<br>
+</ul>
+</h4>
+
+---
