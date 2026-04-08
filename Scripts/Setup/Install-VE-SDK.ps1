@@ -673,13 +673,13 @@ if ($Global:installFlag) {
         $ErrorActionPreference = 'SilentlyContinue'
         mkdir $vitaEngineSdkShortcuts | Out-Null
         $ErrorActionPreference = 'SilentlyContinue'
-        createLnk -lnkName "VitaEngine SDK Setup Utility" -lnkTarget "$($Env:ComSpec)" -lnkPath $vitaEngineSdkShortcuts -lnkArguments "/k powershell -ExecutionPolicy Unrestricted Invoke-Expression -Command (Invoke-WebRequest -Uri 'https://raw.githubusercontent.com/ali90taz/VitaEngine/refs/heads/staging/Scripts/Setup.ps1' -UseBasicParsing).Content" -adminRights $true
+        createLnk -lnkName "VitaEngine SDK Setup Utility" -lnkTarget "$($Env:ComSpec)" -lnkPath $vitaEngineSdkShortcuts -lnkArguments "/k powershell -ExecutionPolicy Unrestricted Invoke-Expression -Command (Invoke-WebRequest -Uri 'https://raw.githubusercontent.com/ali90taz/VE-SDK/refs/heads/staging/Scripts/Setup/Install-VE-SDK.ps1' -UseBasicParsing).Content" -adminRights $true
         $ErrorActionPreference = 'SilentlyContinue'
         createLnk -lnkName "Open VitaEngine SDK with VS Code" -lnkTarget "$($Env:ComSpec)" -lnkPath $vitaEngineSdkShortcuts -lnkArguments "/c cd $($vitaEngineSdkDest) & code . & exit"
         $ErrorActionPreference = 'SilentlyContinue'
         createLnk -lnkName $mainShortcutName -lnkTarget $vitaEngineSdkShortcuts -lnkPath $desktopPath
         $ErrorActionPreference = 'SilentlyContinue'
-        createLnk -lnkName "VitaEngine SDK Build Utility" -lnkTarget "$($Env:ComSpec)" -lnkPath $vitaEngineSdkShortcuts -lnkArguments "/k powershell -ExecutionPolicy Unrestricted Invoke-Expression -Command (Invoke-WebRequest -Uri 'https://raw.githubusercontent.com/ali90taz/VitaEngine/refs/heads/staging/Scripts/Build.ps1' -UseBasicParsing).Content" -adminRights $true
+        createLnk -lnkName "VitaEngine SDK Build Utility" -lnkTarget "$($Env:ComSpec)" -lnkPath $vitaEngineSdkShortcuts -lnkArguments "/k powershell -ExecutionPolicy Unrestricted Invoke-Expression -Command (Invoke-WebRequest -Uri 'https://raw.githubusercontent.com/ali90taz/VE-SDK/refs/heads/staging/Scripts/Build/Build-VitaEngine.ps1' -UseBasicParsing).Content" -adminRights $true
         printText -t " [DONE]" -fc green
         printText -t "Installing Electron on VitaEngine SDK folder...`n" -fc cyan -fs "i"
         $currentLocation = Get-Location.Path
