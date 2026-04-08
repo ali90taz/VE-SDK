@@ -12,6 +12,7 @@ $vscodeSrc = "https://vscode.download.prss.microsoft.com/dbazure/download/stable
 $nodeSrc = "https://nodejs.org/dist/v18.18.2/$($nodeRelease).zip"
 $gitSrc = "https://github.com/git-for-windows/git/releases/download/v2.42.0.windows.2/$($gitRelease).exe" 
 $vitaEngineSdkDest += $Env:HOMEDRIVE + $Env:HOMEPATH + "\Documents\VitaEngine SDK"
+$vitaEngineIdeDest += $vitaEngineSdkDest + "Source\IDE"
 $vitaEngineProjectsFolder += $Env:HOMEDRIVE + $Env:HOMEPATH + "\Documents\VitaEngine\Projects"
 $vitaEngineSdkData += $Env:LOCALAPPDATA + "\" + "VE-SDK"
 $vitaEngineSdkScripts += $vitaEngineSdkDest + "\Scripts"
@@ -683,7 +684,7 @@ if ($Global:installFlag) {
         printText -t " [DONE]" -fc green
         printText -t "Installing Electron on VitaEngine SDK folder...`n" -fc cyan -fs "i"
         $currentLocation = Get-Location.Path
-        Set-Location $vitaEngineSdkDest
+        Set-Location $vitaEngineIdeDest
         installElectron
         Set-Location $currentLocation
         wait 5000
