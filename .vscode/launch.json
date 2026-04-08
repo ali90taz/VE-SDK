@@ -1,0 +1,13 @@
+{
+    "version": "1.0.0",
+    "configurations": [  
+       {
+          "name": "Debug ViatEngine IDE",
+          "type": "node",
+          "request": "launch",
+          "cwd": "${workspaceFolder}/Source/IDE",
+          "runtimeExecutable": "${workspaceFolder}/Source/IDE/node_modules/.bin/electron.cmd",
+          "args": ["."] 
+       }
+    ]
+ }

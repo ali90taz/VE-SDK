@@ -1,0 +1,29 @@
+{
+  "version": 4,
+  "configurations": [
+    {
+      "name": "VE-SDK",
+      "includePath": [
+        "${workspaceFolder}/Source/Apps/Companion/Public",
+        "${workspaceFolder}/Source/Engine/Core/Public",
+        "${workspaceFolder}/ThirdParty/Toolchains/vitasdk/arm-vita-eabi/include"
+      ],
+      "defines": [
+        "__vita__",
+        "VE_DEBUG",
+        "VE_SDK"
+      ],
+      "compilerPath": "${workspaceFolder}/ThirdParty/Toolchains/vitasdk/bin/arm-vita-eabi-g++.exe",
+      "cStandard": "c17",
+      "cppStandard": "c++17",
+      "intelliSenseMode": "windows-gcc-arm",
+      "browse": {
+        "path": [
+          "${workspaceFolder}/Source/Engine/Core/Public",
+          "${workspaceFolder}/ThirdParty/Toolchains/vitasdk/arm-vita-eabi/include"
+        ],
+        "limitSymbolsToIncludedHeaders": true
+      }
+    }
+  ]
+}

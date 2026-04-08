@@ -1,0 +1,41 @@
+html, body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    background: rgb(30, 30, 30);
+    color: white;
+    font-family: Arial, sans-serif;
+}
+
+#main {
+    width: 100%;
+    height: 100%;
+    display: grid;
+    grid-template-rows: 50px auto;
+}
+
+#titleBar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 12px;
+    background: rgb(50, 50, 50);
+}
+
+#titleBar-buttons {
+    display: flex;
+    gap: 8px;
+}
+
+#workspace {
+    padding: 24px;
+}
+
+.draggableArea {
+    -webkit-app-region: drag;
+}
+
+.undraggableArea {
+    -webkit-app-region: no-drag;
+}

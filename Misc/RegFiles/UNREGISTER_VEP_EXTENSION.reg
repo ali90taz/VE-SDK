@@ -1,0 +1,8 @@
+Windows Registry Editor Version 5.00
+
+[-HKEY_CLASSES_ROOT\.vep]
+@="VitaEngine.Project"
+"PerceivedType"="Text"
+
+[-HKEY_CLASSES_ROOT\VitaEngine.Project]
+@="VitaEngine Project"

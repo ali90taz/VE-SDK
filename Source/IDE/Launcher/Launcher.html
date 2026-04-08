@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VitaEngine IDE</title>
+    <link rel="stylesheet" href="./Launcher.css" text="texy/css">
+    <link href="https://fonts.googleapis.com/css?family=Nunito:400,700" rel="stylesheet">
+</head>
+<body>
+    <div id="main">
+        <div id="overlay">
+            <div id="infoWindow">
+                <div id="infoWindow-header">
+                    <img class="clickableItem circleButton" id="infoWindow-closeButton" src="../Assets/Global/closeButton.png" alt="close_button" title="Close Window">
+                </div>
+                <div id="infoWindow-content">
+
+                </div>
+                <div id="infoWindow-footer">
+                    <h4 class="normalText" id="infoWindow-version">Version: </h4>
+                    <div id="infoWindow-footer-links">
+                        <h4 class="link clickableItem" id="infoWindow-license">License</h4>
+                        <h4 class="link clickableItem" id="infoWindow-about">About</h4>
+                        <h4 class="link clickableItem" id="infoWindow-releases">Releases</h4>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="sidebar">
+            <img class="clickableItem circleButton" id="githubButton" src="../Assets/Launcher/veLogo.png" alt="vita_engine_logo" title="Open Github project page">
+            <img class="clickableItem circleButton" id="infoButton" src="../Assets/Launcher/infoIcon.png" alt="info_icon" title="Open Info Window">
+        </div>
+        <div id="content">
+            <div class="draggableArea" id="titleBar">
+                <img class="normalImage" src="../Assets/Launcher/veText.png" alt="vita_engine_text" title="Drag Window">
+                <div id="titleBar-buttons">
+                    <img class="clickableItem circleButton undraggableArea" id="minimizeButton" src="../Assets/Global/minimizeButton.png" alt="minimize_button" title="Minimize Window">
+                    <img class="clickableItem circleButton undraggableArea" id="closeButton" src="../Assets/Global/closeButton.png" alt="close_button" title="Close Window">
+                </div>
+            </div>
+            <div id="projectArea">
+                <h3 class="normalText">Start</h3>
+                <table id="projectActions">
+                    <tr>
+                        <td class="link clickableItem" id="newProject" title="Creates a new blank project">New Project...</td>
+                    </tr>
+                    <tr>
+                        <td class="link clickableItem" id="loadProject" title="Load a previously created project">Load Project...</td>
+                    </tr>
+                </table>
+                <h3 class="normalText">Recent Projects</h3>
+                <table id="recentProjects">
+                </table>
+            </div>
+            <div id="footer">
+                <h4 class="warnText">
+                    This software is not licensed by Sony.
+                </h4>
+            </div>
+        </div>
+    </div>
+</body>
+<script src="./Launcher.js"></script>
+</html>
