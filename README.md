@@ -197,7 +197,7 @@ shortcuts for quick access to the main tools.
 > executing them.**
 
 > **✅ Install.zip file signature (SHA-256):  
-> 06C5D61AD0554CD7E0FF1E5079A88392427E1863F3DA49C2306CBEA2B148E0B3**
+> D600A528A1A6B118B1B4D76E8B611F3A315DF87D85F0CE629CC0D933E6C4DD80**
 
 <h4 align="left">
 <em>Installation file: 
