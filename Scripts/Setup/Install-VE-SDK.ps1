@@ -6,7 +6,7 @@
 # Global Variables
 # ==============================================================================
 
-$headerInfo = "`nVitaEngine SDK Setup Utility - Version 1.0.52 - Closed Beta`n"
+$headerInfo = "`nVitaEngine SDK Setup Utility - Version 1.0.0 Alpha`n"
 
 # Sources
 $vitaEngineSdkSrc = "https://github.com/ali90taz/VE-SDK"
@@ -44,7 +44,6 @@ $vitaEngineProjectsFolder = Join-Path $vitaEngineProjectsRoot "Projects"
 # Local app data paths
 $vitaEngineSdkData    = Join-Path $Env:LOCALAPPDATA "VE-SDK"
 $vitaEngineSdkDep     = Join-Path $vitaEngineSdkData "dep"
-$vitaEngineSdkScripts = Join-Path $vitaEngineSdkDest "Scripts"
 
 # Toolchain paths
 $vitaSdkDest = Join-Path $vitaEngineSdkDest "ThirdParty\Toolchains"
@@ -395,7 +394,6 @@ function printText {
             # This extremely complex piece of REGEX was
             # taken and adapted from the following link:
             # https://stackoverflow.com/posts/46964463/revisions
-            # My current knowledge does not allow me to understand how it works
 
             if ($FS -match "^(?!.*(.).*\1)[b|i|u|s]+$") {
                 return $true
@@ -428,7 +426,7 @@ function printText {
 # ==============================================================================
 
 function checkNodeVersion {
-    wait 1000
+    wait 2000
     printText -t "  Checking for Node.js..." -fc blue -f "nnl"
     $ErrorActionPreference = 'SilentlyContinue'
 
@@ -443,13 +441,13 @@ function checkNodeVersion {
 }
 
 function checkGitVersion {
-    wait 1000
+    wait 2000
     printText -t "  Checking for Git..." -fc blue -f "nnl"
     $ErrorActionPreference = 'SilentlyContinue'
 
     $gitVersion = & git --version 2>$null
     if ($gitVersion -match $gitVersionPattern) {
-        printText -t " [FOUND]" -fc green
+        printText -t " [FOUND]" -fc green -
         $Global:gitFound = $true
     } else {
         printText -t " [NOT-FOUND]" -fc red
@@ -458,7 +456,7 @@ function checkGitVersion {
 }
 
 function checkCodeVersion {
-    wait 1000
+    wait 2000
     printText -t "  Checking for VS Code..." -fc blue -f "nnl"
     $ErrorActionPreference = 'SilentlyContinue'
 
@@ -632,7 +630,7 @@ if ($Global:uninstallFlag) {
     } else {
         printText -t "`nUninstallation completed successfully, press any key to exit the setup utility..." -fc green -fs "b" -ta "Blink"
         Read-Host
-        wait 1000
+        wait 2000
     }
 }
 
@@ -790,22 +788,22 @@ if ($Global:installFlag) {
         }
 
         & git clone -q $vitaEngineSdkSrc $vitaEngineSdkDest
-        wait 1000
+        wait 2000
         printText -t " [DONE]" -fc green
 
         printText -t "Adding VitaEngine SDK environment variable..." -fc cyan -fs "i" -f "nnl"
-        wait 1000
+        wait 2000
         addEnv -name $vitaEngineSdkEnvVar -value $vitaEngineSdkDest
         $env:VITA_ENGINE_SDK = [System.Environment]::GetEnvironmentVariable($vitaEngineSdkEnvVar, "Machine")
         printText -t " [DONE]" -fc green
 
         printText -t "Registering VitaEngine SDK extensions..." -fc cyan -fs "i" -f "nnl"
-        wait 1000
+        wait 2000
         processRegFile "REGISTER_VEP_EXTENSION.reg"
         printText -t " [DONE]" -fc green
 
         printText -t "Creating VitaEngine demo projects folder..." -fc cyan -fs "i" -f "nnl"
-        wait 1000
+        wait 2000
         createDemoProjectsFolder
         printText -t " [DONE]" -fc green
 
@@ -850,17 +848,11 @@ if ($Global:installFlag) {
         # VITA-SDK Toolchain
         # ----------------------------------------------------------------------
         printText -t "Installing VITA-SDK toolchain..." -fc cyan -fs "i" -f "nnl"
-        wait 1000
+        wait 2000
 
         $vitaSdkArchiveTemp = Join-Path $Env:TEMP "vitasdk.tar.bz2"
-
         ensureDirectory $vitaSdkDest
-
-        printText -t "  Downloading .tar.bz2 file into your computer..." -fc cyan -fs "i" -f "nnl"
         Invoke-WebRequest -Uri $vitaSdkSrc -OutFile $vitaSdkArchiveTemp
-        printText -t " [DONE]" -fc green
-
-        printText -t "  Extracting .tar.bz2 file..." -fc cyan -fs "i" -f "nnl"
         & tar.exe -xf $vitaSdkArchiveTemp -C $vitaSdkDest
         printText -t " [DONE]" -fc green
 
@@ -871,12 +863,14 @@ if ($Global:installFlag) {
         # ----------------------------------------------------------------------
         # Electron Install
         # ----------------------------------------------------------------------
-        printText -t "Installing Electron on VitaEngine SDK folder...`n" -fc cyan -fs "i"
+        printText -t "Installing Electron on VitaEngine SDK folder..." -fc cyan -fs "i" -f "nnl"
 
         if (Test-Path $vitaEngineIdeDest) {
             installElectron -workingDir $vitaEngineIdeDest
+            printText -t " [DONE]" -fc green
         } else {
-            printText -t "WARNING: IDE folder not found, skipping Electron installation." -fc yellow -fs "b"
+            printText -t " [FAIL]" -fc yellow
+            printText -t " IDE folder not found, skipping Electron installation." -fc yellow -fs "b"
         }
 
         wait 5000
@@ -885,7 +879,7 @@ if ($Global:installFlag) {
         printText -t ("`nOpening the VitaEngine for testing purposes,`n" +
                       "after successful opening, please close the VitaEngine window" +
                       " to terminate setup.") -fc yellow -ta "Blink" -fs "b"
-        wait 1000
+        wait 2000
 
         if (Test-Path $vitaEngineIdeDest) {
             openVitaEngine -workingDir $vitaEngineIdeDest
@@ -894,12 +888,13 @@ if ($Global:installFlag) {
         }
 
         Clear-Host
-        wait 2000
+        wait 3000
 
         if ($Global:repairFlag) {
             printText -t ("`nThe VitaEngine SDK installation has been repaired successfully,`nclose the utility and check if the problem is fixed.`n") -fc green
         } else {
             printText -t ("`nThe VitaEngine SDK installation is complete.`n") -fc green
+            $Global:exitFlag = $true
         }
     } else {
         printText -t "`nOne or more dependencies could not be installed correctly. Setup aborted.`n" -fc red -fs "b"
@@ -912,6 +907,6 @@ if ($Global:installFlag) {
 
 if ($Global:exitFlag) {
     printText -t "`nExiting..." -fc yellow -fs "ib"
-    wait 1500
+    wait 2000
     Clear-Host
 }
