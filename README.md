@@ -201,7 +201,7 @@ shortcuts for quick access to the main tools.
 
 <h4 align="left">
 <em>Installation file: 
-<a href="https://github.com/ali90taz/VitaEngine/raw/staging/Install.zip">
+<a href="https://github.com/ali90taz/VE-SDK/raw/staging/Install.zip">
 Install.zip</a></em>
 <br>
 </h4>
@@ -224,7 +224,7 @@ If you prefer a manual installation or want to understand exactly what the
 installer does, check:
 <br>
 <br>
-<i>Scripts/<a href="https://github.com/ali90taz/VitaEngine/blob/staging/Scripts/Setup.ps1">Setup.ps1</a></i>
+<i>Scripts/<a href="https://github.com/ali90taz/VE-SDK/blob/staging/Scripts/Setup/Install-VE-SDK.ps1">Install-VE-SDK.ps1</a></i>
 <br>
 </h4>
 
