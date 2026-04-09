@@ -224,7 +224,7 @@ If you prefer a manual installation or want to understand exactly what the
 installer does, check:
 <br>
 <br>
-<i>Scripts/<a href="https://github.com/ali90taz/VE-SDK/blob/staging/Scripts/Setup/Install-VE-SDK.ps1">Install-VE-SDK.ps1</a></i>
+<i>Scripts/Setup/<a href="https://github.com/ali90taz/VE-SDK/blob/staging/Scripts/Setup/Install-VE-SDK.ps1">Install-VE-SDK.ps1</a></i>
 <br>
 </h4>
 
