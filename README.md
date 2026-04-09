@@ -353,7 +353,7 @@ created with VitaEngine.</i>
 <h4 align="left">
 This project uses a variety of third-party resources.  
 For more information, please check the 
-<a href="https://github.com/ali90taz/VitaEngine/blob/staging/CREDITS.md">
+<a href="https://github.com/ali90taz/VE-SDK/blob/staging/CREDITS.md">
 <i>CREDITS.md</i></a> 
 file in this repository.
 <br>
