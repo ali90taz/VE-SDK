@@ -210,6 +210,7 @@ function printText {
     }
 
     function psColorToAnsiColor ($psColor) {
+       
         switch ($psColor) {
             Black   { return "0" }
             Red     { return "1" }
@@ -225,23 +226,57 @@ function printText {
 
     function parseFlags ([string[]] $flags) { 
         
-        if (!$F -or $F.Count -eq 0) {
+        if ($F.Count -eq 0) {
             return $false
         }
 
-        foreach ($flag in $F) {
-            if ($globalFlags -notcontains $flag) {
+        if ($F.Count -gt 1) {
+            
+            $i = 0
+
+            $F.ForEach({
+                if ($globalFlags -notcontains $F[$i]) {
+                    return $false
+                }
+                ++$i
+            })
+
+            $i = 0
+            $match = 0
+
+            $flags.ForEach({
+                if ($F -contains $flags[$i]) {
+                    ++$match
+                }
+                ++$i
+            })
+
+            if ($match -eq $flags.Count) {
+                return $true
+            } else {
                 return $false
             }
         }
 
-        foreach ($flag in $flags) {
-            if ($F -notcontains $flag) {
-                return $false
-            }
+        if ($globalFlags -notcontains $F[0]) {
+            return $false
         }
 
-        return $true
+        $i = 0
+        $match = 0
+
+        $flags.ForEach({
+            if ($F -contains $flags[$i]) {
+                ++$match
+            }
+            ++$i
+        })
+
+        if ($match -eq $flags.Count) {
+            return $true
+        } else {
+            return $false
+        }
     }
 
     function applyTextAnimation ([string] $aniFlags, [ref][string] $ansiCodeRef) {
@@ -249,6 +284,7 @@ function printText {
     }
 
     function applyForegroundColor ($color, [ref][string] $ansiCodeRef) {
+
         if ($ansiCodeRef.Value -match "[\[]{1}$") {
             $ansiCodeRef.Value += "3" + (psColorToAnsiColor $color)
         } else {
@@ -257,6 +293,7 @@ function printText {
     }
 
     function applyBackgroundColor ($color, [ref][string] $ansiCodeRef) {
+
         if ($ansiCodeRef.Value -match "[\[]{1}$") {
             $ansiCodeRef.Value += "4" + (psColorToAnsiColor $color)
         } else {
@@ -273,23 +310,46 @@ function printText {
         $strikethrough = '9'
 
         if ($styleFlags -match "b") {
-            if ($ansiCodeRef.Value -match "[\[]{1}$") { $ansiCodeRef.Value += $bold } else { $ansiCodeRef.Value += ";" + $bold }
+            if ($ansiCodeRef.Value -match "[\[]{1}$") {
+                $ansiCodeRef.Value += $bold
+            } else {
+                $ansiCodeRef.Value += ";" + $bold
+            }
         }
 
         if ($styleFlags -match "i") {
-            if ($ansiCodeRef.Value -match "[\[]{1}$") { $ansiCodeRef.Value += $italic } else { $ansiCodeRef.Value += ";" + $italic }
+
+            if ($ansiCodeRef.Value -match "[\[]{1}$") {
+                $ansiCodeRef.Value += $italic
+            } else {
+                $ansiCodeRef.Value += ";" + $italic
+            }
         }
 
         if ($styleFlags -match "u") {
-            if ($ansiCodeRef.Value -match "[\[]{1}$") { $ansiCodeRef.Value += $underline } else { $ansiCodeRef.Value += ";" + $underline }
+
+            if ($ansiCodeRef.Value -match "[\[]{1}$") {
+                $ansiCodeRef.Value += $underline
+            } else {
+                $ansiCodeRef.Value += ";" + $underline
+            }
         }
 
         if ($styleFlags -match "s") {
-            if ($ansiCodeRef.Value -match "[\[]{1}$") { $ansiCodeRef.Value += $strikethrough } else { $ansiCodeRef.Value += ";" + $strikethrough }
+
+            if ($ansiCodeRef.Value -match "[\[]{1}$") {
+                $ansiCodeRef.Value += $strikethrough
+            } else {
+                $ansiCodeRef.Value += ";" + $strikethrough
+            }
         }
 
         if (parseFlags "rv") {
-            if ($ansiCodeRef.Value -match "[\[]{1}$") { $ansiCodeRef.Value += $reverse } else { $ansiCodeRef.Value += ";" + $reverse }
+            if ($ansiCodeRef.Value -match "[\[]{1}$") {
+                $ansiCodeRef.Value += $reverse
+            } else {
+                $ansiCodeRef.Value += ";" + $reverse
+            }
         }
     }
 
@@ -297,44 +357,69 @@ function printText {
         $ansiCodeRef.Value += 'm' + $text
 
         if (parseFlags "rst") {
-            $ansiCodeRef.Value += (ansiEscape) + "m"
+            $ansiCodeRef += ansiEscape + "m"
         }
 
         if (parseFlags "nnl") {
-            Write-Host -NoNewline $ansiCodeRef.Value
+            Write-Host -NoNewline $ansiCode
         } else {
-            Write-Host $ansiCodeRef.Value
+            Write-Host $ansiCode
         }
     }
 
     function parseArguments ([ref][string] $ansiCodeRef){
 
         function checkTextAnimation {
-            return ($TA -match "^(Blink)$")
+            if ($TA -match "^(Blink)$") {
+                return $true
+            }
+            return $false
         }
                              
         function checkForegroundColor {
-            return ($FC -match "^(Black|Red|Green|Yellow|Blue|Magenta|Cyan|White)$")
+            if ($FC -match "^(Black|Red|Green|Yellow|Blue|Magenta|Cyan|White)$") {
+                return $true
+            }
+            return $false
         }
 
         function checkBackgroundColor {
-            return ($BC -match "^(Black|Red|Green|Yellow|Blue|Magenta|Cyan|White)$")
+            if ($BC -match "^(Black|Red|Green|Yellow|Blue|Magenta|Cyan|White)$") {
+                return $true
+            }
+            return $false
         }
 
         function checkFontStyle {
-            return ($FS -match "^(?!.*(.).*\1)[bius]+$")
+
+            # This extremely complex piece of REGEX was
+            # taken and adapted from the following link:
+            # https://stackoverflow.com/posts/46964463/revisions
+            # My current knowledge does not allow me to understand how it works
+
+            if ($FS -match "^(?!.*(.).*\1)[b|i|u|s]+$") {
+                return $true
+            }
+            return $false
         }
 
         if ($T) {
             $ansiCodeRef.Value = ansiEscape
-            if (checkTextAnimation) { applyTextAnimation $TA ([ref]$ansiCodeRef.Value) }
-            if (checkForegroundColor) { applyForegroundColor $FC ([ref]$ansiCodeRef.Value) }
-            if (checkBackgroundColor) { applyBackgroundColor $BC ([ref]$ansiCodeRef.Value) }
-            if (checkFontStyle) { applyFontStyle $FS ([ref]$ansiCodeRef.Value) }
-            applyText $T ([ref]$ansiCodeRef.Value)
+            if (checkTextAnimation) {
+                applyTextAnimation $TA ($ansiCodeRef)
+            }
+            if (checkForegroundColor) {
+                applyForegroundColor $FC ($ansiCodeRef)
+            }
+            if (checkBackgroundColor) {
+                applyBackgroundColor $BC ($ansiCodeRef)
+            }
+            if (checkFontStyle) {
+                applyFontStyle $FS ($ansiCodeRef)
+            }
+            applyText $T ($ansiCodeRef)
         }
     }
-
     parseArguments ([ref] $ansiCode)
 }
 
