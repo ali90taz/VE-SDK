@@ -630,7 +630,7 @@ if ($Global:uninstallFlag) {
     } else {
         printText -t "`nUninstallation completed successfully, press any key to exit the setup utility..." -fc green -fs "b" -ta "Blink"
         Read-Host
-        wait 2000
+        $Global:exitFlag = $true
     }
 }
 
