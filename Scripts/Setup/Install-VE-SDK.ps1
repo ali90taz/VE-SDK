@@ -4,7 +4,7 @@
 # Global Variables
 # ==============================================================================
 
-$headerInfo = "`nVitaEngine SDK Setup Utility - Version 1.0.6 Alpha`n"
+$headerInfo = "`nVitaEngine SDK Setup Utility - Version 1.0.7 Alpha`n"
 
 # Sources
 $vitaEngineSdkSrc = "https://github.com/ali90taz/VE-SDK"
@@ -782,7 +782,7 @@ if ($Global:installFlag) {
         $Global:ProgressPreference = 'SilentlyContinue'
         printText -t "`nVitaEngine SDK setup`n" -fc green -fs "b"
         
-        printText -t " Cloning VE-SDK repository into your computer..." -fc cyan -fs "i" -f "nnl"
+        printText -t "  Cloning VE-SDK repository into your computer..." -fc cyan -fs "i" -f "nnl"
 
         if (Test-Path $vitaEngineSdkDest) {
             Remove-Item $vitaEngineSdkDest -Recurse -Force -Confirm:$false
@@ -792,23 +792,23 @@ if ($Global:installFlag) {
         wait 2000
         printText -t " [DONE]" -fc green
 
-        printText -t "Adding VitaEngine SDK environment variable..." -fc cyan -fs "i" -f "nnl"
+        printText -t "  Adding VitaEngine SDK environment variable..." -fc cyan -fs "i" -f "nnl"
         wait 2000
         addEnv -name $vitaEngineSdkEnvVar -value $vitaEngineSdkDest
         $env:VITA_ENGINE_SDK = [System.Environment]::GetEnvironmentVariable($vitaEngineSdkEnvVar, "Machine")
         printText -t " [DONE]" -fc green
 
-        printText -t "Registering VitaEngine SDK extensions..." -fc cyan -fs "i" -f "nnl"
+        printText -t "  Registering VitaEngine SDK extensions..." -fc cyan -fs "i" -f "nnl"
         wait 2000
         processRegFile "REGISTER_VEP_EXTENSION.reg"
         printText -t " [DONE]" -fc green
 
-        printText -t "Creating VitaEngine demo projects folder..." -fc cyan -fs "i" -f "nnl"
+        printText -t "  Creating VitaEngine demo projects folder..." -fc cyan -fs "i" -f "nnl"
         wait 2000
         createDemoProjectsFolder
         printText -t " [DONE]" -fc green
 
-        printText -t "Creating VitaEngine SDK shortcuts..." -fc cyan -fs "i" -f "nnl"
+        printText -t "  Creating VitaEngine SDK shortcuts..." -fc cyan -fs "i" -f "nnl"
         wait 1000
 
         ensureDirectory $vitaEngineSdkShortcuts
@@ -848,7 +848,7 @@ if ($Global:installFlag) {
         # ----------------------------------------------------------------------
         # VITA-SDK Toolchain
         # ----------------------------------------------------------------------
-        printText -t "Installing VITA-SDK toolchain..." -fc cyan -fs "i" -f "nnl"
+        printText -t "  Installing VITA-SDK toolchain..." -fc cyan -fs "i" -f "nnl"
         wait 2000
 
         $vitaSdkArchiveTemp = Join-Path $Env:TEMP "vitasdk.tar.bz2"
@@ -864,22 +864,21 @@ if ($Global:installFlag) {
         # ----------------------------------------------------------------------
         # Electron Install
         # ----------------------------------------------------------------------
-        printText -t "Installing Electron on VitaEngine SDK folder..." -fc cyan -fs "i" -f "nnl"
+        printText -t "  Installing Electron on VitaEngine SDK folder..." -fc cyan -fs "i" -f "nnl"
 
         if (Test-Path $vitaEngineIdeDest) {
             installElectron -workingDir $vitaEngineIdeDest
             printText -t " [DONE]" -fc green
         } else {
             printText -t " [FAIL]" -fc yellow
-            printText -t " IDE folder not found, skipping Electron installation." -fc yellow -fs "b"
+            printText -t "  IDE folder not found, skipping Electron installation." -fc yellow -fs "b"
         }
 
         wait 5000
-        Clear-Host
 
         printText -t ("`nOpening the VitaEngine for testing purposes,`n" +
                       "after successful opening, please close the VitaEngine window" +
-                      " to terminate setup.") -fc yellow -ta "Blink" -fs "b"
+                      " to terminate setup.`n") -fc yellow -ta "Blink" -fs "b"
         wait 2000
 
         if (Test-Path $vitaEngineIdeDest) {
