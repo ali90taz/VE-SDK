@@ -487,7 +487,7 @@ function installElectron {
 
     $currentLocation = Get-Location
     Set-Location $workingDir
-    & npm install --platform=win32 electron --save-dev
+    & npm install --platform=win32 electron --save-dev *> $null
     Set-Location $currentLocation
 }
 
