@@ -6,7 +6,7 @@
 # Global Variables
 # ==============================================================================
 
-$headerInfo = "`nVitaEngine SDK Setup Utility - Version 1.0.0 Alpha`n"
+$headerInfo = "`nVitaEngine SDK Setup Utility - Version 1.0.3 Alpha`n"
 
 # Sources
 $vitaEngineSdkSrc = "https://github.com/ali90taz/VE-SDK"
@@ -509,7 +509,7 @@ function openVitaEngine {
 Clear-Host
 printText -t $headerInfo -fs "b" -fc green
 printText -t $welcomeMessage -fc blue -fs "b"
-printText -t $warningMessage -fc red -fs "b"
+printText -t $warningMessage -fc red -fs "b" -ta "blink"
 printText -t "'Y' for yes and 'N' for no, type option and press 'Enter': " -fc white -fs "b" -f "nnl"
 
 switch ((Read-Host).ToLower()) {
