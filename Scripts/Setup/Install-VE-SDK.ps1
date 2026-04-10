@@ -1,12 +1,10 @@
 # VitaEngine SDK Setup Utility
-# Refactored version based on original script
-# Keeps original behavior, fixes path / process / robustness issues
 
 # ==============================================================================
 # Global Variables
 # ==============================================================================
 
-$headerInfo = "`nVitaEngine SDK Setup Utility - Version 1.0.3 Alpha`n"
+$headerInfo = "`nVitaEngine SDK Setup Utility - Version 1.0.5 Alpha`n"
 
 # Sources
 $vitaEngineSdkSrc = "https://github.com/ali90taz/VE-SDK"
@@ -509,7 +507,7 @@ function openVitaEngine {
 Clear-Host
 printText -t $headerInfo -fs "b" -fc green
 printText -t $welcomeMessage -fc blue -fs "b"
-printText -t $warningMessage -fc red -fs "b" -ta "blink"
+printText -t $warningMessage -fc red -fs "b"
 printText -t "'Y' for yes and 'N' for no, type option and press 'Enter': " -fc white -fs "b" -f "nnl"
 
 switch ((Read-Host).ToLower()) {
@@ -906,7 +904,7 @@ if ($Global:installFlag) {
 # ==============================================================================
 
 if ($Global:exitFlag) {
-    printText -t "`nExiting..." -fc yellow -fs "ib"
+    printText -t "Exiting..." -fc yellow -fs "ib"
     wait 2000
     Clear-Host
 }
