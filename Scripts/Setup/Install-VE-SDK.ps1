@@ -4,7 +4,7 @@
 # Global Variables
 # ==============================================================================
 
-$headerInfo = "`nVitaEngine SDK Setup Utility - Version 1.0.7 Alpha`n"
+$headerInfo = "`nVitaEngine SDK Setup Utility - Version 1.0.8 Alpha`n"
 
 # Sources
 $vitaEngineSdkSrc = "https://github.com/ali90taz/VE-SDK"
@@ -588,11 +588,13 @@ if ($Global:uninstallFlag) {
     printText -t "`nWait a moment, VitaEngine SDK will be uninstalled, do not interrupt this process...`n" -fc green -fs "b"
 
     printText -t "  Removing registered extensions..." -fc cyan -fs "i" -f "nnl"
+    wait 2000
     $ErrorActionPreference = 'SilentlyContinue'
     processRegFile "UNREGISTER_VEP_EXTENSION.reg"
     printText -t " [DONE]" -fc green
 
     printText -t "  Removing folders and shortcuts..." -fc cyan -fs "i" -f "nnl"
+    wait 2000
     $ErrorActionPreference = 'SilentlyContinue'
 
     if (Test-Path $vitaEngineSdkData)        { Remove-Item $vitaEngineSdkData -Recurse -Force -Confirm:$false }
@@ -609,6 +611,7 @@ if ($Global:uninstallFlag) {
     printText -t " [DONE]" -fc green
 
     printText -t "  Removing environment variables..." -fc cyan -fs "i" -f "nnl"
+    wait 2000
 
     $nodePath = Join-Path $nodeDest $nodeReleaseFolder
     $gitPath  = Join-Path (Join-Path $gitDest $gitInstallFolder) "bin"
@@ -809,7 +812,7 @@ if ($Global:installFlag) {
         printText -t " [DONE]" -fc green
 
         printText -t "  Creating VitaEngine SDK shortcuts..." -fc cyan -fs "i" -f "nnl"
-        wait 1000
+        wait 2000
 
         ensureDirectory $vitaEngineSdkShortcuts
 
@@ -878,7 +881,7 @@ if ($Global:installFlag) {
 
         printText -t ("`nOpening the VitaEngine for testing purposes,`n" +
                       "after successful opening, please close the VitaEngine window" +
-                      " to terminate setup.`n") -fc yellow -ta "Blink" -fs "b"
+                      " to terminate setup.") -fc yellow -ta "Blink" -fs "b"
         wait 2000
 
         if (Test-Path $vitaEngineIdeDest) {
@@ -893,7 +896,7 @@ if ($Global:installFlag) {
         if ($Global:repairFlag) {
             printText -t ("`nThe VitaEngine SDK installation has been repaired successfully,`nclose the utility and check if the problem is fixed.`n") -fc green
         } else {
-            printText -t ("`nThe VitaEngine SDK installation is complete.`n") -fc green
+            printText -t ("`nThe VitaEngine SDK installation is complete.") -fc green
             $Global:exitFlag = $true
         }
     } else {
@@ -906,7 +909,7 @@ if ($Global:installFlag) {
 # ==============================================================================
 
 if ($Global:exitFlag) {
-    printText -t "Exiting..." -fc yellow -fs "ib"
+    printText -t "`nExiting..." -fc yellow -fs "ib"
     wait 2000
     Clear-Host
 }
