@@ -4,7 +4,7 @@
 # Global Variables
 # ==============================================================================
 
-$headerInfo = "`nVitaEngine SDK Setup Utility - Version 1.0.5 Alpha`n"
+$headerInfo = "`nVitaEngine SDK Setup Utility - Version 1.0.6 Alpha`n"
 
 # Sources
 $vitaEngineSdkSrc = "https://github.com/ali90taz/VE-SDK"
@@ -779,7 +779,10 @@ if ($Global:installFlag) {
     # --------------------------------------------------------------------------
     if (($Global:nodeFound) -and ($Global:gitFound) -and ($Global:codeFound)) {
 
-        printText -t "`nInstalling VitaEngine SDK into your computer..." -fc cyan -fs "i" -f "nnl"
+        $Global:ProgressPreference = 'SilentlyContinue'
+        printText -t "`nVitaEngine SDK setup`n" -fc green -fs "b"
+        
+        printText -t " Cloning VE-SDK repository into your computer..." -fc cyan -fs "i" -f "nnl"
 
         if (Test-Path $vitaEngineSdkDest) {
             Remove-Item $vitaEngineSdkDest -Recurse -Force -Confirm:$false
