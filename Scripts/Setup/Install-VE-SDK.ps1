@@ -112,12 +112,15 @@ public static class NativeMethods
 
         $stdInputHandle = [NativeMethods]::GetStdHandle($STD_INPUT_HANDLE)
         $mode = 0
+        $hasValidInputHandle = $stdInputHandle -ne [IntPtr]::Zero -and $stdInputHandle -ne $INVALID_HANDLE_VALUE
 
-        if ($stdInputHandle -ne [IntPtr]::Zero -and $stdInputHandle -ne $INVALID_HANDLE_VALUE -and [NativeMethods]::GetConsoleMode($stdInputHandle, [ref]$mode)) {
+        if ($hasValidInputHandle -and [NativeMethods]::GetConsoleMode($stdInputHandle, [ref]$mode)) {
             $newMode = ($mode -band (-bnot $ENABLE_QUICK_EDIT_MODE)) -bor $ENABLE_EXTENDED_FLAGS
             [NativeMethods]::SetConsoleMode($stdInputHandle, $newMode) | Out-Null
+        } elseif (-not $hasValidInputHandle) {
+            Write-Verbose "Quick Edit mode could not be disabled because the console input handle was invalid."
         } else {
-            Write-Verbose "Quick Edit mode could not be disabled because console mode was unavailable."
+            Write-Verbose "Quick Edit mode could not be disabled because GetConsoleMode failed."
         }
     } catch {
         # Ignore failures to keep setup flow working in hosts where console mode cannot be changed.
