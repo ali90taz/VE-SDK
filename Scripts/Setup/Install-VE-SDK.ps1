@@ -89,6 +89,7 @@ function disableQuickEdit {
     $STD_INPUT_HANDLE = -10
     $ENABLE_QUICK_EDIT_MODE = 0x0040
     $ENABLE_EXTENDED_FLAGS = 0x0080
+    $INVALID_HANDLE_VALUE = [IntPtr](-1)
 
     try {
         if (-not ("NativeMethods" -as [type])) {
@@ -112,7 +113,7 @@ public static class NativeMethods
         $stdInputHandle = [NativeMethods]::GetStdHandle($STD_INPUT_HANDLE)
         $mode = 0
 
-        if ($stdInputHandle -ne [IntPtr]::Zero -and [NativeMethods]::GetConsoleMode($stdInputHandle, [ref]$mode)) {
+        if ($stdInputHandle -ne [IntPtr]::Zero -and $stdInputHandle -ne $INVALID_HANDLE_VALUE -and [NativeMethods]::GetConsoleMode($stdInputHandle, [ref]$mode)) {
             $newMode = ($mode -band (-bnot $ENABLE_QUICK_EDIT_MODE)) -bor $ENABLE_EXTENDED_FLAGS
             [NativeMethods]::SetConsoleMode($stdInputHandle, $newMode) | Out-Null
         } else {
