@@ -3,16 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VitaEngine IDE</title>
-    <link rel="stylesheet" href="./Launcher.css" text="texy/css">
+    <title>VitaEngine</title>
+    <link rel="stylesheet" href="./Styles/Index.css" text="text/css">
     <link href="https://fonts.googleapis.com/css?family=Nunito:400,700" rel="stylesheet">
+    <script type="module" src="./Scripts/Index.js"></script>
 </head>
 <body>
     <div id="main">
         <div id="overlay">
             <div id="infoWindow">
                 <div id="infoWindow-header">
-                    <img class="clickableItem circleButton" id="infoWindow-closeButton" src="../Assets/Global/closeButton.png" alt="close_button" title="Close Window">
+                    <img class="clickableItem circleButton" id="infoWindow-closeButton" src="../../Shared/Assets/closeButton.png" alt="close_button" title="Close Window">
                 </div>
                 <div id="infoWindow-content">
 
@@ -28,15 +29,15 @@
             </div>
         </div>
         <div id="sidebar">
-            <img class="clickableItem circleButton" id="githubButton" src="../Assets/Launcher/veLogo.png" alt="vita_engine_logo" title="Open Github project page">
-            <img class="clickableItem circleButton" id="infoButton" src="../Assets/Launcher/infoIcon.png" alt="info_icon" title="Open Info Window">
+            <img class="clickableItem circleButton" id="githubButton" src="../../Shared/Assets/veLogo.png" alt="vita_engine_logo" title="Open Github project page">
+            <img class="clickableItem circleButton" id="infoButton" src="./Assets/infoIcon.png" alt="info_icon" title="Open Info Window">
         </div>
         <div id="content">
             <div class="draggableArea" id="titleBar">
-                <img class="normalImage" src="../Assets/Launcher/veText.png" alt="vita_engine_text" title="Drag Window">
+                <img class="normalImage" src="./Assets/veText.png" alt="vita_engine_text" title="Drag Window">
                 <div id="titleBar-buttons">
-                    <img class="clickableItem circleButton undraggableArea" id="minimizeButton" src="../Assets/Global/minimizeButton.png" alt="minimize_button" title="Minimize Window">
-                    <img class="clickableItem circleButton undraggableArea" id="closeButton" src="../Assets/Global/closeButton.png" alt="close_button" title="Close Window">
+                    <img class="clickableItem circleButton undraggableArea" id="minimizeButton" src="../../Shared/Assets/minimizeButton.png" alt="minimize_button" title="Minimize Window">
+                    <img class="clickableItem circleButton undraggableArea" id="closeButton" src="../../Shared/Assets/closeButton.png" alt="close_button" title="Close Window">
                 </div>
             </div>
             <div id="projectArea">
@@ -61,5 +62,4 @@
         </div>
     </div>
 </body>
-<script src="./Launcher.js"></script>
 </html>

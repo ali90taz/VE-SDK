@@ -1,0 +1,19 @@
+:root {
+  /* Misc */
+
+  --user-select: ;
+  --viewport-width: ;
+  --viewport-height: ;
+  --background-color: ;
+}
+
+* {
+  -webkit-user-select: var(--user-select);
+  margin: 0px;
+  padding: 0px;
+  background-color: var(--background-color);
+}
+
+.clickableItem {
+  cursor: pointer;
+}

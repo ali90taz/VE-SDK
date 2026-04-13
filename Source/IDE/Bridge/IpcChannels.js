@@ -1,30 +1,55 @@
 
-const ipc = {
-  channel: {
-    window: 'window-action',
-    shell: 'shell-action',
-    project: 'project-action',
-    vita: 'vita-action',
+const IPC = {
+  CHANNELS: {
+    WINDOW: "veApi:window",
+    SHELL: "veApi:shell",
+    PROJECT: "veApi:project",
+    BUILD: "veApi:build",
+    DEPLOY: "veApi:deploy",
+    PACKAGE: "veApi:package",
+    COMPANION: "veApi:companion",
+    SETTINGS: "veApi:settings",
   },
-  windowActions: {
-    close: 'window-close',
-    minimize: 'window-minimize',
-    maximize: 'window-maximize',
-    restore: 'window-restore',
+  WINDOW_ACTIONS: {
+    CLOSE: "close",
+    MINIMIZE: "minimize",
+    MAXIMIZE: "maximize",
+    RESTORE: "restore",
   },
-  shellActions: {
-    openUrl: 'open-url',
+  SHELL_ACTIONS: {
+    OPEN_URL: "open-url",
   },
-  projectActions: {
-    getRecentProjects: 'recent-projects',
-    newProject: 'new-project',
-    loadProject: 'load-project',
+  PROJECT_ACTIONS: {
+    GET_RECENT: "get-recent",
+    CREATE: "create",
+    OPEN: "open",
+    CLOSE: "close",
+    SAVE: "save",
   },
-  vitaActions: {
-    runAndDebug: 'run-and-debug',
-    createVpk: 'create-vpk',
-    sendVpk: 'send-vpk',
+  BUILD_ACTIONS: {
+    VPK: "build-vpk"
+  },
+  DEPLOY_ACTIONS: {
+    VPK: "deploy-vpk",
+    VPK_AND_RUN: "deploy-vpk-and-run"
+  },
+  PACKAGE_ACTIONS: {
+    EXPORT_VPK : 'export-vpk'
+  },
+  COMPANION_ACTIONS: {
+    CONNECT: "connect",
+    DISCONNECT: "disconnect",
+    GET_STATUS: "get-status",
+    RUN: "run",
+    RUN_AND_DEBUG: "run-and-debug",
+    STOP: "stop",
+    RESTART: "restart",
+    GET_LOGS: "get-logs",
+  },
+  SETTINGS_ACTIONS: {
+    SET_LANGUAGE: "set-language",
+    SET_THEME: "set-theme",
   }
-};
+}
 
-module.exports = ipc;
+module.exports = IPC;

@@ -1,16 +1,16 @@
 
 const { app, shell, BrowserWindow, ipcMain } = require('electron');
-const global = require('./Shared/Global')
 const path = require('node:path');
 const fs = require('node:fs');
 const renderCall = require('./Bridge/IpcChannels');
 const ipc = ipcMain;
 var launcherWindow = null;
-var mainWindow = null;
+var editorWindow = null;
+const devMode = true;
 const projectRoot = path.join(__dirname);
 const windowStateKeeper = require('electron-window-state');
 
-if (global.devMode) {
+if (devMode) {
     require('electron-reload')(projectRoot, {
         electron: require(path.join(projectRoot,'node_modules', 'electron')),
         hardResetMethod: 'exit'
@@ -18,7 +18,7 @@ if (global.devMode) {
 }
 
 function createLauncherWindow() {
-    const launcherWindowState = global.devMode
+    const launcherWindowState = devMode
         ? windowStateKeeper({
             defaultWidth: 1020,
             defaultHeight: 770,
@@ -38,10 +38,11 @@ function createLauncherWindow() {
         show: false,
         center: !launcherWindowState,
         webPreferences: {
-            nodeIntegration: true,
+            nodeIntegration: false,
             contextIsolation: true,
-            devTools: global.devMode,
-            preload: path.join(__dirname, 'Shared', 'Preload.js'),
+            sandbox: false,
+            devTools: devMode,
+            preload: path.join(__dirname, 'Bridge', 'Preload.js'),
         }
     };
 
@@ -53,64 +54,65 @@ function createLauncherWindow() {
     return launcherWindow;
 }
 
-function createMainWindow() {
-    const mainWindowState = global.devMode
+function createEditorWindow() {
+    const editorWindowState = devMode
         ? windowStateKeeper({
             defaultWidth: 1020,
             defaultHeight: 770,
-            file: 'main-window-state-dev.json'
+            file: 'editor-window-state-dev.json'
         })
         : null;
 
     const windowOptions = {
-        width: mainWindowState?.width ?? 1024,
-        height: mainWindowState?.height ?? 768,
-        x: mainWindowState?.x,
-        y: mainWindowState?.y,
+        width: editorWindowState?.width ?? 1024,
+        height: editorWindowState?.height ?? 768,
+        x: editorWindowState?.x,
+        y: editorWindowState?.y,
         resizable: true,
         fullscreenable: true,
         frame: false,
         useContentSize: true,
         show: false,
-        center: !mainWindowState,
+        center: !editorWindowState,
         webPreferences: {
-            nodeIntegration: true,
+            nodeIntegration: false,
             contextIsolation: true,
-            devTools: global.devMode,
-            preload: path.join(__dirname, 'Shared', 'Preload.js'),
+            sandbox: false,
+            devTools: devMode,
+            preload: path.join(__dirname, 'Bridge', 'Preload.js'),
         }
     };
 
-    mainWindow = new BrowserWindow(windowOptions);
-    mainWindowState?.manage(mainWindow);
-    return mainWindow;
+    editorWindow = new BrowserWindow(windowOptions);
+    editorWindowState?.manage(editorWindow);
+    return editorWindow;
 }
 
-async function openMainWindow() {
+async function openEditorWindow() {
     if (launcherWindow && !launcherWindow.isDestroyed()) {
         launcherWindow.close();
     }
-    if (!mainWindow || mainWindow.isDestroyed()) {
-        createMainWindow();
+    if (!editorWindow || editorWindow.isDestroyed()) {
+        createEditorWindow();
     }
-    await mainWindow.loadFile('./Main/Main.html');
-    mainWindow.show();
-    if (global.devMode && !mainWindow.webContents.isDevToolsOpened()) {
-        mainWindow.webContents.openDevTools({ mode: 'detach' });
+    await editorWindow.loadFile('./Renderer/Windows/Editor/Index.html');
+    editorWindow.show();
+    if (devMode && !editorWindow.webContents.isDevToolsOpened()) {
+        editorWindow.webContents.openDevTools({ mode: 'detach' });
     }
-    mainWindow.webContents.send('window-is-ready');
+    editorWindow.webContents.send('window-is-ready');
 }
 
 async function openLauncherWindow() {
-    if (mainWindow && !mainWindow.isDestroyed()) {
-        mainWindow.close();
+    if (editorWindow && !editorWindow.isDestroyed()) {
+        editorWindow.close();
     }
     if (!launcherWindow || launcherWindow.isDestroyed()) {
         createLauncherWindow();
     }
-    await launcherWindow.loadFile('./Launcher/Launcher.html');
+    await launcherWindow.loadFile('./Renderer/Windows/Launcher/Index.html');
     launcherWindow.show();
-    if (global.devMode && !launcherWindow.webContents.isDevToolsOpened()) {
+    if (devMode && !launcherWindow.webContents.isDevToolsOpened()) {
         launcherWindow.webContents.openDevTools({mode: 'detach'});
     }
     launcherWindow.send('window-is-ready');
@@ -182,7 +184,7 @@ function registerHandlers(){
             case renderCall.projectActions.getRecentProjects:
                 return readRecentProjects();
             case renderCall.projectActions.newProject:
-                return openMainWindow();
+                return openEditorWindow();
             case renderCall.projectActions.loadProject:
                 break;
             default:

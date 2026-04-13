@@ -1,0 +1,9 @@
+{
+  "Window":  {
+    "ViewportWidth": "--viewport-width",
+    "ViewportHeight": "--viewport-height"
+  },
+  "Color": {
+    "BackgroundColor": "--background-color"
+  }
+}

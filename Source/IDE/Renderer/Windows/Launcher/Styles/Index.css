@@ -39,7 +39,7 @@ html, body
     height: var(--window-height);
     margin: 0;
     padding: 0;
-    background-image: url("../Assets/Launcher/psWave.jpg");
+    background-image: url("../Assets/psWave.jpg");
     background-size: cover;
 }
 
