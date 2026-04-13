@@ -83,6 +83,51 @@ function wait ($ms) {
     Start-Sleep -Milliseconds $ms
 }
 
+function disableQuickEdit {
+    if ($env:OS -ne "Windows_NT") { return }
+
+    $STD_INPUT_HANDLE = -10
+    $ENABLE_QUICK_EDIT_MODE = 0x0040
+    $ENABLE_EXTENDED_FLAGS = 0x0080
+    $INVALID_HANDLE_VALUE = [IntPtr](-1)
+
+    try {
+        if (-not ("NativeMethods" -as [type])) {
+            Add-Type -TypeDefinition @"
+using System;
+using System.Runtime.InteropServices;
+public static class NativeMethods
+{
+    [DllImport("kernel32.dll", SetLastError = true)]
+    public static extern IntPtr GetStdHandle(int nStdHandle);
+
+    [DllImport("kernel32.dll", SetLastError = true)]
+    public static extern bool GetConsoleMode(IntPtr hConsoleHandle, out int lpMode);
+
+    [DllImport("kernel32.dll", SetLastError = true)]
+    public static extern bool SetConsoleMode(IntPtr hConsoleHandle, int dwMode);
+}
+"@
+        }
+
+        $stdInputHandle = [NativeMethods]::GetStdHandle($STD_INPUT_HANDLE)
+        $mode = 0
+        $hasValidInputHandle = $stdInputHandle -ne [IntPtr]::Zero -and $stdInputHandle -ne $INVALID_HANDLE_VALUE
+
+        if ($hasValidInputHandle -and [NativeMethods]::GetConsoleMode($stdInputHandle, [ref]$mode)) {
+            $newMode = ($mode -band (-bnot $ENABLE_QUICK_EDIT_MODE)) -bor $ENABLE_EXTENDED_FLAGS
+            [NativeMethods]::SetConsoleMode($stdInputHandle, $newMode) | Out-Null
+        } elseif (-not $hasValidInputHandle) {
+            Write-Verbose "Quick Edit mode could not be disabled because the console input handle was invalid."
+        } else {
+            Write-Verbose "Quick Edit mode could not be disabled because GetConsoleMode failed."
+        }
+    } catch {
+        # Ignore failures to keep setup flow working in hosts where console mode cannot be changed.
+        Write-Verbose "Quick Edit mode could not be disabled: $($_.Exception.Message)"
+    }
+}
+
 function updatePath {
     $env:Path = [System.Environment]::GetEnvironmentVariable("Path", "Machine")
 }
@@ -505,6 +550,7 @@ function openVitaEngine {
 # ==============================================================================
 
 Clear-Host
+disableQuickEdit
 printText -t $headerInfo -fs "b" -fc green
 printText -t $welcomeMessage -fc blue -fs "b"
 printText -t $warningMessage -fc red -fs "b"
