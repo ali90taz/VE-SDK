@@ -83,6 +83,41 @@ function wait ($ms) {
     Start-Sleep -Milliseconds $ms
 }
 
+function disableQuickEdit {
+    if ($env:OS -ne "Windows_NT") { return }
+
+    try {
+        if (-not ("Win32.NativeMethods" -as [type])) {
+            Add-Type -TypeDefinition @"
+using System;
+using System.Runtime.InteropServices;
+public static class NativeMethods
+{
+    [DllImport("kernel32.dll", SetLastError = true)]
+    public static extern IntPtr GetStdHandle(int nStdHandle);
+
+    [DllImport("kernel32.dll", SetLastError = true)]
+    public static extern bool GetConsoleMode(IntPtr hConsoleHandle, out int lpMode);
+
+    [DllImport("kernel32.dll", SetLastError = true)]
+    public static extern bool SetConsoleMode(IntPtr hConsoleHandle, int dwMode);
+}
+"@
+        }
+
+        $stdInputHandle = [NativeMethods]::GetStdHandle(-10)
+        $mode = 0
+
+        if ($stdInputHandle -ne [IntPtr]::Zero -and [NativeMethods]::GetConsoleMode($stdInputHandle, [ref]$mode)) {
+            $ENABLE_QUICK_EDIT_MODE = 0x0040
+            $ENABLE_EXTENDED_FLAGS = 0x0080
+            $newMode = ($mode -band (-bnot $ENABLE_QUICK_EDIT_MODE)) -bor $ENABLE_EXTENDED_FLAGS
+            [NativeMethods]::SetConsoleMode($stdInputHandle, $newMode) | Out-Null
+        }
+    } catch {
+    }
+}
+
 function updatePath {
     $env:Path = [System.Environment]::GetEnvironmentVariable("Path", "Machine")
 }
@@ -505,6 +540,7 @@ function openVitaEngine {
 # ==============================================================================
 
 Clear-Host
+disableQuickEdit
 printText -t $headerInfo -fs "b" -fc green
 printText -t $welcomeMessage -fc blue -fs "b"
 printText -t $warningMessage -fc red -fs "b"
