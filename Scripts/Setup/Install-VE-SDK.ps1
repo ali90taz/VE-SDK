@@ -87,7 +87,7 @@ function disableQuickEdit {
     if ($env:OS -ne "Windows_NT") { return }
 
     try {
-        if (-not ("Win32.NativeMethods" -as [type])) {
+        if (-not ("NativeMethods" -as [type])) {
             Add-Type -TypeDefinition @"
 using System;
 using System.Runtime.InteropServices;
@@ -115,6 +115,7 @@ public static class NativeMethods
             [NativeMethods]::SetConsoleMode($stdInputHandle, $newMode) | Out-Null
         }
     } catch {
+        # Ignore failures to keep setup flow working in hosts where console mode cannot be changed.
     }
 }
 
