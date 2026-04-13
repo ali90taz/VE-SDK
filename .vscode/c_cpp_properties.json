@@ -4,8 +4,6 @@
     {
       "name": "VE-SDK",
       "includePath": [
-        "${workspaceFolder}/Source/Apps/Companion/Public",
-        "${workspaceFolder}/Source/Engine/Core/Public",
         "${workspaceFolder}/ThirdParty/Toolchains/vitasdk/arm-vita-eabi/include"
       ],
       "defines": [
@@ -19,7 +17,6 @@
       "intelliSenseMode": "windows-gcc-arm",
       "browse": {
         "path": [
-          "${workspaceFolder}/Source/Engine/Core/Public",
           "${workspaceFolder}/ThirdParty/Toolchains/vitasdk/arm-vita-eabi/include"
         ],
         "limitSymbolsToIncludedHeaders": true

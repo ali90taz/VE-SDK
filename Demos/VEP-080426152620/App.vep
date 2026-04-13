@@ -1,0 +1,22 @@
+{
+  "FormatVersion": 1,
+  "ProjectId": "VEP-080426152620",
+  "Meta": {
+    "Name": "Fruit Demence: Blastlicious",
+    "Version": "1.0.0",
+    "Genre": "Puzzle",
+    "Author": "VitaEngine Team"
+  },
+  "System": {
+    "EntryScript": "./Scripts/Main.lua",
+    "AppMode": 0
+  },
+  "Profiles": {
+    "Debug": {
+      "TitleId": null
+    },
+    "Release": {
+      "TitleId": null
+    }
+  }
+}
