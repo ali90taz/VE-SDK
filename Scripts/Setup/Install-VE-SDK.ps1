@@ -116,6 +116,7 @@ public static class NativeMethods
         }
     } catch {
         # Ignore failures to keep setup flow working in hosts where console mode cannot be changed.
+        Write-Verbose "Quick Edit mode could not be disabled: $($_.Exception.Message)"
     }
 }
 
