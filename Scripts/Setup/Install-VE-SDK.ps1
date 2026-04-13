@@ -4,7 +4,7 @@
 # Global Variables
 # ==============================================================================
 
-$headerInfo = "`nVitaEngine SDK Setup Utility - Version 1.0.8 Alpha`n"
+$headerInfo = "`nVitaEngine SDK Setup Utility - Version 1.0.9 Alpha`n"
 
 # Sources
 $vitaEngineSdkSrc = "https://github.com/ali90taz/VE-SDK"
@@ -445,7 +445,7 @@ function checkGitVersion {
 
     $gitVersion = & git --version 2>$null
     if ($gitVersion -match $gitVersionPattern) {
-        printText -t " [FOUND]" -fc green -
+        printText -t " [FOUND]" -fc green
         $Global:gitFound = $true
     } else {
         printText -t " [NOT-FOUND]" -fc red
