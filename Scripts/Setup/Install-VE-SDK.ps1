@@ -115,6 +115,8 @@ public static class NativeMethods
         if ($stdInputHandle -ne [IntPtr]::Zero -and [NativeMethods]::GetConsoleMode($stdInputHandle, [ref]$mode)) {
             $newMode = ($mode -band (-bnot $ENABLE_QUICK_EDIT_MODE)) -bor $ENABLE_EXTENDED_FLAGS
             [NativeMethods]::SetConsoleMode($stdInputHandle, $newMode) | Out-Null
+        } else {
+            Write-Verbose "Quick Edit mode could not be disabled because console mode was unavailable."
         }
     } catch {
         # Ignore failures to keep setup flow working in hosts where console mode cannot be changed.
