@@ -86,6 +86,10 @@ function wait ($ms) {
 function disableQuickEdit {
     if ($env:OS -ne "Windows_NT") { return }
 
+    $STD_INPUT_HANDLE = -10
+    $ENABLE_QUICK_EDIT_MODE = 0x0040
+    $ENABLE_EXTENDED_FLAGS = 0x0080
+
     try {
         if (-not ("NativeMethods" -as [type])) {
             Add-Type -TypeDefinition @"
@@ -105,12 +109,10 @@ public static class NativeMethods
 "@
         }
 
-        $stdInputHandle = [NativeMethods]::GetStdHandle(-10)
+        $stdInputHandle = [NativeMethods]::GetStdHandle($STD_INPUT_HANDLE)
         $mode = 0
 
         if ($stdInputHandle -ne [IntPtr]::Zero -and [NativeMethods]::GetConsoleMode($stdInputHandle, [ref]$mode)) {
-            $ENABLE_QUICK_EDIT_MODE = 0x0040
-            $ENABLE_EXTENDED_FLAGS = 0x0080
             $newMode = ($mode -band (-bnot $ENABLE_QUICK_EDIT_MODE)) -bor $ENABLE_EXTENDED_FLAGS
             [NativeMethods]::SetConsoleMode($stdInputHandle, $newMode) | Out-Null
         }
