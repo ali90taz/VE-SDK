@@ -9,13 +9,51 @@
 
 ---
 
+<h3>Branch status</h3>
+
+<h4 align="left">
+<b>This is the active integration branch of VE-SDK.</b>
+<br>
+<br>
+The <b>staging</b> branch is intended to represent the latest <b>reasonably stable 
+and testable</b> state of the VE-SDK (VitaEngine SDK) technical repository.
+<br>
+<br>
+In practical terms, this branch is expected to remain the most recent state that 
+is still <b>capable of launching or being meaningfully inspected</b>, even while 
+the platform continues to evolve rapidly.
+<br>
+<br>
+This does <b>not</b> mean the branch is feature-complete, polished or ready for 
+end-user production use. It is still an active development branch — but it is 
+the best place to follow the project when you want a <b>living, runnable preview 
+of current progress</b>.
+<br>
+<br>
+</h4>
+
+<h4 align="left">
+<b>Looking for another branch?</b>
+<br>
+<br>
+<ul>
+  <li><a href="https://github.com/ali90taz/VE-SDK/tree/main"><b>main</b></a> → curated public-facing milestone branch</li>
+  <li><a href="https://github.com/ali90taz/VE-SDK/tree/staging"><b>staging</b></a> → latest reasonably stable and testable integration branch</li>
+  <li><a href="https://github.com/ali90taz/VE-SDK/tree/dev"><b>dev</b></a> → active day-to-day development branch</li>
+</ul>
+<br>
+</h4>
+
+---
+
 <h3>What is VitaEngine?</h3>
 
 <h4 align="left">
-<b>VitaEngine</b> is an open source platform envisioned to make <b>PS Vita</b>
- game and application development more accessible, integrated and user-friendly, 
- reducing part of the complexity traditionally associated with the homebrew 
- ecosystem.
+<b>VitaEngine</b> is an open source platform envisioned to make <b>PS Vita</b> 
+game and application development more accessible, integrated and user-friendly, 
+reducing part of the complexity traditionally associated with the homebrew 
+ecosystem.
+<br>
 <br>
 The long-term goal of VitaEngine is to provide a more direct creation workflow in 
 <b>Lua</b>, powered by a native <b>C++</b> engine running on the console itself, 
@@ -83,6 +121,11 @@ ecosystem.
   <li>People interested in studying VitaEngine’s architecture</li>
   <li>People who want to follow or test the platform’s technical evolution</li>
 </ul>
+<br>
+This branch is usually the most appropriate one for people who want to observe 
+the project’s current technical direction while still interacting with a state 
+that is expected to remain at least minimally runnable.
+<br>
 <br>
 If your goal is simply to <b>use VitaEngine directly to create projects</b>, 
 the long-term plan is to provide a separate distribution that is more 
@@ -176,9 +219,15 @@ for development mode.
 <h3>Installing VE-SDK</h3>
 
 <h4 align="left">
-To make early testing and technical contribution easier, this repository provides 
+To make early testing and technical contribution easier, this branch may provide 
 an automated <b>VE-SDK installer</b> focused on preparing the development 
 environment on <b>Windows 11</b>.
+<br>
+<br>
+Because <b>staging</b> is intended to track the latest <b>runnable integration 
+state</b>, it is generally the most relevant branch for users who want to 
+inspect or test the current platform direction without following the fully 
+unstable day-to-day work branch.
 <br>
 <br>
 The installer may configure the structure required for platform development, 
@@ -254,7 +303,8 @@ The problem is that developing for PS Vita is still far from simple. Even with
 all the excellent work already done by the community, getting a functional 
 application running on the console can still require a long setup journey: a 
 Linux environment, familiarity with C, CMake, Makefiles and a solid understanding 
-of how the Vita SDK works. In the end, you still have to hope everything compiles without errors.
+of how the Vita SDK works. In the end, you still have to hope everything compiles 
+without errors.
 <br>
 <br>
 For beginners, that process can be intimidating, frustrating and may consume 
@@ -366,7 +416,7 @@ file in this repository.
 
 <h4 align="left">
 <ul>
-<li>VitaEngine <b>is not affiliated with, endorsed by, or licensed by Sony
+<li>VitaEngine <b>is not affiliated with, endorsed by, or licensed by Sony 
 Interactive Entertainment</b>.</li>
 <li><b>PS Vita</b> is a trademark of Sony Interactive Entertainment.</li>
 <li>Third-party names, assets and technologies belong to their respective owners.</li>
