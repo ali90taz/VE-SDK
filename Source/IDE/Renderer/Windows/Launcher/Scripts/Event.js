@@ -1,21 +1,42 @@
+import cssVarsFile from "../Styles/Variables.json" with { type: 'json' }
 
-export const EVENT = {
-  MOUSE: {
-    CLICK: 'click',
-    OVER: 'mouseover',
-    OUT: 'mouseout'
-  },
-  WINDOW: {
-    RESIZE: 'resize'
-  }
-}
+import * as eventHelpers from "../../../Shared/Scripts/EventHelpers.js";
+import * as cssHelpers from "../../../Shared/Scripts/CssHelpers.js"
 
-export function addElementEvent(htmlElementId, eventId, callbackFunction) {
-  var a;
-  (a = document.getElementById(htmlElementId)) === null ||
-   a === void 0 ? void 0 : a.addEventListener(eventId, callbackFunction);  
-}
+import * as ui from "./Ui.js";
 
-export function addWindowEvent(eventId, callbackFuntion) {
-  window.addEventListener(eventId, callbackFuntion);
+/* Public */
+
+export function registerEvents() {
+  addWindowEvent(eventHelpers.EVENT.WINDOW.RESIZE, () => {
+    ui.update();
+  });
+  eventHelpers.addElementEvent(
+    'closeButton',
+    eventHelpers.EVENT.MOUSE.CLICK, 
+    () => {
+      window.veApi.window.close();
+    }
+  );
+  eventHelpers.addElementEvent(
+    'minimizeButton',
+    eventHelpers.EVENT.MOUSE.CLICK,
+    () => {
+      window.veApi.window.minimize();
+    } 
+  );
+  eventHelpers.addElementEvent(
+    'githubButton',
+    eventHelpers.EVENT.MOUSE.CLICK,
+    () => {
+      window.veApi.shell.openUrl("https://github.com/ali90taz/VE-SDK");
+    } 
+  );
+  eventHelpers.addElementEvent(
+    'infoButton',
+    eventHelpers.EVENT.MOUSE.CLICK,
+    () => {
+      cssHelpers.setCssVariable(cssVarsFile.misc.infoWindowVisibility, 'visible')
+    }
+  );
 }

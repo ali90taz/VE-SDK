@@ -1,0 +1,18 @@
+{
+  "setting": {
+    "userSelect": "--user-select"
+  },
+  "system": {
+    "viewportWidth": "--viewport-width",
+    "viewportHeight": "--viewport-height"
+  },
+  "metric": {
+
+  },
+  "color": {
+
+  },
+  "misc": {
+    "infoWindowVisibility": "--info-window-visibility"
+  }
+}

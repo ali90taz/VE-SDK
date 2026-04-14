@@ -1,8 +1,8 @@
 
-const githubRepository = 'https://github.com/ali90taz/VE-SDK';
 const recentProjectsTable = document.getElementById('recentProjects');
 
-import * as Ui from './Ui.js';
+import * as ui from './Ui.js';
+import * as event from './Event.js';
 
 window.onload = function () {
   if (document.readyState !== 'loading') setTimeout(onRead, 0);
@@ -13,7 +13,8 @@ window.onload = function () {
 }
 
 function setupWindow() {
-  (0, Ui.setUi)();
+  (0, ui.initialize)();
+  (0, event.registerEvents)();
 }
 
 // launcherWindow --------------------------------------------------------------
