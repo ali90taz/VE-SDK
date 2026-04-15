@@ -8,9 +8,11 @@ import * as ui from "./Ui.js";
 /* Public */
 
 export function registerEvents() {
+  /* Global */
   addWindowEvent(eventHelpers.EVENT.WINDOW.RESIZE, () => {
     ui.update();
   });
+  /* Launcher window */
   eventHelpers.addElementEvent(
     'closeButton',
     eventHelpers.EVENT.MOUSE.CLICK, 
@@ -39,4 +41,20 @@ export function registerEvents() {
       cssHelpers.setCssVariable(cssVarsFile.misc.infoWindowVisibility, 'visible')
     }
   );
+  eventHelpers.addElementEvent(
+    'newProject',
+    eventHelpers.EVENT.MOUSE.CLICK,
+    async () => {
+      await window.veApi.project.create();
+    }
+  );
+  eventHelpers.addElementEvent(
+    'openProject',
+    eventHelpers.EVENT.MOUSE.CLICK,
+    async () => {
+      await window.veApi.project.open();
+    }
+  );
+  /* Launcher window -> infoWindow */
+
 }

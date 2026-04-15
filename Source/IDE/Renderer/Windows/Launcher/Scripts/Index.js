@@ -17,32 +17,6 @@ function setupWindow() {
   (0, event.registerEvents)();
 }
 
-// launcherWindow --------------------------------------------------------------
-
-document.getElementById('closeButton').addEventListener(
-    'click', () => {
-        window.veApi.windowActions.close();
-    }
-);
-
-document.getElementById('minimizeButton').addEventListener(
-    'click', () => {
-        window.veApi.windowActions.minimize();
-    }
-);
-
-document.getElementById('githubButton').addEventListener(
-    'click', () => {
-        window.veApi.shellActions.openUrl(githubRepository);
-    }
-);
-
-document.getElementById('infoButton').addEventListener(
-    'click', () => {
-        document.getElementById('overlay').style.visibility = 'visible';
-    }
-);
-
 document.getElementById('newProject').addEventListener(
     'click', async () => {
         await window.veApi.projectActions.newProject('test');

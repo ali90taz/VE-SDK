@@ -23,6 +23,7 @@ const IPC = {
     GET_RECENT: "get-recent",
     CREATE: "create",
     OPEN: "open",
+    OPEN_RECENT: "open-recent",
     CLOSE: "close",
     SAVE: "save",
   },

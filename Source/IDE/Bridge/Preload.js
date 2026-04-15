@@ -38,9 +38,12 @@ contextBridge.exposeInMainWorld('veApi', {
       action: IPC.PROJECT_ACTIONS.CREATE
     }),
 
-    open: (projectPath) => ipcRenderer.send(IPC.CHANNELS.PROJECT, {
+    open: () => ipcRenderer.send(IPC.CHANNELS.PROJECT, {
       action: IPC.PROJECT_ACTIONS.OPEN,
-      data: { projectPath }
+    }),
+
+    openRecent: () => ipcRenderer.send(IPC.CHANNELS.PROJECT, {
+      action: IPC.PROJECT_ACTIONS.OPEN_RECENT
     }),
 
     close: () => ipcRenderer.send(IPC.CHANNELS.PROJECT, {
