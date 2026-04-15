@@ -1,8 +1,5 @@
 {
-  "misc": {
-    "githubRepository": "https://github.com/ali90taz/VE-SDK"
-  },
-  "docs": {
-
+  "launcherWindow": {
+    "githubButton": "https://github.com/ali90taz/VE-SDK"
   }
 }

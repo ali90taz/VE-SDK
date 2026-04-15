@@ -30,7 +30,7 @@ contextBridge.exposeInMainWorld('veApi', {
   },
 
   project: {
-    getRecent: () => ipcRenderer.send(IPC.CHANNELS.PROJECT, {
+    getRecent: () => ipcRenderer.invoke(IPC.CHANNELS.PROJECT, {
       action: IPC.PROJECT_ACTIONS.GET_RECENT
     }),
 
@@ -86,7 +86,7 @@ contextBridge.exposeInMainWorld('veApi', {
       action: IPC.COMPANION_ACTIONS.DISCONNECT
     }),
 
-    getStatus: () => ipcRenderer.send(IPC.CHANNELS.COMPANION, {
+    getStatus: () => ipcRenderer.invoke(IPC.CHANNELS.COMPANION, {
       action: IPC.COMPANION_ACTIONS.GET_STATUS
     }),
 
@@ -106,7 +106,7 @@ contextBridge.exposeInMainWorld('veApi', {
       action: IPC.COMPANION_ACTIONS.RESTART
     }),
 
-    getLogs: () => ipcRenderer.send(IPC.CHANNELS.COMPANION, {
+    getLogs: () => ipcRenderer.invoke(IPC.CHANNELS.COMPANION, {
       action: IPC.COMPANION_ACTIONS.GET_LOGS
     }),
   },

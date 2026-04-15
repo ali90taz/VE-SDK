@@ -21,27 +21,25 @@
                 <div id="infoWindow-footer">
                     <h4 class="normalText" id="infoWindow-version">Version: </h4>
                     <div id="infoWindow-footer-links">
-                        <h4 class="link clickableItem" id="infoWindow-license">License</h4>
-                        <h4 class="link clickableItem" id="infoWindow-about">About</h4>
-                        <h4 class="link clickableItem" id="infoWindow-releases">Releases</h4>
+                        
                     </div>
                 </div>
             </div>
         </div>
         <div id="sidebar">
-            <img class="clickableItem circleButton" id="githubButton" src="../../Shared/Assets/veLogo.png" alt="vita_engine_logo" title="Open Github project page">
+            <img class="clickableItem circleButton" id="gitHubButton" src="../../Shared/Assets/veLogo.png" alt="vita_engine_logo" title="Open Github project page">
             <img class="clickableItem circleButton" id="infoButton" src="./Assets/infoIcon.png" alt="info_icon" title="Open Info Window">
         </div>
         <div id="content">
-            <div class="draggableArea" id="titleBar">
-                <img class="normalImage" src="./Assets/veText.png" alt="vita_engine_text" title="Drag Window">
+            <div class="draggableArea" id="titleBar" title="Drag Window">
+                <img class="normalImage" src="./Assets/veText.png" alt="vita_engine_text">
                 <div id="titleBar-buttons">
                     <img class="clickableItem circleButton undraggableArea" id="minimizeButton" src="../../Shared/Assets/minimizeButton.png" alt="minimize_button" title="Minimize Window">
                     <img class="clickableItem circleButton undraggableArea" id="closeButton" src="../../Shared/Assets/closeButton.png" alt="close_button" title="Close Window">
                 </div>
             </div>
             <div id="projectArea">
-                <h3 class="normalText">Start</h3>
+                <h3 class="normalText" id="projectActions-label">Start</h3>
                 <table id="projectActions">
                     <tr>
                         <td class="link clickableItem" id="newProject" title="Creates a new blank project">New Project...</td>
@@ -50,12 +48,12 @@
                         <td class="link clickableItem" id="openProject" title="Open a previously created project">Open Project...</td>
                     </tr>
                 </table>
-                <h3 class="normalText">Recent Projects</h3>
+                <h3 class="normalText" id="recentProjects-label">Recent Projects</h3>
                 <table id="recentProjects">
                 </table>
             </div>
             <div id="footer">
-                <h4 class="warnText">
+                <h4 class="warnText" id="warningText">
                     This software is not licensed by Sony.
                 </h4>
             </div>
