@@ -1,20 +1,20 @@
 {
-  "FormatVersion": 1,
-  "Session": {
-    "LastOpenedScript": "./Scripts/Main.lua",
-    "LastProfile": "Debug",
-    "LastRunTarget": "Companion"
+  "formatVersion": 1,
+  "session": {
+    "lastOpenedScript": "./Scripts/Main.lua",
+    "lastProfile": "Debug",
+    "lastRunTarget": "Companion"
   },
-  "Layout": {
-    "LeftPanelWidth": 280,
-    "RightPanelWidth": 320,
-    "BottomPanelHeight": 220
+  "layout": {
+    "leftPanelWidth": 280,
+    "rightPanelWidth": 320,
+    "bottomPanelHeight": 220
   },
-  "Explorer": {
-    "ExpandedFolders": [
+  "explorer": {
+    "expandedFolders": [
       "./Scripts",
       "./Assets/Images"
     ],
-    "SelectedPath": "./Scripts/Main.lua"
+    "selectedPath": "./Scripts"
   }
 }
