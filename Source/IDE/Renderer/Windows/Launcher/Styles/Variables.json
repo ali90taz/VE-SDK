@@ -10,9 +10,10 @@
 
   },
   "color": {
-
+    "backgroundColor": "--background-color"
   },
   "misc": {
-    "infoWindowVisibility": "--info-window-visibility"
+    "infoWindowVisibility": "--info-window-visibility",
+    "noRecentProjects-message": "--no-recent-projects-message"
   }
 }

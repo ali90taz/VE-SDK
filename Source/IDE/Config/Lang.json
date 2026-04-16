@@ -29,6 +29,9 @@
     "recentProjects-label": {
       "textContent": "Recent Projects"
     },
+    "noRecentProjects-message": {
+      "textContent": "No recent projects yet :/"
+    },
     "warningText": {
       "textContent": "This software is not licensed by Sony."
     }

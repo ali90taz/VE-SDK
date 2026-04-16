@@ -1,9 +1,21 @@
 
 :root
 {
+    /* Setting */
+
+    --user-select: ;
+
+    /* System */
+
+    --viewport-width: ;
+    --viewport-height: ;
+
+    /* Misc */
+
+    --no-recent-projects-message: ;
+
     /* Global */
 
-    -webkit-user-select: none;
     --window-width: 100vw;
     --window-height: 100vh;
     --global-border-radius: 5px;
@@ -31,14 +43,18 @@
     --infoWindow-footer-gap: 10px;
 }
 
+* {
+    -webkit-user-select: var(--user-select);
+    margin: 0;
+    padding: 0;
+    background-color: var(--background-color);
+}
+
 html, body
 {
-    background-color: rgb(0, 0, 0);
     font-family: Nunito, Arial;
     width: var(--window-width);
     height: var(--window-height);
-    margin: 0;
-    padding: 0;
     background-image: url("../Assets/psWave.jpg");
     background-size: cover;
 }
@@ -125,6 +141,15 @@ html, body
     grid-area: projectArea;
     padding-left: 50px;
     padding-top: 50px;
+}
+
+#noRecentProjects {
+    visibility: var(--no-recent-projects-message);
+}
+
+#noRecentProjects-message
+{
+    visibility: var(--no-recent-projects-message);
 }
 
 #footer
