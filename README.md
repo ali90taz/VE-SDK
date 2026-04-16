@@ -197,11 +197,11 @@ shortcuts for quick access to the main tools.
 > executing them.**
 
 > **✅ Install.zip file signature (SHA-256):  
-> D600A528A1A6B118B1B4D76E8B611F3A315DF87D85F0CE629CC0D933E6C4DD80**
+> d600a528a1a6b118b1b4d76e8b611f3a315df87d85f0ce629cc0d933e6c4dd80**
 
 <h4 align="left">
 <em>Installation file: 
-<a href="https://github.com/ali90taz/VE-SDK/raw/staging/Install.zip">
+<a href="https://raw.githubusercontent.com/ali90taz/VE-SDK/refs/heads/dev/Install.zip">
 Install.zip</a></em>
 <br>
 </h4>
@@ -224,7 +224,7 @@ If you prefer a manual installation or want to understand exactly what the
 installer does, check:
 <br>
 <br>
-<i>Scripts/Setup/<a href="https://github.com/ali90taz/VE-SDK/blob/staging/Scripts/Setup/Install-VE-SDK.ps1">Install-VE-SDK.ps1</a></i>
+<i>Scripts/Setup/<a href="https://github.com/ali90taz/VE-SDK/blob/dev/Scripts/Setup/Install-VE-SDK.ps1">Install-VE-SDK.ps1</a></i>
 <br>
 </h4>
 
@@ -353,7 +353,7 @@ created with VitaEngine.</i>
 <h4 align="left">
 This project uses a variety of third-party resources.  
 For more information, please check the 
-<a href="https://github.com/ali90taz/VE-SDK/blob/staging/CREDITS.md">
+<a href="https://github.com/ali90taz/VE-SDK/blob/dev/CREDITS.md">
 <i>CREDITS.md</i></a> 
 file in this repository.
 <br>
