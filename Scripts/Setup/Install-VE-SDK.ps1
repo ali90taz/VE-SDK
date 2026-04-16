@@ -4,7 +4,7 @@
 # Global Variables
 # ==============================================================================
 
-$headerInfo = "`nVitaEngine SDK Setup Utility - Version 1.0.9 Alpha`n"
+$headerInfo = "`nVitaEngine SDK Setup Utility - Version 1.0.11 Pre-Alpha - Dev Branch`n"
 
 # Sources
 $vitaEngineSdkSrc = "https://github.com/ali90taz/VE-SDK"
@@ -867,7 +867,7 @@ if ($Global:installFlag) {
             -lnkName "VitaEngine SDK Setup Utility" `
             -lnkTarget "$($Env:ComSpec)" `
             -lnkPath $vitaEngineSdkShortcuts `
-            -lnkArguments "/k powershell -ExecutionPolicy Unrestricted Invoke-Expression -Command (Invoke-WebRequest -Uri 'https://raw.githubusercontent.com/ali90taz/VE-SDK/refs/heads/staging/Scripts/Setup/Install-VE-SDK.ps1' -UseBasicParsing).Content" `
+            -lnkArguments "/k powershell -ExecutionPolicy Unrestricted Invoke-Expression -Command (Invoke-WebRequest -Uri 'https://raw.githubusercontent.com/ali90taz/VE-SDK/refs/heads/dev/Scripts/Setup/Install-VE-SDK.ps1' -UseBasicParsing).Content" `
             -adminRights $true
 
         # Open in VS Code
@@ -889,7 +889,7 @@ if ($Global:installFlag) {
             -lnkName "VitaEngine SDK Build Utility" `
             -lnkTarget "$($Env:ComSpec)" `
             -lnkPath $vitaEngineSdkShortcuts `
-            -lnkArguments "/k powershell -ExecutionPolicy Unrestricted Invoke-Expression -Command (Invoke-WebRequest -Uri 'https://raw.githubusercontent.com/ali90taz/VE-SDK/refs/heads/staging/Scripts/Build/Build-VitaEngine.ps1' -UseBasicParsing).Content" `
+            -lnkArguments "/k powershell -ExecutionPolicy Unrestricted Invoke-Expression -Command (Invoke-WebRequest -Uri 'https://raw.githubusercontent.com/ali90taz/VE-SDK/refs/heads/dev/Scripts/Build/Build-VitaEngine.ps1' -UseBasicParsing).Content" `
             -adminRights $true
 
         printText -t " [DONE]" -fc green
