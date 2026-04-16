@@ -9,17 +9,95 @@
 
 ---
 
+<h3>Branch status</h3>
+
+<h4 align="left">
+<b>This is the active day-to-day development branch of VE-SDK.</b>
+<br>
+<br>
+The <b>dev</b> branch is the primary <b>working branch</b> of the VE-SDK 
+(VitaEngine SDK) technical repository.
+<br>
+<br>
+This is where implementation, refactors, experiments, structural changes and 
+lower-level technical decisions usually happen first.
+<br>
+<br>
+As a result, this branch may be <b>unstable</b>, <b>incomplete</b>, 
+<b>temporarily broken</b> or <b>not runnable at all</b> depending on the current 
+phase of development.
+<br>
+<br>
+If you are here, you should assume you are looking at the project’s 
+<b>rawest technical layer</b>.
+<br>
+<br>
+</h4>
+
+<h4 align="left">
+<b>Project maturity:</b> <b>Pre-Alpha</b>
+<br>
+<br>
+Branch organization reflects <b>workflow structure</b>, not final product 
+maturity.
+<br>
+<br>
+Even with separate branches for presentation, integration and active 
+development, VitaEngine should still be considered a <b>pre-alpha project</b>.
+<br>
+<br>
+</h4>
+
+<h4 align="left">
+<b>Looking for another branch?</b>
+<br>
+<br>
+<ul>
+  <li><a href="https://github.com/ali90taz/VE-SDK/tree/main"><b>main</b></a> → curated public-facing milestone branch</li>
+  <li><a href="https://github.com/ali90taz/VE-SDK/tree/staging"><b>staging</b></a> → latest reasonably stable and testable integration branch</li>
+  <li><a href="https://github.com/ali90taz/VE-SDK/tree/dev"><b>dev</b></a> → active day-to-day development branch</li>
+</ul>
+<br>
+</h4>
+
+---
+
+<h3>What is this branch for?</h3>
+
+<h4 align="left">
+The <b>dev</b> branch exists for:
+<br>
+<br>
+<ul>
+  <li><b>Ongoing implementation</b></li>
+  <li><b>Architecture work</b></li>
+  <li><b>Refactors</b></li>
+  <li><b>Internal experimentation</b></li>
+  <li><b>Lower-level technical inspection</b></li>
+</ul>
+<br>
+This is <b>not</b> the recommended branch for general testing or for judging the 
+project’s short-term stability.
+<br>
+<br>
+If you want the most recent branch that is still expected to remain reasonably 
+launchable, the <b>staging</b> branch is usually the better choice.
+<br>
+<br>
+</h4>
+
+---
+
 <h3>What is VitaEngine?</h3>
 
 <h4 align="left">
-<b>VitaEngine</b> is an open source platform envisioned to make <b>PS Vita</b>
- game and application development more accessible, integrated and user-friendly, 
- reducing part of the complexity traditionally associated with the homebrew 
- ecosystem.
+<b>VitaEngine</b> is an open source platform envisioned to make <b>PS Vita</b> 
+game and application development more accessible, integrated and user-friendly.
 <br>
-The long-term goal of VitaEngine is to provide a more direct creation workflow in 
-<b>Lua</b>, powered by a native <b>C++</b> engine running on the console itself, 
-alongside a dedicated <b>desktop IDE</b> designed around the development process.
+<br>
+The long-term goal is to provide a more direct creation workflow in <b>Lua</b>, 
+powered by a native <b>C++</b> engine running on the console itself, alongside a 
+dedicated <b>desktop IDE</b> designed around the development process.
 <br>
 <br>
 </h4>
@@ -33,140 +111,89 @@ alongside a dedicated <b>desktop IDE</b> designed around the development process
 VitaEngine platform itself.
 <br>
 <br>
-It contains the structural foundation used to build, test and evolve the engine, 
-including <b>source code</b>, <b>scripts</b>, <b>dependencies</b>, 
-<b>supporting tools</b>, <b>technical documentation</b> and other experimental 
-components required during development.
+It contains the structural foundation used to build, test and evolve the 
+platform, including:
 <br>
+<br>
+<ul>
+  <li>Source code</li>
+  <li>Scripts and automation</li>
+  <li>Dependencies and supporting tools</li>
+  <li>Technical documentation</li>
+  <li>Experimental components</li>
+  <li>Internal assets and support files</li>
+</ul>
 <br>
 This repository <b>does not represent the final end-user distribution of 
-VitaEngine</b>. Its current purpose is to serve as the development environment 
-for the platform itself.
+VitaEngine</b>.
 <br>
 <br>
 </h4>
 
 ---
 
-<h3>Worth mentioning</h3>
+<h3>Who is this branch for?</h3>
 
 <h4 align="left">
-VitaEngine is an <b>independent, non-profit, open source project developed in 
-parallel</b>, primarily as a long-term author-driven effort.
-<br>
-<br>
-Because of that, <b>there is no fixed roadmap, guaranteed milestones or public 
-completion date</b>.
-<br>
-<br>
-Although it is still in an early stage as a user-facing product, this project 
-<b>already has a real technical foundation under active development</b>, 
-including an evolving architecture, tooling experiments, project structure and 
-the gradual implementation of the components that will form the VitaEngine 
-ecosystem.
-<br>
-<br>
-</h4>
-
----
-
-<h3>Who is this repository for?</h3>
-
-<h4 align="left">
-<b>VE-SDK</b> is primarily intended for:
+The <b>dev</b> branch is primarily intended for:
 <br>
 <br>
 <ul>
   <li><b>Contributors</b></li>
-  <li><b>Early adopters</b></li>
   <li><b>Technically curious users</b></li>
-  <li>People interested in studying VitaEngine’s architecture</li>
-  <li>People who want to follow or test the platform’s technical evolution</li>
+  <li><b>Architecture-oriented readers</b></li>
+  <li>People who want to inspect lower-level changes as they happen</li>
+  <li>People who understand that active development may temporarily break things</li>
 </ul>
 <br>
-If your goal is simply to <b>use VitaEngine directly to create projects</b>, 
-the long-term plan is to provide a separate distribution that is more 
-user-friendly and focused on end-user workflows.
+If you are looking for a more approachable or more test-oriented entry point, 
+the <b>staging</b> branch is usually the better place to start.
 <br>
 <br>
 </h4>
 
 ---
 
-<h3>What does this repository contain?</h3>
+<h3>Working expectations</h3>
 
 <h4 align="left">
-In general, VE-SDK may include components such as:
+In this branch, it is normal for:
 <br>
 <br>
 <ul>
-  <li><b>IDE</b>: source code and desktop interface resources for VitaEngine</li>
-  <li><b>Engine</b>: the native engine core and its internal components</li>
-  <li><b>Scripts</b>: setup, build and maintenance automation</li>
-  <li><b>Toolchains</b>: third-party toolchains required by the ecosystem</li>
-  <li><b>Docs</b>: technical documentation and architecture notes</li>
-  <li><b>Assets</b>: visual resources and internal files used by the ecosystem</li>
+  <li>Folder structure to change</li>
+  <li>Internal naming to be revised</li>
+  <li>Scripts to move or be renamed</li>
+  <li>Startup flow to be temporarily incomplete</li>
+  <li>Features to exist in partial or transitional form</li>
+  <li>The application to fail to launch during some phases</li>
 </ul>
 <br>
-The exact organization may evolve over time as the platform architecture matures.
+This is expected and does not necessarily indicate a regression in the broader 
+direction of the project.
 <br>
 <br>
 </h4>
 
 ---
 
-<h3>Platform overview</h3>
+<h3>Current technical scope</h3>
 
 <h4 align="left">
-In short, the VitaEngine proposal involves:
+At a high level, the VitaEngine platform is expected to involve:
 <br>
 <br>
 <ul>
-  <li>A dedicated <b>desktop IDE</b> built around the development workflow</li>
-  <li>A native <b>C++ engine</b> running on the PS Vita</li>
-  <li>A <b>Lua API</b> exposed for creating games and applications</li>
-  <li>A native <b>host/runtime component</b> responsible for executing projects 
-  on the console</li>
-  <li>A communication layer for <b>preview, testing and iteration on real 
-  hardware</b></li>
-  <li>Final packaging into <b>.VPK</b> for PS Vita distribution</li>
+  <li>A dedicated <b>desktop IDE</b></li>
+  <li>A native <b>C++ engine/runtime</b> on PS Vita</li>
+  <li>A <b>Lua API</b> for game and application logic</li>
+  <li>A <b>VitaEngine Companion</b> application for development-oriented hardware integration</li>
+  <li>A project workflow centered around <b>.vep</b> files</li>
+  <li>Packaging into <b>.VPK</b> for PS Vita distribution</li>
 </ul>
 <br>
-During development, console integration may be handled through the <b>VitaEngine 
-Companion</b>, a dedicated PS Vita application that acts as a bridge between real 
-hardware and the VitaEngine IDE, enabling preview, testing and additional 
-development-oriented functionality.
-<br>
-<br>
-In future stages, part of this experience is expected to be presented in a more 
-accessible end-user distribution of VitaEngine.
-<br>
-<br>
-</h4>
-
----
-
-<h3>VitaEngine Companion</h3>
-
-<h4 align="left">
-<b>VitaEngine Companion</b> is a <b>PS Vita application</b> focused on the 
-platform’s development workflow.
-<br>
-<br>
-Its role is to act as a bridge between the <b>VitaEngine IDE</b> and real 
-hardware, enabling features such as:
-<br>
-<br>
-<ul>
-  <li><b>Preview</b> of games and applications in development</li>
-  <li><b>Fast iteration</b> directly on the console</li>
-  <li><b>Integration with the testing workflow</b> during development</li>
-  <li>Potential <b>debug</b> and communication features in future stages</li>
-</ul>
-<br>
-Although it is part of the VitaEngine ecosystem, the Companion <b>is not the 
-engine itself</b>, but rather a specialized component designed specifically 
-for development mode.
+In the <b>dev</b> branch, the exact structure and implementation details may 
+shift frequently while these layers are being actively shaped.
 <br>
 <br>
 </h4>
@@ -176,28 +203,31 @@ for development mode.
 <h3>Installing VE-SDK</h3>
 
 <h4 align="left">
-To make early testing and technical contribution easier, this repository provides 
-an automated <b>VE-SDK installer</b> focused on preparing the development 
-environment on <b>Windows 11</b>.
+This branch may include installer, setup and maintenance scripts used during 
+active development, but <b>installer behavior in the dev branch should not be 
+assumed to represent a stable or validated workflow</b>.
 <br>
 <br>
-The installer may configure the structure required for platform development, 
-including dependencies, supporting software, documentation and convenient 
-shortcuts for quick access to the main tools.
+Because <b>dev</b> is where architectural changes, refactors and internal 
+experiments land first, installation routines, folder structure, script names, 
+dependencies and startup flow may temporarily change without notice.
+<br>
+<br>
+If your goal is to test the latest branch that is still expected to remain 
+reasonably launchable, the <b>staging</b> branch is usually the recommended 
+choice instead.
 <br>
 <br>
 </h4>
 
-> **🛠️ At this stage, VE-SDK is primarily intended for VitaEngine development 
-> itself, early testing and technical contribution — not for end-user 
-> production use.**
+> **🛠️ VE-SDK is primarily intended for VitaEngine development itself, technical contribution and architecture-oriented inspection — not for end-user production use.**
 
-> **⚠️ Warning: executing remote scripts can be highly unsafe. Only run files 
-> from trusted sources and, whenever possible, verify the signature/hash before 
-> executing them.**
+> **⚠️ Warning: executing remote scripts can be highly unsafe. Only run files from trusted sources and, whenever possible, verify the signature/hash before executing them.**
 
-> **✅ Install.zip file signature (SHA-256):  
-> d600a528a1a6b118b1b4d76e8b611f3a315df87d85f0ce629cc0d933e6c4dd80**
+> **⚠️ Additional note for this branch: setup routines, file layout and helper shortcuts may change more frequently in <b>dev</b> than in other branches.**
+
+> **✅ Current Install.zip file signature (SHA-256, may change more frequently in dev):  
+> D600A528A1A6B118B1B4D76E8B611F3A315DF87D85F0CE629CC0D933E6C4DD80**
 
 <h4 align="left">
 <em>Installation file: 
@@ -220,8 +250,8 @@ Install.zip</a></em>
 5. Wait for the automatic setup to complete
 <br>
 <br>
-If you prefer a manual installation or want to understand exactly what the 
-installer does, check:
+If you prefer a manual installation or want to inspect the current setup logic, 
+check:
 <br>
 <br>
 <i>Scripts/Setup/<a href="https://github.com/ali90taz/VE-SDK/blob/dev/Scripts/Setup/Install-VE-SDK.ps1">Install-VE-SDK.ps1</a></i>
@@ -230,84 +260,19 @@ installer does, check:
 
 ---
 
-<h3>A bit of history and motivation</h3>
-
-<h4 align="left">
-Why?
-<br>
-<br>
-The PS Vita had a short life, despite being an extremely promising handheld.
-Unfortunately, its official library did not receive as many titles as it could 
-have. Fortunately, there is another side of the story: the homebrew community.
-<br>
-<br>
-Every console has one, and the PS Vita is no exception. Thanks to the masterful 
-efforts of incredibly talented people, we can enjoy unofficial games and 
-applications that expand the potential of hardware that deserved much more.
-<br>
-<br>
-But for some of us, simply enjoying it is not enough — we also want to 
-participate, create and bring new ideas to life.
-<br>
-<br>
-The problem is that developing for PS Vita is still far from simple. Even with 
-all the excellent work already done by the community, getting a functional 
-application running on the console can still require a long setup journey: a 
-Linux environment, familiarity with C, CMake, Makefiles and a solid understanding 
-of how the Vita SDK works. In the end, you still have to hope everything compiles without errors.
-<br>
-<br>
-For beginners, that process can be intimidating, frustrating and may consume 
-days — or even weeks — before something truly works.
-<br>
-<br>
-There are excellent projects, such as 
-<a href="https://github.com/Rinnegatamante/lpp-vita">Lua Player Plus Vita</a>, 
-that already abstract a significant part of this complexity and deserve enormous 
-respect for that. Even so, they do not offer exactly an “open and start” 
-experience. They are powerful tools, but still largely geared toward more 
-curious and advanced users.
-<br>
-<br>
-That is exactly where VitaEngine aims to fit in: not to replace the work of the 
-community, but to build a layer on top of it — more accessible, more integrated 
-and more user-friendly — making PS Vita development more direct, more modern and 
-more inspiring.
-<br>
-<br>
-</h4>
-
----
-
-<h3>Frequently Asked Questions</h3>
+<h3>FAQ</h3>
 
 <h4 align="left">
 
-<b>Q:</b> Which platforms will be supported?
+<b>Q:</b> Is this the best branch for testing the current project state?
 <br>
-<b>A:</b> VitaEngine is currently being developed with <b>modern Windows</b> as 
-the primary target. In the future, the intention is to expand support to 
-<b>Linux</b> and <b>macOS</b>.
-<br>
-<br>
-<b>Q:</b> Which PS Vita models are expected to be supported by generated 
-applications?
-<br>
-<b>A:</b> VitaEngine is intended to generate <b>.VPK</b> games and applications 
-compatible with both <b>PS Vita Fat</b> and <b>PS Vita Slim</b> models. At the 
-moment, there are no official plans for <b>PS TV</b> support.
+<b>A:</b> Usually no. The <b>dev</b> branch is the active work branch and may be 
+unstable or temporarily non-runnable. For a more recent branch that is still 
+expected to remain reasonably launchable, the <b>staging</b> branch is usually 
+the better choice.
 <br>
 <br>
-<b>Q:</b> Will VitaEngine be a complete engine or just a layer on top of the 
-Vita SDK?
-<br>
-<b>A:</b> The goal of VitaEngine is to go beyond being just a thin layer over 
-the Vita SDK. The long-term vision is for it to become a development platform 
-with its own workflow, high-level API and integrated experience, inspired by 
-modern engines such as <b>Unreal Engine</b>, <b>Unity</b> and <b>GameMaker</b>, 
-but designed exclusively for the <b>PS Vita</b>.
-<br>
-<br>
+
 <b>Q:</b> Is this repository already the final recommended way to use VitaEngine?
 <br>
 <b>A:</b> No. This repository represents <b>VE-SDK</b>, meaning the technical 
@@ -315,6 +280,14 @@ foundation and development environment of the platform itself. The long-term goa
 is to provide a more user-friendly end-user distribution of VitaEngine separately.
 <br>
 <br>
+
+<b>Q:</b> Why can things look incomplete or temporarily broken here?
+<br>
+<b>A:</b> Because this branch is intentionally used for active development, 
+structural changes and transitional work. Temporary instability is expected.
+<br>
+<br>
+
 </h4>
 
 ---
@@ -366,7 +339,7 @@ file in this repository.
 
 <h4 align="left">
 <ul>
-<li>VitaEngine <b>is not affiliated with, endorsed by, or licensed by Sony
+<li>VitaEngine <b>is not affiliated with, endorsed by, or licensed by Sony 
 Interactive Entertainment</b>.</li>
 <li><b>PS Vita</b> is a trademark of Sony Interactive Entertainment.</li>
 <li>Third-party names, assets and technologies belong to their respective owners.</li>
