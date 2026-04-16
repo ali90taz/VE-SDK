@@ -1,11 +1,11 @@
 {
-  "FormatVersion": 1,
-  "Assets": [
+  "formatVersion": 1,
+  "assets": [
     {
-      "Path": "Assets/Images/Logo.png",
-      "Type": 0,
-      "Size": 48231,
-      "LastWriteTimeUtc": "2026-04-13T18:45:12Z"
+      "path": "Assets/Images/Logo.png",
+      "type": 0,
+      "size": 48231,
+      "lastWriteTimeUtc": "2026-04-13T18:45:12Z"
     }
   ]
 }
