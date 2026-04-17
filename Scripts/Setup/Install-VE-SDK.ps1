@@ -4,7 +4,7 @@
 # Global Variables
 # ==============================================================================
 
-$headerInfo = "`nVitaEngine SDK Setup Utility - Version 1.0.11 Pre-Alpha - Dev Branch`n"
+$headerInfo = "`nVitaEngine SDK Setup Utility - Version 1.0.11 Pre-Alpha - Dev Channel`n"
 
 # Sources
 $vitaEngineSdkSrc = "https://github.com/ali90taz/VE-SDK"
