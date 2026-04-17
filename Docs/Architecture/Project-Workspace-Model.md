@@ -453,8 +453,8 @@ canonical definition of the project’s contents.
 <h4>Illustrative example</h4>
 
 <pre><code style="font-family:nunito">{
-  "FormatVersion": 1,
-  "Assets": [
+  "formatVersion": 1,
+  "assets": [
     {
       "path": "Assets/Images/Logo.png",
       "type": 0,
