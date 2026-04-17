@@ -2,7 +2,7 @@
     "version": "1.0.0",
     "configurations": [  
        {
-          "name": "Debug ViatEngine IDE",
+          "name": "Debug VitaEngine IDE",
           "type": "node",
           "request": "launch",
           "cwd": "${workspaceFolder}/Source/IDE",
