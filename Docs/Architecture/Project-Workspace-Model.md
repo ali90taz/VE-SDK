@@ -126,23 +126,23 @@ internal stability over hand-editing convenience.
 <h4>Illustrative example</h4>
 
 <pre><code style="font-family:nunito">{
-  "FormatVersion": 1,
-  "ProjectId": "VEP-080426152620",
-  "Meta": {
-    "Name": "Fruit Demence: Blastlicious",
-    "Version": "1.0.0",
-    "Genre": "Puzzle",
-    "Author": "VitaEngine Team"
+  "formatVersion": 1,
+  "projectId": "VEP-080426152620",
+  "meta": {
+    "name": "Fruit Demence: Blastlicious",
+    "version": "1.0.0",
+    "genre": "Puzzle",
+    "author": "VitaEngine Team"
   },
-  "System": {
-    "Entry": "./Scripts/Main.lua",
-    "AppMode": 0,
-    "Profiles": {
-      "Debug": {
-        "TitleId": null
+  "system": {
+    "entry": "./Scripts/Main.lua",
+    "appMode": 0,
+    "profiles": {
+      "debug": {
+        "titleId": null
       },
-      "Release": {
-        "TitleId": null
+      "release": {
+        "titleId": null
       }
     }
   }
@@ -182,11 +182,11 @@ Examples of fields with potentially stronger implications may include:
 <br>
 <br>
 <ul>
-  <li><b>FormatVersion</b></li>
-  <li><b>ProjectId</b></li>
-  <li><b>System.Entry</b></li>
-  <li><b>System.AppMode</b></li>
-  <li><b>System.Profiles</b></li>
+  <li><b>formatVersion</b></li>
+  <li><b>projectId</b></li>
+  <li><b>system.entry</b></li>
+  <li><b>system.appMode</b></li>
+  <li><b>system.profiles</b></li>
 </ul>
 <br>
 Changes to fields of this kind may require revalidation, cache invalidation, or
@@ -352,9 +352,9 @@ A current example of this idea includes values such as:
 <br>
 <br>
 <ul>
-  <li><b>AppChecksum</b></li>
-  <li><b>CriticalConfigChecksum</b></li>
-  <li><b>LastValidatedUtc</b></li>
+  <li><b>appChecksum</b></li>
+  <li><b>criticalConfigChecksum</b></li>
+  <li><b>lastValidatedUtc</b></li>
 </ul>
 <br>
 This file is intended to help the IDE detect situations such as:
@@ -376,9 +376,9 @@ consistency validation and more reliable workspace management.
 <h4>Illustrative example</h4>
 
 <pre><code style="font-family:nunito">{
-  "AppChecksum": "7A31C8F2",
-  "CriticalConfigChecksum": "A91F22BC",
-  "LastValidatedUtc": "2026-04-13T18:22:00Z"
+  "appChecksum": "7A31C8F2",
+  "criticalConfigChecksum": "A91F22BC",
+  "lastValidatedUtc": "2026-04-13T18:22:00Z"
 }</code></pre>
 
 <br>
@@ -426,10 +426,10 @@ A current example includes information such as:
 <br>
 <br>
 <ul>
-  <li><b>Path</b></li>
-  <li><b>Type</b></li>
-  <li><b>Size</b></li>
-  <li><b>LastWriteTimeUtc</b></li>
+  <li><b>path</b></li>
+  <li><b>type</b></li>
+  <li><b>size</b></li>
+  <li><b>lastWriteTimeUtc</b></li>
 </ul>
 <br>
 Its role is not to redefine what assets exist, but to help the IDE perform tasks
@@ -456,10 +456,10 @@ canonical definition of the project’s contents.
   "FormatVersion": 1,
   "Assets": [
     {
-      "Path": "Assets/Images/Logo.png",
-      "Type": 0,
-      "Size": 48231,
-      "LastWriteTimeUtc": "2026-04-13T18:45:12Z"
+      "path": "Assets/Images/Logo.png",
+      "type": 0,
+      "size": 48231,
+      "lastWriteTimeUtc": "2026-04-13T18:45:12Z"
     }
   ]
 }</code></pre>
@@ -516,9 +516,9 @@ A current example includes sections such as:
 <br>
 <br>
 <ul>
-  <li><b>Session</b></li>
-  <li><b>Layout</b></li>
-  <li><b>Explorer</b></li>
+  <li><b>session</b></li>
+  <li><b>layout</b></li>
+  <li><b>explorer</b></li>
 </ul>
 <br>
 This file may contain information such as:
@@ -542,23 +542,23 @@ project itself.
 <h4>Illustrative example</h4>
 
 <pre><code style="font-family:nunito">{
-  "FormatVersion": 1,
-  "Session": {
-    "LastOpenedScript": "./Scripts/Main.lua",
-    "LastProfile": "Debug",
-    "LastRunTarget": "Companion"
+  "formatVersion": 1,
+  "session": {
+    "lastOpenedScript": "./Scripts/Main.lua",
+    "lastProfile": "Debug",
+    "lastRunTarget": "Companion"
   },
-  "Layout": {
-    "LeftPanelWidth": 280,
-    "RightPanelWidth": 320,
-    "BottomPanelHeight": 220
+  "layout": {
+    "leftPanelWidth": 280,
+    "rightPanelWidth": 320,
+    "bottomPanelHeight": 220
   },
-  "Explorer": {
-    "ExpandedFolders": [
+  "explorer": {
+    "expandedFolders": [
       "./Scripts",
       "./Assets/Images"
     ],
-    "SelectedPath": "./Scripts/Main.lua"
+    "selectedPath": "./Scripts/Main.lua"
   }
 }</code></pre>
 
