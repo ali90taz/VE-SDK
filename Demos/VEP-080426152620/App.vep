@@ -8,7 +8,7 @@
     "author": "VitaEngine Team"
   },
   "system": {
-    "entryScript": "./Scripts/Main.lua",
+    "entryPoint": "./Scripts/Main.lua",
     "appMode": 0
   },
   "profiles": {
