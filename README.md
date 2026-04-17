@@ -227,7 +227,7 @@ choice instead.
 > **⚠️ Additional note for this branch: setup routines, file layout and helper shortcuts may change more frequently in <b>dev</b> than in other branches.**
 
 > **✅ Current Install.zip file signature (SHA-256, may change more frequently in dev):  
-> D600A528A1A6B118B1B4D76E8B611F3A315DF87D85F0CE629CC0D933E6C4DD80**
+> 42478EB9BF4360AC56E81D4E5345BE152B54101AA49D90675AA0D600F7DE9A3D**
 
 <h4 align="left">
 <em>Installation file: 
