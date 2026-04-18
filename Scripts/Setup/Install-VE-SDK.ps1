@@ -67,6 +67,7 @@ $Global:installFlag = $false
 $Global:uninstallFlag = $false
 $Global:repairFlag = $false
 $Global:exitFlag = $true
+$Global:devChannel = $true
 
 # Messages
 $welcomeMessage = "This script will guide you through the configuration process to install or`n" +
@@ -925,19 +926,22 @@ if ($Global:installFlag) {
 
         wait 5000
 
-        printText -t ("`nOpening the VitaEngine for testing purposes,`n" +
-                      "after successful opening, please close the VitaEngine window" +
-                      " to terminate setup.") -fc yellow -ta "Blink" -fs "b"
-        wait 2000
+        if ($Global:devChannel -eq $false) {
+        
+            printText -t ("`nOpening the VitaEngine for testing purposes,`n" +
+                          "after successful opening, please close the VitaEngine window" +
+                          " to terminate setup.") -fc yellow -ta "Blink" -fs "b"
+            wait 2000
 
-        if (Test-Path $vitaEngineIdeDest) {
-            openVitaEngine -workingDir $vitaEngineIdeDest
-        } else {
-            printText -t "`nWARNING: IDE folder not found, skipping runtime test." -fc yellow -fs "b"
+            if (Test-Path $vitaEngineIdeDest) {
+                openVitaEngine -workingDir $vitaEngineIdeDest
+            } else {
+                printText -t "`nWARNING: IDE folder not found, skipping runtime test." -fc yellow -fs "b"
+            }
+
+            Clear-Host
+            wait 3000
         }
-
-        Clear-Host
-        wait 3000
 
         if ($Global:repairFlag) {
             printText -t ("`nThe VitaEngine SDK installation has been repaired successfully,`nclose the utility and check if the problem is fixed.`n") -fc green
