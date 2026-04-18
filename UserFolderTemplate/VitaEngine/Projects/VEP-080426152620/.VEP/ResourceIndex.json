@@ -1,8 +1,10 @@
 {
   "formatVersion": 1,
-  "assets": [
+  "nextResourceHexId": "000002",
+  "resources": [
     {
-      "path": "Assets/Images/Logo.png",
+      "resourceId": "RID-000001",
+      "path": "Resources/Images/Logo.png",
       "type": 0,
       "size": 48231,
       "lastWriteTimeUtc": "2026-04-13T18:45:12Z"

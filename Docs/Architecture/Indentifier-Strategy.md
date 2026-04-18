@@ -7,22 +7,24 @@ Identifier Strategy in VitaEngine
 </h2>
 
 <h4 align="left">
-In <b>VitaEngine</b>, identifiers are intended to follow a <b>two-layer model</b> 
+In <b>VitaEngine</b>, identifiers are intended to follow a <b>multi-layer model</b>
 with clearly separated responsibilities.
 <br>
 <br>
-Rather than relying on a single identifier for every purpose, the long-term 
+Rather than relying on a single identifier for every purpose, the current
 direction is to distinguish between:
 <br>
 <br>
 <ul>
+  <li><b>Project registration context</b>, used by the workspace to recognize projects</li>
   <li><b>Project identifiers</b>, used by the desktop IDE and local project structure</li>
+  <li><b>Resource identifiers</b>, used by project-scoped resource registration</li>
   <li><b>Title identifiers</b>, used by Vita-facing packaging, installation and deployment workflows</li>
 </ul>
 <br>
-This distinction exists to preserve flexibility inside the VitaEngine workflow, 
-avoid unnecessary coupling between internal project organization and Vita package 
-constraints, and allow the same project to generate multiple installable variants 
+This distinction exists to preserve flexibility inside the VitaEngine workflow,
+avoid unnecessary coupling between internal project organization and Vita package
+constraints, and allow the same project to generate multiple installable variants
 when needed.
 <br>
 <br>
@@ -33,21 +35,21 @@ when needed.
 <h3>Implementation status disclaimer</h3>
 
 <h4 align="left">
-This document describes the <b>intended long-term identifier model</b> for 
+This document describes the <b>intended identifier model</b> for
 <b>VitaEngine</b>.
 <br>
 <br>
-It should be understood as an <b>architectural direction</b> and a 
-<b>long-term execution plan</b>, not as a guarantee that every part of this 
-model is already fully implemented in the current state of the project.
+It should be understood as a <b>structural direction</b> and a
+<b>workspace-oriented architecture model</b>, not as a guarantee that every part
+of this model is already fully implemented in the current state of the project.
 <br>
 <br>
-Some aspects described here may still be planned, partial, or subject to 
+Some aspects described here may still be planned, partial, or subject to
 evolution as the platform matures.
 <br>
 <br>
-Its purpose is to document the <b>intended structure</b>, preserve consistency in 
-future implementation decisions, and make the design philosophy explicit as the 
+Its purpose is to document the <b>intended structure</b>, preserve consistency in
+future implementation decisions, and make the design philosophy explicit as the
 ecosystem grows.
 <br>
 <br>
@@ -58,28 +60,64 @@ ecosystem grows.
 <h3>Core distinction</h3>
 
 <h4 align="left">
-VitaEngine identifiers are intended to be separated into two distinct categories:
+VitaEngine identifiers are intended to be separated into three practical layers:
 <br>
 <br>
 <ul>
-  <li><b>Project ID</b>, which identifies a VitaEngine project inside the IDE and local filesystem</li>
+  <li><b>Project ID</b>, which identifies a VitaEngine project inside the IDE and local workspace structure</li>
+  <li><b>Resource ID</b>, which identifies a registered project resource inside the project workspace</li>
   <li><b>Title ID</b>, which identifies a Vita-facing packaged application for build, deploy and installation contexts</li>
 </ul>
 <br>
-These identifiers <b>do not serve the same purpose</b> and are not expected to 
+These identifiers <b>do not serve the same purpose</b> and are not expected to
 follow the same lifecycle or the same formatting rules.
 <br>
 <br>
-The <b>Project ID</b> belongs to the <b>desktop-side project identity model</b>, 
-while the <b>Title ID</b> belongs to the <b>device-facing package identity model</b>.
+The <b>Project ID</b> belongs to the <b>desktop-side project identity model</b>.
 <br>
 <br>
-Most importantly, the <b>Project ID should not imply or permanently define the 
+The <b>Resource ID</b> belongs to the <b>project-scoped resource identity model</b>.
+<br>
+<br>
+The <b>Title ID</b> belongs to the <b>device-facing package identity model</b>.
+<br>
+<br>
+Most importantly, the <b>Project ID should not imply or permanently define the
 final application identity</b>.
 <br>
 <br>
-A single project may produce multiple Vita-facing outputs over time, and each one 
+A single project may produce multiple Vita-facing outputs over time, and each one
 may legitimately require a different Title ID depending on the intended workflow.
+<br>
+<br>
+</h4>
+
+---
+
+<h3>Workspace registration context</h3>
+
+<h4 align="left">
+Project presence in the filesystem and project recognition by the VitaEngine
+workspace are intentionally not treated as the same thing.
+<br>
+<br>
+A project folder may physically exist under the workspace root, but it is only
+considered part of the active VitaEngine environment after it has been
+<b>registered</b>.
+<br>
+<br>
+This registration is intended to be represented by the workspace index:
+<br>
+<br>
+<i>Documents/VitaEngine/.VE/ProjectsIndex.json</i>
+<br>
+<br>
+This means that the launcher is expected to list <b>registered projects</b>, not
+simply every folder that happens to exist under the projects directory.
+<br>
+<br>
+This distinction is an important part of preserving a more curated and coherent
+workspace model.
 <br>
 <br>
 </h4>
@@ -89,7 +127,7 @@ may legitimately require a different Title ID depending on the intended workflow
 <h3>Project ID</h3>
 
 <h4 align="left">
-The <b>Project ID</b> is intended to be the main internal identity of a project 
+The <b>Project ID</b> is intended to be the main internal identity of a project
 inside the VitaEngine IDE.
 <br>
 <br>
@@ -98,14 +136,15 @@ Its purpose is to provide a stable, unique and IDE-oriented identifier for:
 <br>
 <ul>
   <li>Project folder naming</li>
+  <li>Workspace registration records</li>
   <li>Recent project records</li>
   <li>Internal project lookup</li>
   <li>Persistent IDE-side references</li>
   <li>General project organization on the desktop side</li>
 </ul>
 <br>
-A Project ID is expected to remain <b>stable</b> for the lifetime of the project 
-and independent from the current Windows username or absolute machine-specific 
+A Project ID is expected to remain <b>stable</b> for the lifetime of the project
+and independent from the current Windows username or absolute machine-specific
 paths.
 <br>
 <br>
@@ -116,7 +155,7 @@ paths.
 <h3>Recommended Project ID format</h3>
 
 <h4 align="left">
-The current preferred direction is to use a format based on a <b>prefix</b> plus 
+The current preferred direction is to use a format based on a <b>prefix</b> plus
 a <b>timestamp-derived numeric sequence</b>.
 <br>
 <br>
@@ -136,16 +175,16 @@ This format is intended to provide:
   <li>Better robustness than short sequential values such as <b>0001</b></li>
 </ul>
 <br>
-Using a timestamp-derived identifier avoids many of the weaknesses normally 
-associated with short incremental IDs, especially in environments where project 
+Using a timestamp-derived identifier avoids many of the weaknesses normally
+associated with short incremental IDs, especially in environments where project
 state may be reset, moved or reconstructed later.
 <br>
 <br>
-The <b>VEP</b> prefix is intended to align the identifier with the 
+The <b>VEP</b> prefix is intended to align the identifier with the
 <b>VitaEngine project model</b> rather than with the final packaged application.
 <br>
 <br>
-This reinforces that the Project ID belongs to the IDE-side project structure, 
+This reinforces that the Project ID belongs to the IDE-side project structure,
 while the Title ID belongs to the Vita-facing output layer.
 <br>
 <br>
@@ -172,8 +211,8 @@ may appear simple, but it introduces several structural weaknesses:
   <li>It creates unnecessary dependence on previous creation history</li>
 </ul>
 <br>
-For a platform like VitaEngine, where projects are expected to be persistent and 
-architecturally distinct, a timestamp-derived Project ID is considered a much 
+For a platform like VitaEngine, where projects are expected to be persistent and
+architecturally distinct, a timestamp-derived Project ID is considered a much
 better fit.
 <br>
 <br>
@@ -184,11 +223,11 @@ better fit.
 <h3>Project ID and local project structure</h3>
 
 <h4 align="left">
-The Project ID is intended to be part of the local project structure managed by 
+The Project ID is intended to be part of the local project structure managed by
 the IDE.
 <br>
 <br>
-A typical long-term structure may look like:
+A typical structure may look like:
 <br>
 <br>
 <i>Documents/VitaEngine/Projects/VEP-080426152620/</i>
@@ -200,7 +239,7 @@ with the project file stored inside that directory, for example:
 <i>Documents/VitaEngine/Projects/VEP-080426152620/App.vep</i>
 <br>
 <br>
-Because of that, the IDE does not need to persist absolute paths containing the 
+Because of that, the IDE does not need to persist absolute paths containing the
 current system username as part of the long-term project identity model.
 <br>
 <br>
@@ -208,12 +247,13 @@ Instead, the project can be resolved by combining:
 <br>
 <br>
 <ul>
-  <li>The known VitaEngine projects root</li>
+  <li>The known VitaEngine workspace root</li>
   <li>The stored Project ID</li>
+  <li>The registered project path from <b>ProjectsIndex.json</b></li>
   <li>The expected internal project file structure</li>
 </ul>
 <br>
-This keeps the project model cleaner, more portable and less dependent on 
+This keeps the project model cleaner, more portable and less dependent on
 machine-specific path details.
 <br>
 <br>
@@ -224,25 +264,130 @@ machine-specific path details.
 <h3>Recent project records</h3>
 
 <h4 align="left">
-Because the Project ID is intended to be stable and unique, recent project 
-records do not need to store a full absolute path.
+Because the Project ID is intended to be stable and unique, recent project
+records do not need to act as the authoritative project registry.
 <br>
 <br>
-A cleaner long-term approach is to persist only project-oriented metadata, such as:
+A cleaner long-term approach is to keep:
 <br>
 <br>
 <ul>
-  <li><b>id</b></li>
+  <li><b>ProjectsIndex.json</b> as the authoritative workspace registry</li>
+  <li><b>RecentProjects.json</b> as a lightweight convenience layer</li>
+</ul>
+<br>
+A recent-project record may persist only project-oriented metadata, such as:
+<br>
+<br>
+<ul>
+  <li><b>projectId</b></li>
   <li><b>name</b></li>
   <li><b>lastOpened</b> (optional)</li>
 </ul>
 <br>
-The full project location can then be reconstructed by the IDE using the known 
-project root and the project folder convention.
+This keeps recent-project data lighter, cleaner and less coupled to a specific
+machine environment while preserving a clear distinction between:
 <br>
 <br>
-This keeps recent-project data lighter, cleaner and less coupled to a specific 
-machine environment.
+<ul>
+  <li><b>project membership in the workspace</b></li>
+  <li><b>launcher convenience and recency information</b></li>
+</ul>
+<br>
+</h4>
+
+---
+
+<h3>Resource ID (RID)</h3>
+
+<h4 align="left">
+A <b>Resource ID</b> is intended to be the stable identity of a registered
+resource inside a VitaEngine project.
+<br>
+<br>
+Its role is to allow the IDE and future tooling to reference resources by
+<b>identity</b> rather than by filesystem path alone.
+<br>
+<br>
+This distinction is especially useful for workflows such as:
+<br>
+<br>
+<ul>
+  <li>Resource import and registration</li>
+  <li>Resource browsing and manipulation inside the IDE</li>
+  <li>Future hot reload or live sync flows</li>
+  <li>Safer internal references when paths change</li>
+</ul>
+<br>
+A resource may move or be renamed physically while still preserving its logical
+identity inside the project.
+<br>
+<br>
+</h4>
+
+---
+
+<h3>Recommended Resource ID format</h3>
+
+<h4 align="left">
+The current preferred direction is:
+<br>
+<br>
+<b>RID-XXXXXX</b>
+<br>
+<br>
+where:
+<br>
+<br>
+<ul>
+  <li><b>RID</b> means <b>Resource ID</b></li>
+  <li><b>XXXXXX</b> is a six-digit uppercase hexadecimal sequence</li>
+</ul>
+<br>
+Examples:
+<br>
+<br>
+<ul>
+  <li><b>RID-000001</b></li>
+  <li><b>RID-00000A</b></li>
+  <li><b>RID-00A3F2</b></li>
+</ul>
+<br>
+This format is intended to provide:
+<br>
+<br>
+<ul>
+  <li>Simple and compact internal identifiers</li>
+  <li>Very large per-project capacity</li>
+  <li>Clean readability in JSON, logs and internal tooling</li>
+  <li>A stable identity model without embedding resource type into the prefix</li>
+</ul>
+<br>
+The resource <b>type</b> should be represented by metadata, not by the ID prefix.
+<br>
+<br>
+</h4>
+
+---
+
+<h3>Resource ID lifecycle</h3>
+
+<h4 align="left">
+A Resource ID is intended to be assigned when a file is <b>imported</b> into the
+project through the official VitaEngine workflow.
+<br>
+<br>
+In other words:
+<br>
+<br>
+<ul>
+  <li>A file that exists physically is not automatically treated as a registered resource</li>
+  <li>A file becomes a VitaEngine resource when it is imported and recorded by the IDE</li>
+  <li>At that moment, it receives a stable <b>RID</b></li>
+</ul>
+<br>
+This mirrors the broader VitaEngine principle that <b>physical presence and
+logical registration are intentionally distinct concepts</b>.
 <br>
 <br>
 </h4>
@@ -255,7 +400,7 @@ machine environment.
 The <b>Title ID</b> serves a different role.
 <br>
 <br>
-It is intended to identify the packaged application in Vita-facing workflows, 
+It is intended to identify the packaged application in Vita-facing workflows,
 such as:
 <br>
 <br>
@@ -266,15 +411,15 @@ such as:
   <li>Deployment and replacement behavior</li>
 </ul>
 <br>
-Unlike the Project ID, the Title ID is expected to follow the constraints of the 
+Unlike the Project ID, the Title ID is expected to follow the constraints of the
 target packaging and installation model.
 <br>
 <br>
-Because of that, it should not be treated as the main internal identity of the 
+Because of that, it should not be treated as the main internal identity of the
 project inside the IDE.
 <br>
 <br>
-A Title ID is better understood as an <b>output-scoped identity</b>, not as the 
+A Title ID is better understood as an <b>output-scoped identity</b>, not as the
 canonical identity of the project itself.
 <br>
 <br>
@@ -295,7 +440,7 @@ Keeping Project ID and Title ID separate provides several important advantages:
   <li>It keeps project identity and package identity conceptually clean</li>
 </ul>
 <br>
-This separation is one of the most important structural benefits of the current 
+This separation is one of the most important structural benefits of the current
 identifier model.
 <br>
 <br>
@@ -306,7 +451,7 @@ identifier model.
 <h3>Multiple variants from the same project</h3>
 
 <h4 align="left">
-One of the practical advantages of this model is that a single Project ID may be 
+One of the practical advantages of this model is that a single Project ID may be
 used to generate <b>multiple Title ID variants</b> over time.
 <br>
 <br>
@@ -320,11 +465,11 @@ This opens the door to workflows such as:
   <li>Package replacement choices controlled at export or deploy time</li>
 </ul>
 <br>
-In other words, the same VitaEngine project may remain structurally the same in 
+In other words, the same VitaEngine project may remain structurally the same in
 the IDE while producing different Vita-facing outputs when needed.
 <br>
 <br>
-This is considered a strong advantage of separating desktop project identity from 
+This is considered a strong advantage of separating desktop project identity from
 package identity.
 <br>
 <br>
@@ -335,11 +480,16 @@ package identity.
 <h3>Collision handling philosophy</h3>
 
 <h4 align="left">
-The current Project ID strategy is expected to make collisions extremely unlikely 
+The current Project ID strategy is expected to make collisions extremely unlikely
 during normal usage.
 <br>
 <br>
-However, collisions on the <b>Title ID</b> side may still become relevant over 
+The current Resource ID strategy is also expected to make collisions effectively
+irrelevant in normal usage, since <b>RID-XXXXXX</b> provides a large per-project
+identifier space.
+<br>
+<br>
+However, collisions on the <b>Title ID</b> side may still become relevant over
 time, especially when multiple package variants are possible.
 <br>
 <br>
@@ -353,7 +503,7 @@ In such cases, a reasonable long-term workflow may include:
   <li>Allowing the user to generate or assign a different Title ID</li>
 </ul>
 <br>
-This approach keeps the system explicit and avoids hiding potentially destructive 
+This approach keeps the system explicit and avoids hiding potentially destructive
 deployment behavior behind silent automatic replacement.
 <br>
 <br>
@@ -364,7 +514,7 @@ deployment behavior behind silent automatic replacement.
 <h3>Path independence and machine neutrality</h3>
 
 <h4 align="left">
-Another important principle behind this design is that project records should not 
+Another important principle behind this design is that project records should not
 be tightly bound to a specific machine username such as:
 <br>
 <br>
@@ -375,12 +525,13 @@ Whenever possible, project identity should be resolved through:
 <br>
 <br>
 <ul>
-  <li>A known VitaEngine root path determined by the IDE</li>
+  <li>A known VitaEngine workspace root determined by the IDE</li>
   <li>A stable Project ID</li>
   <li>A predictable folder and file naming convention</li>
+  <li>A registered project record in <b>ProjectsIndex.json</b></li>
 </ul>
 <br>
-This reduces unnecessary dependence on environment-specific details and keeps the 
+This reduces unnecessary dependence on environment-specific details and keeps the
 project model cleaner.
 <br>
 <br>
@@ -391,24 +542,29 @@ project model cleaner.
 <h3>Design philosophy</h3>
 
 <h4 align="left">
-The long-term identifier philosophy of VitaEngine is based on a simple principle:
+The identifier philosophy of VitaEngine is based on a simple principle:
 <br>
 <br>
-<b>project identity and package identity should not be treated as the same thing.</b>
+<b>workspace registration, project identity, resource identity and package
+identity should not be collapsed into the same layer.</b>
 <br>
 <br>
 The desktop IDE needs an identifier that is stable, robust and project-oriented.
 <br>
 <br>
-The Vita-facing packaging workflow needs an identifier that is compatible with 
+The resource model needs identifiers that remain stable even when physical paths
+change.
+<br>
+<br>
+The Vita-facing packaging workflow needs an identifier that is compatible with
 installation and deployment constraints.
 <br>
 <br>
-Trying to force both concerns into a single identifier would make the system more 
-fragile, more restrictive and less flexible over time.
+Trying to force all of these concerns into a single identifier model would make
+the system more fragile, more restrictive and less flexible over time.
 <br>
 <br>
-By separating them, VitaEngine preserves a healthier and more scalable 
+By separating them, VitaEngine preserves a healthier and more scalable
 architectural model.
 <br>
 <br>
@@ -419,19 +575,21 @@ architectural model.
 <h3>Implementation direction</h3>
 
 <h4 align="left">
-The current long-term direction can be summarized as:
+The current intended direction can be summarized as:
 <br>
 <br>
 <ul>
+  <li><b>ProjectsIndex.json</b> defines which projects belong to the active workspace</li>
   <li><b>Project ID</b> is the stable identity of a VitaEngine project inside the IDE</li>
   <li><b>Project ID</b> is expected to follow the <b>VEP-*</b> format</li>
+  <li><b>Resource ID</b> is the stable identity of a registered project resource</li>
+  <li><b>Resource ID</b> is expected to follow the <b>RID-XXXXXX</b> format</li>
   <li><b>Title ID</b> is the installable and package-facing identity used for Vita output workflows</li>
   <li><b>Title ID</b> should remain independent from the canonical project identity</li>
-  <li>Recent project records should prefer project-oriented metadata over absolute paths</li>
-  <li>The local project structure should be derived from known folder conventions whenever possible</li>
+  <li><b>RecentProjects.json</b> may exist as a secondary convenience layer, but should not replace the workspace registry</li>
 </ul>
 <br>
-This model is intended to keep the VitaEngine ecosystem more flexible, more 
+This model is intended to keep the VitaEngine ecosystem more flexible, more
 coherent and easier to evolve over time.
 <br>
 <br>
@@ -442,7 +600,7 @@ coherent and easier to evolve over time.
 <h3>Final note</h3>
 
 <h4 align="left">
-The identifier model of VitaEngine is not intended to be a purely cosmetic naming 
+The identifier model of VitaEngine is not intended to be a purely cosmetic naming
 choice.
 <br>
 <br>
@@ -452,11 +610,12 @@ It is a structural decision meant to support:
 <ul>
   <li>Clearer project organization</li>
   <li>Safer long-term persistence of project references</li>
+  <li>Stable resource identity inside the IDE</li>
   <li>Greater flexibility in packaging and deployment workflows</li>
-  <li>A healthier separation between IDE-side identity and Vita-facing identity</li>
+  <li>A healthier separation between workspace registration, IDE-side identity and Vita-facing identity</li>
 </ul>
 <br>
-If maintained consistently, this distinction should help VitaEngine remain more 
+If maintained consistently, this distinction should help VitaEngine remain more
 predictable, more maintainable and more adaptable as the platform grows.
 <br>
 <br>

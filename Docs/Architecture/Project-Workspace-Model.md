@@ -7,19 +7,21 @@ Project Workspace Model in VitaEngine
 </h2>
 
 <h4 align="left">
-In <b>VitaEngine</b>, a project is intended to be represented by a small set of
-clearly separated layers, each one with a different responsibility.
+In <b>VitaEngine</b>, the project model is intended to be represented by a small
+set of clearly separated layers, each one with a different responsibility.
 <br>
 <br>
 Rather than concentrating all project-related data into a single file or mixing
-cache, configuration and project definition together, the long-term direction is
-to distinguish between:
+project definition, project contents, per-project workspace data and global
+workspace state together, the current direction is to distinguish between:
 <br>
 <br>
 <ul>
+  <li><b>The workspace root</b>, represented by <b>Documents/VitaEngine/</b></li>
+  <li><b>The global workspace layer</b>, represented by the hidden <b>.VE/</b> directory</li>
   <li><b>The project contract</b>, represented by <b>App.vep</b></li>
-  <li><b>The real project contents</b>, such as <b>Scripts</b> and <b>Assets</b></li>
-  <li><b>The internal IDE workspace</b>, represented by the hidden <b>.VEP/</b> directory</li>
+  <li><b>The real project contents</b>, such as <b>Scripts</b> and <b>Resources</b></li>
+  <li><b>The internal project workspace</b>, represented by the hidden <b>.VEP/</b> directory</li>
 </ul>
 <br>
 This separation is intended to keep the project model cleaner, reduce structural
@@ -34,13 +36,13 @@ data, and make the ecosystem easier to evolve over time.
 <h3>Implementation status disclaimer</h3>
 
 <h4 align="left">
-This document describes the <b>intended long-term workspace model</b> for
+This document describes the <b>intended workspace model</b> for
 <b>VitaEngine</b>.
 <br>
 <br>
-It should be understood as an <b>architectural direction</b> and a
-<b>long-term execution plan</b>, not as a guarantee that every part of this
-model is already fully implemented in the current state of the project.
+It should be understood as a <b>structural direction</b> and a
+<b>workspace-oriented architecture model</b>, not as a guarantee that every part
+of this model is already fully implemented in the current state of the project.
 <br>
 <br>
 Some aspects described here may still be planned, partial, or subject to
@@ -56,33 +58,143 @@ more consistent way.
 
 ---
 
-<h3>Core model</h3>
+<h3>Workspace root</h3>
 
 <h4 align="left">
-The current intended VitaEngine project model is based on three distinct layers:
+The intended root of the VitaEngine desktop workspace is:
+<br>
+<br>
+<i>Documents/VitaEngine/</i>
+<br>
+<br>
+This directory is intended to act as the official environment root for the local
+VitaEngine workflow.
+<br>
+<br>
+A typical structure may include:
 <br>
 <br>
 <ul>
-  <li><b>App.vep</b>, which defines the project itself</li>
-  <li><b>Project folders</b>, which contain the actual user content</li>
-  <li><b>.VEP/</b>, which stores IDE-managed internal workspace data</li>
+  <li><b>.VE/</b> for global workspace state</li>
+  <li><b>Projects/</b> for project folders</li>
+  <li>Other future workspace-level directories such as imports, exports or templates</li>
 </ul>
 <br>
-These layers are <b>not interchangeable</b> and are not intended to carry the
-same level of responsibility.
+This root is not just a convenience folder. It is intended to be the
+<b>canonical desktop-side workspace boundary</b> for VitaEngine.
 <br>
 <br>
-At a high level:
+</h4>
+
+---
+
+<h3>The global workspace layer (.VE)</h3>
+
+<h4 align="left">
+The hidden <b>.VE/</b> directory is intended to act as the <b>global workspace
+layer</b> of VitaEngine.
+<br>
+<br>
+Its role is to store engine-owned data that belongs to the workspace as a whole,
+not to any single project.
+<br>
+<br>
+The first important example of this layer is:
 <br>
 <br>
 <ul>
-  <li><b>App.vep</b> is authoritative</li>
-  <li><b>Scripts</b> and <b>Assets</b> are the real project contents</li>
-  <li><b>.VEP/</b> is operational, auxiliary and rebuildable</li>
+  <li><b>ProjectsIndex.json</b></li>
 </ul>
 <br>
-This distinction is considered one of the most important structural principles of
-the project workspace model.
+This distinction is important because it creates a clear separation between:
+<br>
+<br>
+<ul>
+  <li>Global workspace state</li>
+  <li>Per-project state</li>
+  <li>Project definition</li>
+</ul>
+<br>
+</h4>
+
+---
+
+<h3>ProjectsIndex.json</h3>
+
+<h4 align="left">
+<b>ProjectsIndex.json</b> is intended to be the <b>authoritative project registry</b>
+for the VitaEngine launcher.
+<br>
+<br>
+Its role is to represent which projects belong to the active VitaEngine
+workspace.
+<br>
+<br>
+A current example includes information such as:
+<br>
+<br>
+<ul>
+  <li><b>projectId</b></li>
+  <li><b>path</b> (relative to the workspace root)</li>
+  <li><b>registeredAtUtc</b></li>
+  <li><b>lastOpenedUtc</b> (optional)</li>
+</ul>
+<br>
+This file should be understood as the <b>source of truth</b> for project listing
+inside the launcher.
+<br>
+<br>
+</h4>
+
+<h4>Illustrative example</h4>
+
+<pre><code style="font-family:nunito">{
+  "formatVersion": 1,
+  "projects": [
+    {
+      "projectId": "VEP-080426152620",
+      "path": "./Projects/VEP-080426152620",
+      "registeredAtUtc": "2026-04-17T12:00:00Z",
+      "lastOpenedUtc": "2026-04-17T12:15:00Z"
+    }
+  ]
+}</code></pre>
+
+<br>
+
+---
+
+<h3>Registration vs physical presence</h3>
+
+<h4 align="left">
+In VitaEngine, project presence in the filesystem and project recognition by the
+workspace are intentionally not treated as the same thing.
+<br>
+<br>
+A project folder may physically exist under:
+<br>
+<br>
+<i>Documents/VitaEngine/Projects/</i>
+<br>
+<br>
+but it is only considered part of the active VitaEngine environment after it has
+been <b>registered</b> in:
+<br>
+<br>
+<i>Documents/VitaEngine/.VE/ProjectsIndex.json</i>
+<br>
+<br>
+This means:
+<br>
+<br>
+<ul>
+  <li>A folder may exist physically and still not appear in the launcher</li>
+  <li>The launcher is expected to list <b>registered projects</b>, not simply every folder present on disk</li>
+  <li>Project creation and project import are expected to be the official ways a project enters the workspace</li>
+</ul>
+<br>
+This is considered an intentional part of preserving a more curated and coherent
+workspace model.
 <br>
 <br>
 </h4>
@@ -206,34 +318,32 @@ folders, such as:
 <br>
 <ul>
   <li><b>Scripts/</b></li>
-  <li><b>Assets/</b></li>
+  <li><b>Resources/</b></li>
   <li>Other future project directories as needed</li>
 </ul>
 <br>
-These directories are intended to be the <b>real source of truth</b> for project
-content.
+These directories are intended to be the <b>real project contents</b>.
 <br>
 <br>
-In practical terms:
+However, VitaEngine intentionally distinguishes between:
 <br>
 <br>
 <ul>
-  <li>The project scripts exist because they are present in <b>Scripts/</b></li>
-  <li>The project assets exist because they are present in <b>Assets/</b></li>
+  <li>Physical files that exist in the project tree</li>
+  <li>Resources that have been officially imported and registered by the IDE</li>
 </ul>
 <br>
-The IDE may index, classify, cache or interpret those files, but the filesystem
-itself remains the authoritative location for the project contents.
+This distinction is especially relevant for the resource workflow.
 <br>
 <br>
 </h4>
 
 ---
 
-<h3>Why assets should not be primarily defined in App.vep</h3>
+<h3>Why resources should not be primarily defined in App.vep</h3>
 
 <h4 align="left">
-Although the IDE may maintain auxiliary information about assets, the long-term
+Although the IDE may maintain auxiliary information about resources, the current
 direction is that App.vep should <b>not become the canonical inventory of project
 files</b>.
 <br>
@@ -251,19 +361,19 @@ issues, and make the project model harder to maintain.
 <br>
 <br>
 Instead, project content should continue to be resolved from the actual folder
-structure, while auxiliary asset-related information may be stored separately in
-IDE-managed workspace data.
+structure, while resource-related registration and indexing should be handled
+separately in IDE-managed workspace data.
 <br>
 <br>
 </h4>
 
 ---
 
-<h3>The .VEP workspace</h3>
+<h3>The .VEP project workspace</h3>
 
 <h4 align="left">
-The hidden <b>.VEP/</b> directory is intended to act as the <b>internal workspace
-layer</b> of a VitaEngine project.
+The hidden <b>.VEP/</b> directory is intended to act as the <b>internal
+project workspace layer</b> of a VitaEngine project.
 <br>
 <br>
 Its purpose is to store data managed by the IDE itself, such as:
@@ -271,7 +381,7 @@ Its purpose is to store data managed by the IDE itself, such as:
 <br>
 <ul>
   <li>Checksums or integrity information</li>
-  <li>Asset indexes</li>
+  <li>Resource indexes</li>
   <li>Per-project IDE state</li>
   <li>Other future cache or workspace-related files</li>
 </ul>
@@ -282,7 +392,7 @@ This directory is intended to be:
 <ul>
   <li><b>important for IDE operation</b></li>
   <li><b>not authoritative for project definition</b></li>
-  <li><b>safe to rebuild</b></li>
+  <li><b>rebuildable</b></li>
   <li><b>not intended for manual editing</b></li>
 </ul>
 <br>
@@ -294,24 +404,28 @@ single point of failure for project validity.
 
 <h4>Illustrative structure</h4>
 
-<pre><code style="font-family:nunito">MyProject/
-├── App.vep
-├── Scripts/
-├── Assets/
-└── .VEP/
-    ├── Integrity.json
-    ├── AssetIndex.json
-    └── ProjectState.json</code></pre>
+<pre><code style="font-family:nunito">Documents/VitaEngine/
+├── .VE/
+│   └── ProjectsIndex.json
+└── Projects/
+    └── VEP-080426152620/
+        ├── App.vep
+        ├── Scripts/
+        ├── Resources/
+        └── .VEP/
+            ├── Integrity.json
+            ├── ResourceIndex.json
+            └── ProjectState.json</code></pre>
 
 <br>
 
 ---
 
-<h3>Why .VEP should remain disposable</h3>
+<h3>Why .VEP should remain rebuildable</h3>
 
 <h4 align="left">
 One of the core design intentions behind <b>.VEP/</b> is that it should remain
-<b>disposable and self-healing</b>.
+<b>rebuildable and self-healing</b>.
 <br>
 <br>
 If the directory is deleted, partially lost or invalidated, the IDE should be
@@ -323,7 +437,7 @@ This design is intended to provide several advantages:
 <br>
 <br>
 <ul>
-  <li>It prevents the internal workspace from becoming a hard dependency for project validity</li>
+  <li>It prevents the internal project workspace from becoming a hard dependency for project validity</li>
   <li>It allows cache and state files to evolve more freely over time</li>
   <li>It keeps the project definition cleaner</li>
   <li>It makes repair and recovery workflows simpler</li>
@@ -415,38 +529,44 @@ as part of the internal workspace model.
 
 ---
 
-<h3>AssetIndex.json</h3>
+<h3>ResourceIndex.json</h3>
 
 <h4 align="left">
-<b>AssetIndex.json</b> is intended to provide a lightweight, IDE-managed view of
-the assets currently present in the project.
+<b>ResourceIndex.json</b> is intended to provide the <b>IDE-managed resource
+registry</b> of a project.
+<br>
+<br>
+Its role is to represent the resources that have been officially recognized by
+the VitaEngine workflow.
 <br>
 <br>
 A current example includes information such as:
 <br>
 <br>
 <ul>
+  <li><b>resourceId</b></li>
   <li><b>path</b></li>
   <li><b>type</b></li>
   <li><b>size</b></li>
   <li><b>lastWriteTimeUtc</b></li>
 </ul>
 <br>
-Its role is not to redefine what assets exist, but to help the IDE perform tasks
-such as:
+This file should not be understood as a second project manifest, but it is also
+not merely a passive cache of the raw filesystem.
+<br>
+<br>
+Instead, it acts as the <b>project-scoped registry of resources that have been
+imported and recognized by the IDE</b>.
+<br>
+<br>
+This means:
 <br>
 <br>
 <ul>
-  <li>Fast asset indexing</li>
-  <li>Lightweight change detection</li>
-  <li>Reimport or refresh decisions</li>
-  <li>Cache invalidation</li>
-  <li>Editor-side browsing support</li>
+  <li>A file may exist physically under <b>Resources/</b> and still not be considered a registered resource</li>
+  <li>A resource becomes part of the official resource model when it is imported and indexed by the IDE</li>
+  <li>The resource keeps a stable <b>RID</b> even if its physical path changes later</li>
 </ul>
-<br>
-This file should be understood as a <b>derived workspace artifact</b>, not as the
-canonical definition of the project’s contents.
-<br>
 <br>
 </h4>
 
@@ -454,9 +574,10 @@ canonical definition of the project’s contents.
 
 <pre><code style="font-family:nunito">{
   "formatVersion": 1,
-  "assets": [
+  "resources": [
     {
-      "path": "Assets/Images/Logo.png",
+      "resourceId": "RID-000001",
+      "path": "Resources/Images/Logo.png",
       "type": 0,
       "size": 48231,
       "lastWriteTimeUtc": "2026-04-13T18:45:12Z"
@@ -468,15 +589,15 @@ canonical definition of the project’s contents.
 
 ---
 
-<h3>Why asset validation should remain lightweight</h3>
+<h3>Why resource validation should remain lightweight</h3>
 
 <h4 align="left">
-The current intended direction is that asset validation should remain
+The current intended direction is that resource validation should remain
 <b>lightweight and pragmatic</b>.
 <br>
 <br>
-Rather than performing expensive deep verification on every asset every time, the
-IDE may rely primarily on inexpensive signals such as:
+Rather than performing expensive deep verification on every resource every time,
+the IDE may rely primarily on inexpensive signals such as:
 <br>
 <br>
 <ul>
@@ -498,7 +619,7 @@ This approach is intended to provide a good balance between:
 <br>
 Deeper verification may still become appropriate in specific future situations,
 but the normal workspace model is not intended to depend on heavy validation for
-every asset at all times.
+every resource at all times.
 <br>
 <br>
 </h4>
@@ -556,7 +677,7 @@ project itself.
   "explorer": {
     "expandedFolders": [
       "./Scripts",
-      "./Assets/Images"
+      "./Resources/Images"
     ],
     "selectedPath": "./Scripts/Main.lua"
   }
@@ -620,11 +741,38 @@ Its intended role is narrower:
 
 ---
 
+<h3>RecentProjects.json</h3>
+
+<h4 align="left">
+A lightweight <b>RecentProjects.json</b> may still exist as a convenience layer
+for quick access ordering and launcher UX.
+<br>
+<br>
+However, it should be understood as a <b>secondary convenience artifact</b>, not
+as the authoritative source of project membership in the workspace.
+<br>
+<br>
+In practical terms:
+<br>
+<br>
+<ul>
+  <li><b>ProjectsIndex.json</b> defines which projects belong to the active workspace</li>
+  <li><b>RecentProjects.json</b> may define recency, display ordering or convenience metadata</li>
+</ul>
+<br>
+This distinction helps keep project membership and launcher convenience concerns
+separate.
+<br>
+<br>
+</h4>
+
+---
+
 <h3>Recovery behavior</h3>
 
 <h4 align="left">
-If <b>.VEP/</b> is missing, incomplete or invalid, the intended long-term behavior
-is that VitaEngine should rebuild it automatically.
+If <b>.VEP/</b> is missing, incomplete or invalid, the intended long-term
+behavior is that VitaEngine should rebuild it automatically.
 <br>
 <br>
 A reasonable recovery flow may include:
@@ -633,16 +781,24 @@ A reasonable recovery flow may include:
 <ul>
   <li>Recreating the .VEP directory</li>
   <li>Rebuilding Integrity.json</li>
-  <li>Rebuilding AssetIndex.json</li>
+  <li>Rebuilding ResourceIndex.json</li>
   <li>Creating a default ProjectState.json</li>
-  <li>Refreshing the internal workspace as needed</li>
+  <li>Refreshing the internal project workspace as needed</li>
 </ul>
 <br>
-This is intended to make the system more resilient and reduce the operational
-weight of internal workspace data.
+Similarly, if the global workspace registry is lost or needs repair, a future
+recovery workflow may allow the workspace to:
 <br>
 <br>
-The absence of .VEP should not imply that the project itself is invalid.
+<ul>
+  <li>Scan known project locations</li>
+  <li>Validate project structure</li>
+  <li>Rebuild or repair ProjectsIndex.json</li>
+</ul>
+<br>
+This preserves the broader VitaEngine principle that <b>registration is the
+normal workflow, while scanning is a recovery path rather than the primary
+listing strategy</b>.
 <br>
 <br>
 </h4>
@@ -652,22 +808,19 @@ The absence of .VEP should not imply that the project itself is invalid.
 <h3>Design philosophy</h3>
 
 <h4 align="left">
-The long-term project workspace philosophy of VitaEngine is based on a simple
-principle:
+The project workspace philosophy of VitaEngine is based on a simple principle:
 <br>
 <br>
-<b>project definition, project contents and IDE workspace state should not be
-collapsed into the same layer.</b>
+<b>global workspace state, project definition, project contents and per-project
+IDE workspace state should not be collapsed into the same layer.</b>
 <br>
 <br>
-App.vep should remain focused on the project contract.
-<br>
-<br>
-Scripts and Assets should remain the real project contents.
-<br>
-<br>
-.VEP should remain the internal operational layer of the IDE.
-<br>
+<ul>
+  <li><b>.VE/</b> should remain the global workspace layer</li>
+  <li><b>App.vep</b> should remain the project contract</li>
+  <li><b>Scripts/</b> and <b>Resources/</b> should remain the real project contents</li>
+  <li><b>.VEP/</b> should remain the internal project workspace layer</li>
+</ul>
 <br>
 By keeping these responsibilities separate, the platform can remain cleaner, more
 maintainable and easier to evolve.
@@ -684,13 +837,17 @@ The current intended direction can be summarized as:
 <br>
 <br>
 <ul>
+  <li><b>Documents/VitaEngine/</b> is the canonical desktop workspace root</li>
+  <li><b>.VE/</b> is the global workspace layer</li>
+  <li><b>ProjectsIndex.json</b> is the authoritative project registry for the launcher</li>
   <li><b>App.vep</b> is the authoritative project manifest</li>
-  <li><b>Scripts/</b> and <b>Assets/</b> are the real contents of the project</li>
-  <li><b>.VEP/</b> is the internal, IDE-managed workspace layer</li>
+  <li><b>Scripts/</b> and <b>Resources/</b> are the real project contents</li>
+  <li><b>.VEP/</b> is the internal, IDE-managed project workspace layer</li>
   <li><b>Integrity.json</b> is used for manifest consistency tracking</li>
-  <li><b>AssetIndex.json</b> is used for lightweight asset indexing and refresh support</li>
+  <li><b>ResourceIndex.json</b> is used as the project-scoped resource registry</li>
   <li><b>ProjectState.json</b> is used for per-project IDE continuity</li>
-  <li><b>.VEP/</b> is important, but should remain rebuildable and safe to delete</li>
+  <li><b>RecentProjects.json</b> may exist as a secondary convenience layer</li>
+  <li><b>.VEP/</b> is important, but should remain rebuildable and safe to regenerate</li>
 </ul>
 <br>
 This model is intended to provide a better balance between correctness,
@@ -714,7 +871,8 @@ It is a structural decision meant to preserve:
 <ul>
   <li>Clearer project boundaries</li>
   <li>A cleaner authoritative manifest</li>
-  <li>A healthier separation between user content and IDE internals</li>
+  <li>A healthier separation between global workspace state and per-project workspace state</li>
+  <li>A stronger distinction between physical presence and logical registration</li>
   <li>Stronger long-term maintainability</li>
   <li>Greater resilience through rebuildable workspace data</li>
 </ul>
