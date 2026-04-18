@@ -556,9 +556,9 @@ function openVitaEngine {
 Clear-Host
 disableQuickEdit
 
-if ($Global:devChannel) printText -t "$headerInfo - Dev Channel`n" -fs "b" -fc green
-if ($Global:stagingChannel) printText -t "$headerInfo - Staging Channel`n" -fs "b" -fc green
-if ($Global:mainChannel) printText -t "$headerInfo - Main Channel`n" -fs "b" -fc green
+if ($Global:devChannel) { printText -t "$headerInfo - Dev Channel`n" -fs "b" -fc green }
+if ($Global:stagingChannel) { printText -t "$headerInfo - Staging Channel`n" -fs "b" -fc green }
+if ($Global:mainChannel) { printText -t "$headerInfo - Main Channel`n" -fs "b" -fc green }
 
 printText -t $welcomeMessage -fc blue -fs "b"
 printText -t $warningMessage -fc red -fs "b"
