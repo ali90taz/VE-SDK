@@ -4,7 +4,7 @@
 # Global Variables
 # ==============================================================================
 
-$headerInfo = "`nVitaEngine SDK Setup Utility - Version 1.0.11 Pre-Alpha - Dev Channel`n"
+$headerInfo = "`nVitaEngine SDK Setup Utility - Version 1.0.11 Pre-Alpha`n"
 
 # Sources
 $vitaEngineSdkSrc = "https://github.com/ali90taz/VE-SDK"
@@ -67,7 +67,10 @@ $Global:installFlag = $false
 $Global:uninstallFlag = $false
 $Global:repairFlag = $false
 $Global:exitFlag = $true
+
 $Global:devChannel = $true
+$Global:mainChannel = $false
+$Global:stagingChannel = $false
 
 # Messages
 $welcomeMessage = "This script will guide you through the configuration process to install or`n" +
@@ -552,7 +555,11 @@ function openVitaEngine {
 
 Clear-Host
 disableQuickEdit
-printText -t $headerInfo -fs "b" -fc green
+
+if ($Global:devChannel) printText -t "$headerInfo - Dev Channel`n" -fs "b" -fc green
+if ($Global:stagingChannel) printText -t "$headerInfo - Staging Channel`n" -fs "b" -fc green
+if ($Global:mainChannel) printText -t "$headerInfo - Main Channel`n" -fs "b" -fc green
+
 printText -t $welcomeMessage -fc blue -fs "b"
 printText -t $warningMessage -fc red -fs "b"
 printText -t "'Y' for yes and 'N' for no, type option and press 'Enter': " -fc white -fs "b" -f "nnl"
@@ -926,7 +933,7 @@ if ($Global:installFlag) {
 
         wait 5000
 
-        if ($Global:devChannel -eq $false) {
+        if ((!$Global:devChannel) -and (($Global:mainChannel) -or ($Global:stagingChannel))) {
         
             printText -t ("`nOpening the VitaEngine for testing purposes,`n" +
                           "after successful opening, please close the VitaEngine window" +
