@@ -2,7 +2,7 @@
   "name": "VitaEngine",
   "version": "1.0.0",
   "description": "An open source PS Vita Engine.",
-  "main": "./Main.js",
+  "main": "Main.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "electron ."

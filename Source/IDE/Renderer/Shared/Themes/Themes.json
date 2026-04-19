@@ -1,0 +1,14 @@
+{
+  "formatVersion": 1,
+  "themes": [
+    {
+      "themeId": "dark",
+      "name": "Dark",
+      "base": "dark",
+      "kind": "built-in",
+      "preview": "./Dark/Preview.png",
+      "path": "./Dark/Theme.json",
+      "description": "Default dark theme."
+    }
+  ]
+}

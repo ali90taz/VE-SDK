@@ -9,8 +9,6 @@ import * as ui from "./Ui.js";
 const links = linksFile;
 const cssVars = cssVarsFile;
 
-/* Public */
-
 function registerLinkEvents() {
   for (const key in links.launcherWindow) {
     if (key !== "") {
@@ -25,6 +23,8 @@ function registerLinkEvents() {
   }
 }
 
+/* Public */
+
 export function registerEvents() {
   
   /* Global */
@@ -32,6 +32,7 @@ export function registerEvents() {
   eventHelpers.addWindowEvent(eventHelpers.EVENT.WINDOW.RESIZE, () => {
     ui.refresh();
   });
+  
   registerLinkEvents();
 
   /* Launcher window */

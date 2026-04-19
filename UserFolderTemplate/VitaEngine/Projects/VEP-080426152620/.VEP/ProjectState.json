@@ -13,7 +13,7 @@
   "explorer": {
     "expandedFolders": [
       "./Scripts",
-      "./Assets/Images"
+      "./Resources/Images"
     ],
     "selectedPath": "./Scripts/Main.lua"
   }

@@ -1,0 +1,66 @@
+{
+  "formatVersion": 1,
+  "themeId": "dark",
+  "name": "Dark",
+  "base": "dark",
+  "author": "VitaEngine Team",
+  "shared": {
+    "colors": {
+      "text": {
+        "primary": "#FFFFFF",
+        "warning": "#FF8080",
+        "link": "#1E90FF",
+        "linkHover": "#86C2FF"
+      }
+    },
+    "components": {
+      "circleButton": {
+        "hoverOpacity": 0.7
+      }
+    },
+    "assets": {
+      "windowControls": {
+        "minimize": "Shared/Assets/minimizeButton.png",
+        "close": "Shared/Assets/closeButton.png"
+      },
+      "branding": {
+        "logoIcon": "Shared/Assets/veLogo.png"
+      }
+    }
+  },
+  "windows": {
+    "launcher": {
+      "shell": {
+        "background": {
+          "content": "rgba(45,45,45,0.94)"
+        }
+      },
+      "sidebar": {
+        "background": "#191919"
+      },
+      "titleBar": {
+        "background": "#444444"
+      },
+      "footer": {
+        "background": "#444444"
+      },
+      "overlay": {
+        "backdrop": "rgba(0,0,0,0.486)"
+      },
+      "infoWindow": {
+        "background": "#2D2D2D"
+      },
+      "assets": {
+        "background": {
+          "wallpaper": "Launcher/Assets/psWave.jpg"
+        },
+        "branding": {
+          "logoText": "Launcher/Assets/veText.png"
+        },
+        "icons": {
+          "info": "Launcher/Assets/infoIcon.png"
+        }
+      }
+    }
+  }
+}
