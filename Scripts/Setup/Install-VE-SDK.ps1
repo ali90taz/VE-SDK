@@ -874,6 +874,9 @@ if ($Global:installFlag) {
                 printText -t " [FAIL]" -fc yellow
                 printText -t "  Unable to copy setup utility script snapshot. Check write permissions on '$setupScriptSnapshotDir'." -fc yellow -fs "b"
             }
+        } elseif ($isRunningFromSnapshot -and (Test-Path $setupScriptSnapshotPath)) {
+            printText -t " [SKIPPED]" -fc yellow
+            printText -t "  Setup utility snapshot update skipped because the setup is already running from this snapshot." -fc yellow -fs "b"
         } elseif (Test-Path $setupScriptSnapshotPath) {
             printText -t " [SKIPPED]" -fc yellow
         } else {
@@ -901,14 +904,12 @@ if ($Global:installFlag) {
         wait 2000
 
         ensureDirectory $vitaEngineSdkShortcuts
-        $setupUtilityLnkCommand = "if (Test-Path '$setupScriptSnapshotPath') { & '$setupScriptSnapshotPath' } else { Write-Host 'Local setup snapshot was not found. Reinstall using the Install.lnk shortcut from the official VE-SDK package.' -ForegroundColor Yellow; Read-Host }"
-
         # Setup Utility
         createLnk `
             -lnkName "VitaEngine SDK Setup Utility" `
             -lnkTarget "$($Env:ComSpec)" `
             -lnkPath $vitaEngineSdkShortcuts `
-            -lnkArguments "/k powershell -ExecutionPolicy RemoteSigned -Command `"$setupUtilityLnkCommand`"" `
+            -lnkArguments "/k powershell -ExecutionPolicy RemoteSigned -File `"$setupScriptSnapshotPath`"" `
             -adminRights $true
 
         # Open in VS Code
