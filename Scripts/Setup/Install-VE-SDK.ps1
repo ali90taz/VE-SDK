@@ -880,6 +880,7 @@ if ($Global:installFlag) {
             printText -t "  Setup utility snapshot update skipped because the setup is already running from this snapshot." -fc yellow -fs "b"
         } elseif (Test-Path $setupScriptSnapshotPath) {
             printText -t " [SKIPPED]" -fc yellow
+            printText -t "  Existing setup utility snapshot kept because no newer source script was found to refresh it." -fc yellow -fs "b"
         } else {
             printText -t " [FAIL]" -fc yellow
             printText -t "  Setup utility source script was not found at '$setupScriptInstalledPath'." -fc yellow -fs "b"
