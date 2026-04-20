@@ -5,7 +5,7 @@
 # ==============================================================================
 
 #Version
-$vitaSdkSetupUtilityVersion = "1.1.5"
+$vitaSdkSetupUtilityVersion = "1.1.6"
 $vitaSdkStage = "Pre-Alpha"
 
 $headerInfo = "`nVitaEngine SDK Setup Utility - Version $vitaSdkSetupUtilityVersion $vitaSdkStage"
@@ -44,7 +44,7 @@ $vitaEngineIdeDest        = Join-Path $vitaEngineSdkDest "Source\IDE"
 #Workspace paths
 $vitaEngineWorkspaceRoot = Join-Path $userDocuments "VitaEngine"
 $vitaEngineWorkspace     = Join-Path $vitaEngineWorkspaceRoot ".VE"
-$projectWorkspace        = Join-Path $vitaEngineWorkspaceRoot "Projects" "VEP-080426152620" ".VEP"
+$projectWorkspace = [System.IO.Path]::Combine($vitaEngineWorkspaceRoot, "Projects", "VEP-080426152620", ".VEP")
 
 # Local app data paths
 $vitaEngineSdkData    = Join-Path $Env:LOCALAPPDATA "VE-SDK"
