@@ -4,7 +4,11 @@
 # Global Variables
 # ==============================================================================
 
-$headerInfo = "`nVitaEngine SDK Setup Utility - Version 1.1.0 Pre-Alpha"
+#Version
+$vitaSdkSetupUtilityVersion = "1.1.1"
+$vitaSdkStage = "Pre-Alpha"
+
+$headerInfo = "`nVitaEngine SDK Setup Utility - Version $vitaSdkSetupUtilityVersion $vitaSdkStage"
 
 # Sources
 $vitaEngineSdkSrc = "https://github.com/ali90taz/VE-SDK"
@@ -36,6 +40,7 @@ $userDesktop   = Join-Path "$($Env:HOMEDRIVE)$($Env:HOMEPATH)" "Desktop"
 # SDK paths
 $vitaEngineSdkDest        = Join-Path $userDocuments "VitaEngine SDK"
 $vitaEngineIdeDest        = Join-Path $vitaEngineSdkDest "Source\IDE"
+$vitaEngineWorkspaceRoot  = Join-Path $userDocuments "VitaEngine"
 
 # Local app data paths
 $vitaEngineSdkData    = Join-Path $Env:LOCALAPPDATA "VE-SDK"
@@ -229,12 +234,12 @@ function createWorkspaceFolder {
     $currentLocation = Get-Location
     Set-Location $userDocuments
     New-Item -Path "VitaEngine" -ItemType Directory
-    $vitaEngineWorkspaceRoot = Join-Path $userDocuments "VitaEngine"
     ensureDirectory $vitaEngineWorkspaceRoot
     $workspaceFolderTemplate = Join-Path $vitaEngineSdkDest "WorkspaceFolderTemplate"
     if (Test-Path $workspaceFolderTemplate) {
         Copy-Item -Path (Join-Path $workspaceFolderTemplate '*') -Destination $vitaEngineWorkspaceRoot -Recurse -Force
     }
+    Set-Location $currentLocation
 }
 
 # ==============================================================================
@@ -662,8 +667,8 @@ if ($Global:uninstallFlag) {
     $desktopShortcut = Join-Path $desktopPath "$mainShortcutName.lnk"
     if (Test-Path $desktopShortcut) { Remove-Item $desktopShortcut -Force -Confirm:$false }
 
-    if (Test-Path $vitaEngineProjectsRoot) {
-        Remove-Item $vitaEngineProjectsRoot -Recurse -Force -Confirm:$false
+    if (Test-Path $vitaEngineWorkspaceRoot) {
+        Remove-Item $vitaEngineWorkspaceRoot -Recurse -Force -Confirm:$false
     }
 
     printText -t " [DONE]" -fc green
