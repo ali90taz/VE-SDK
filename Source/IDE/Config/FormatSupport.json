@@ -1,0 +1,38 @@
+{
+  "settingsFile": {
+    "preferred": 1,
+    "supported": [1]
+  },
+  "langFile": {
+    "preferred": 1,
+    "supported": [1]
+  },
+  "linksFile": {
+    "preferred": 1,
+    "supported": [1]
+  },
+  "projectsIndexFile": {
+    "preferred": 1,
+    "supported": [1]
+  },
+  "recentProjectsFile": {
+    "preferred": 1,
+    "supported": [1]
+  },
+  "vepFile": {
+    "preferred": 1,
+    "supported": [1]
+  },
+  "integrityFile": {
+    "preferred": 1,
+    "supported": [1]
+  },
+  "projectStateFile": {
+    "preferred": 1,
+    "supported": [1]
+  },
+  "resourceIndexFile": {
+    "preferred": 1,
+    "supported": [1]
+  }
+}

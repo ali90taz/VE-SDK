@@ -103,11 +103,12 @@ Seu papel é armazenar dados pertencentes ao engine e ao workspace como um todo,
 e não a um projeto específico.
 <br>
 <br>
-O primeiro exemplo importante dessa camada é:
+Exemplos importantes atuais dessa camada incluem:
 <br>
 <br>
 <ul>
   <li><b>ProjectsIndex.json</b></li>
+  <li><b>RecentProjects.json</b></li>
 </ul>
 <br>
 Essa distinção é importante porque cria uma separação clara entre:
@@ -138,6 +139,7 @@ Um exemplo atual inclui informações como:
 <br>
 <br>
 <ul>
+  <li><b>formatVersion</b></li>
   <li><b>projectId</b></li>
   <li><b>path</b> (relativo à raiz do workspace)</li>
   <li><b>registeredAtUtc</b></li>
@@ -203,6 +205,58 @@ mais curado e coerente.
 <br>
 <br>
 </h4>
+
+---
+
+<h3>RecentProjects.json</h3>
+
+<h4 align="left">
+O <b>RecentProjects.json</b> atualmente existe como uma <b>camada leve de
+conveniência</b> para UX do launcher e ordenação de acesso rápido.
+<br>
+<br>
+Diferentemente do <b>ProjectsIndex.json</b>, ele <b>não</b> foi pensado para ser a
+fonte autoritativa da presença de projetos no workspace.
+<br>
+<br>
+Na prática:
+<br>
+<br>
+<ul>
+  <li><b>ProjectsIndex.json</b> define quais projetos pertencem ao workspace ativo</li>
+  <li><b>RecentProjects.json</b> armazena metadados de conveniência orientados à recência e à exibição</li>
+</ul>
+<br>
+Um exemplo atual pode incluir campos como:
+<br>
+<br>
+<ul>
+  <li><b>formatVersion</b></li>
+  <li><b>projectId</b></li>
+  <li><b>name</b></li>
+  <li><b>lastOpened</b></li>
+</ul>
+<br>
+Essa distinção ajuda a manter separadas as preocupações entre pertencimento ao
+workspace e conveniência do launcher.
+<br>
+<br>
+</h4>
+
+<h4>Exemplo ilustrativo</h4>
+
+<pre><code style="font-family:nunito">{
+  "formatVersion": 1,
+  "projects": [
+    {
+      "projectId": "VEP-080426152620",
+      "name": "Fruit Demence: Blastlicious",
+      "lastOpened": "2026-04-12T16:40:00Z"
+    }
+  ]
+}</code></pre>
+
+<br>
 
 ---
 
@@ -411,7 +465,8 @@ Em outras palavras, o <b>.VEP/</b> deve ser útil e valioso, mas não um ponto
 
 <pre><code style="font-family:nunito">Documents/VitaEngine/
 ├── .VE/
-│   └── ProjectsIndex.json
+│   ├── ProjectsIndex.json
+│   └── RecentProjects.json
 └── Projects/
     └── VEP-080426152620/
         ├── App.vep
@@ -471,6 +526,7 @@ Um exemplo atual dessa ideia inclui valores como:
 <br>
 <br>
 <ul>
+  <li><b>formatVersion</b></li>
   <li><b>appChecksum</b></li>
   <li><b>criticalConfigChecksum</b></li>
   <li><b>lastValidatedUtc</b></li>
@@ -495,6 +551,7 @@ validação de consistência e um gerenciamento de workspace mais confiável.
 <h4>Exemplo ilustrativo</h4>
 
 <pre><code style="font-family:nunito">{
+  "formatVersion": 1,
   "appChecksum": "7A31C8F2",
   "criticalConfigChecksum": "A91F22BC",
   "lastValidatedUtc": "2026-04-13T18:22:00Z"
@@ -542,8 +599,8 @@ gerenciado pela IDE</b> de um projeto.
 <br>
 <br>
 Seu papel é representar os recursos que foram oficialmente reconhecidos pelo
-fluxo do VitaEngine, bem como manter o estado interno de alocação para novos
-<b>Resource IDs (RID)</b>.
+fluxo do VitaEngine, ao mesmo tempo em que preserva o estado interno de alocação
+para novos <b>Resource IDs (RID)</b>.
 <br>
 <br>
 Um exemplo atual inclui informações como:
@@ -564,8 +621,8 @@ também não é apenas um cache passivo do sistema de arquivos bruto.
 <br>
 <br>
 Em vez disso, ele atua como o <b>registro em escopo de projeto dos recursos que
-foram importados e reconhecidos pela IDE</b>, além de manter o próximo valor
-hexadecimal a ser usado na geração de novos RIDs.
+foram importados e reconhecidos pela IDE</b>, ao mesmo tempo em que armazena o
+próximo valor hexadecimal a ser usado na geração de novos RIDs.
 <br>
 <br>
 Isso significa:
@@ -575,7 +632,7 @@ Isso significa:
   <li>Um arquivo pode existir fisicamente em <b>Resources/</b> e ainda assim não ser considerado um recurso registrado</li>
   <li>Um recurso passa a fazer parte do modelo oficial quando é importado e indexado pela IDE</li>
   <li>O recurso mantém um <b>RID</b> estável mesmo que seu caminho físico mude depois</li>
-  <li>Novos recursos podem receber um novo RID a partir de <b>nextResourceHexId</b></li>
+  <li>Novos recursos podem receber um novo RID com base em <b>nextResourceHexId</b></li>
 </ul>
 <br>
 </h4>
@@ -604,7 +661,7 @@ Isso significa:
 
 <h4 align="left">
 A direção atual do VitaEngine é que cada recurso importado receba um
-<b>Resource ID (RID)</b> estável e que esse identificador <b>não precise ser
+<b>Resource ID (RID)</b> estável, e que esse identificador <b>não precise ser
 reciclado</b> posteriormente.
 <br>
 <br>
@@ -617,14 +674,14 @@ Em termos práticos:
   <li>Depois disso, <b>nextResourceHexId</b> é incrementado para o próximo valor</li>
 </ul>
 <br>
-Essa abordagem significa que o RID é <b>descartável do ponto de vista de
-reaproveitamento</b>:
+Isso significa que a alocação de RID é intencionalmente <b>descartável do ponto
+de vista de reaproveitamento</b>:
 <br>
 <br>
 <ul>
   <li>Se um recurso for removido, seu RID antigo não precisa voltar para o pool</li>
   <li>Se um recurso for substituído por outro, o novo recurso pode receber um RID novo</li>
-  <li>O sistema não precisa compactar, reorganizar ou tentar preencher “buracos” de IDs</li>
+  <li>O sistema não precisa compactar, reorganizar ou tentar preencher “buracos” no espaço de IDs</li>
 </ul>
 <br>
 Isso é considerado uma escolha saudável porque reduz complexidade e evita lógica
@@ -637,8 +694,8 @@ Com o formato atual <b>RID-XXXXXX</b>, existe um espaço de:
 <b>16.777.216 possíveis RIDs por projeto</b>
 <br>
 <br>
-Esse volume é grande o suficiente para que a estratégia de alocação monotônica
-simples seja considerada plenamente adequada para o escopo do VitaEngine.
+Esse volume é grande o suficiente para que uma estratégia simples de alocação
+monotônica seja considerada plenamente adequada para o escopo do VitaEngine.
 <br>
 <br>
 </h4>
@@ -796,34 +853,6 @@ Seu papel pretendido é mais estreito:
 
 ---
 
-<h3>RecentProjects.json</h3>
-
-<h4 align="left">
-Um <b>RecentProjects.json</b> leve ainda pode existir como uma camada de
-conveniência para ordenação de acesso rápido e UX do launcher.
-<br>
-<br>
-No entanto, ele deve ser entendido como um <b>artefato secundário de
-conveniência</b>, e não como a fonte autoritativa da presença de projetos no
-workspace.
-<br>
-<br>
-Na prática:
-<br>
-<br>
-<ul>
-  <li><b>ProjectsIndex.json</b> define quais projetos pertencem ao workspace ativo</li>
-  <li><b>RecentProjects.json</b> pode definir recência, ordenação visual ou metadados de conveniência</li>
-</ul>
-<br>
-Essa distinção ajuda a manter separadas as preocupações entre pertencimento ao
-workspace e conveniência do launcher.
-<br>
-<br>
-</h4>
-
----
-
 <h3>Comportamento de recuperação</h3>
 
 <h4 align="left">
@@ -897,13 +926,13 @@ A direção atual pretendida pode ser resumida assim:
   <li><b>Documents/VitaEngine/</b> é a raiz canônica do workspace desktop</li>
   <li><b>.VE/</b> é a camada global do workspace</li>
   <li><b>ProjectsIndex.json</b> é o registro autoritativo de projetos para o launcher</li>
+  <li><b>RecentProjects.json</b> existe como uma camada secundária de conveniência para recência e metadados de exibição no launcher</li>
   <li><b>App.vep</b> é o manifesto autoritativo do projeto</li>
   <li><b>Scripts/</b> e <b>Resources/</b> são o conteúdo real do projeto</li>
   <li><b>.VEP/</b> é a camada interna de workspace do projeto, gerenciada pela IDE</li>
   <li><b>Integrity.json</b> é usado para rastreamento de consistência do manifesto</li>
   <li><b>ResourceIndex.json</b> é usado como o registro de recursos em escopo de projeto e também mantém <b>nextResourceHexId</b> para a geração monotônica de novos RIDs</li>
   <li><b>ProjectState.json</b> é usado para continuidade da IDE por projeto</li>
-  <li><b>RecentProjects.json</b> pode existir como camada secundária de conveniência</li>
   <li><b>.VEP/</b> é importante, mas deve permanecer reconstruível e seguro para regenerar</li>
 </ul>
 <br>

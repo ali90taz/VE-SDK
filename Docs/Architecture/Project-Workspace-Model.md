@@ -99,11 +99,12 @@ Its role is to store engine-owned data that belongs to the workspace as a whole,
 not to any single project.
 <br>
 <br>
-The first important example of this layer is:
+Current important examples of this layer include:
 <br>
 <br>
 <ul>
   <li><b>ProjectsIndex.json</b></li>
+  <li><b>RecentProjects.json</b></li>
 </ul>
 <br>
 This distinction is important because it creates a clear separation between:
@@ -134,6 +135,7 @@ A current example includes information such as:
 <br>
 <br>
 <ul>
+  <li><b>formatVersion</b></li>
   <li><b>projectId</b></li>
   <li><b>path</b> (relative to the workspace root)</li>
   <li><b>registeredAtUtc</b></li>
@@ -198,6 +200,58 @@ workspace model.
 <br>
 <br>
 </h4>
+
+---
+
+<h3>RecentProjects.json</h3>
+
+<h4 align="left">
+<b>RecentProjects.json</b> currently exists as a lightweight <b>convenience layer</b>
+for launcher UX and quick access ordering.
+<br>
+<br>
+Unlike <b>ProjectsIndex.json</b>, it is <b>not</b> intended to be the authoritative
+source of project membership in the workspace.
+<br>
+<br>
+In practical terms:
+<br>
+<br>
+<ul>
+  <li><b>ProjectsIndex.json</b> defines which projects belong to the active workspace</li>
+  <li><b>RecentProjects.json</b> stores recency-oriented and display-oriented convenience metadata</li>
+</ul>
+<br>
+A current example may include fields such as:
+<br>
+<br>
+<ul>
+  <li><b>formatVersion</b></li>
+  <li><b>projectId</b></li>
+  <li><b>name</b></li>
+  <li><b>lastOpened</b></li>
+</ul>
+<br>
+This distinction helps keep project membership and launcher convenience concerns
+separate.
+<br>
+<br>
+</h4>
+
+<h4>Illustrative example</h4>
+
+<pre><code style="font-family:nunito">{
+  "formatVersion": 1,
+  "projects": [
+    {
+      "projectId": "VEP-080426152620",
+      "name": "Fruit Demence: Blastlicious",
+      "lastOpened": "2026-04-12T16:40:00Z"
+    }
+  ]
+}</code></pre>
+
+<br>
 
 ---
 
@@ -406,7 +460,8 @@ single point of failure for project validity.
 
 <pre><code style="font-family:nunito">Documents/VitaEngine/
 ├── .VE/
-│   └── ProjectsIndex.json
+│   ├── ProjectsIndex.json
+│   └── RecentProjects.json
 └── Projects/
     └── VEP-080426152620/
         ├── App.vep
@@ -466,6 +521,7 @@ A current example of this idea includes values such as:
 <br>
 <br>
 <ul>
+  <li><b>formatVersion</b></li>
   <li><b>appChecksum</b></li>
   <li><b>criticalConfigChecksum</b></li>
   <li><b>lastValidatedUtc</b></li>
@@ -490,6 +546,7 @@ consistency validation and more reliable workspace management.
 <h4>Illustrative example</h4>
 
 <pre><code style="font-family:nunito">{
+  "formatVersion": 1,
   "appChecksum": "7A31C8F2",
   "criticalConfigChecksum": "A91F22BC",
   "lastValidatedUtc": "2026-04-13T18:22:00Z"
@@ -537,13 +594,16 @@ registry</b> of a project.
 <br>
 <br>
 Its role is to represent the resources that have been officially recognized by
-the VitaEngine workflow.
+the VitaEngine workflow, while also preserving the internal allocation state for
+new <b>Resource IDs (RID)</b>.
 <br>
 <br>
 A current example includes information such as:
 <br>
 <br>
 <ul>
+  <li><b>formatVersion</b></li>
+  <li><b>nextResourceHexId</b></li>
   <li><b>resourceId</b></li>
   <li><b>path</b></li>
   <li><b>type</b></li>
@@ -556,7 +616,8 @@ not merely a passive cache of the raw filesystem.
 <br>
 <br>
 Instead, it acts as the <b>project-scoped registry of resources that have been
-imported and recognized by the IDE</b>.
+imported and recognized by the IDE</b>, while also storing the next hexadecimal
+value to be used when generating new RIDs.
 <br>
 <br>
 This means:
@@ -566,6 +627,7 @@ This means:
   <li>A file may exist physically under <b>Resources/</b> and still not be considered a registered resource</li>
   <li>A resource becomes part of the official resource model when it is imported and indexed by the IDE</li>
   <li>The resource keeps a stable <b>RID</b> even if its physical path changes later</li>
+  <li>New resources may receive a new RID based on <b>nextResourceHexId</b></li>
 </ul>
 <br>
 </h4>
@@ -574,6 +636,7 @@ This means:
 
 <pre><code style="font-family:nunito">{
   "formatVersion": 1,
+  "nextResourceHexId": "000002",
   "resources": [
     {
       "resourceId": "RID-000001",
@@ -586,6 +649,50 @@ This means:
 }</code></pre>
 
 <br>
+
+---
+
+<h3>RID allocation philosophy</h3>
+
+<h4 align="left">
+The current VitaEngine direction is that each imported resource should receive a
+stable <b>Resource ID (RID)</b>, and that this identifier should <b>not need to be
+recycled</b> later.
+<br>
+<br>
+In practical terms:
+<br>
+<br>
+<ul>
+  <li>When importing a new resource, the IDE consumes the current <b>nextResourceHexId</b> value</li>
+  <li>That value is converted into the new identifier in the <b>RID-XXXXXX</b> format</li>
+  <li>After that, <b>nextResourceHexId</b> is incremented to the next value</li>
+</ul>
+<br>
+This means RID allocation is intentionally <b>disposable from a reuse perspective</b>:
+<br>
+<br>
+<ul>
+  <li>If a resource is removed, its old RID does not need to return to the pool</li>
+  <li>If a resource is replaced by another one, the new resource may receive a new RID</li>
+  <li>The system does not need to compact, reorganize or attempt to fill “holes” in the ID space</li>
+</ul>
+<br>
+This is considered a healthy choice because it reduces complexity and avoids
+unnecessary recycling logic.
+<br>
+<br>
+With the current <b>RID-XXXXXX</b> format, there is a space of:
+<br>
+<br>
+<b>16,777,216 possible RIDs per project</b>
+<br>
+<br>
+This is large enough that a simple monotonic allocation strategy is considered
+fully adequate for VitaEngine’s scope.
+<br>
+<br>
+</h4>
 
 ---
 
@@ -741,33 +848,6 @@ Its intended role is narrower:
 
 ---
 
-<h3>RecentProjects.json</h3>
-
-<h4 align="left">
-A lightweight <b>RecentProjects.json</b> may still exist as a convenience layer
-for quick access ordering and launcher UX.
-<br>
-<br>
-However, it should be understood as a <b>secondary convenience artifact</b>, not
-as the authoritative source of project membership in the workspace.
-<br>
-<br>
-In practical terms:
-<br>
-<br>
-<ul>
-  <li><b>ProjectsIndex.json</b> defines which projects belong to the active workspace</li>
-  <li><b>RecentProjects.json</b> may define recency, display ordering or convenience metadata</li>
-</ul>
-<br>
-This distinction helps keep project membership and launcher convenience concerns
-separate.
-<br>
-<br>
-</h4>
-
----
-
 <h3>Recovery behavior</h3>
 
 <h4 align="left">
@@ -840,19 +920,25 @@ The current intended direction can be summarized as:
   <li><b>Documents/VitaEngine/</b> is the canonical desktop workspace root</li>
   <li><b>.VE/</b> is the global workspace layer</li>
   <li><b>ProjectsIndex.json</b> is the authoritative project registry for the launcher</li>
+  <li><b>RecentProjects.json</b> exists as a secondary convenience layer for launcher recency and display metadata</li>
   <li><b>App.vep</b> is the authoritative project manifest</li>
   <li><b>Scripts/</b> and <b>Resources/</b> are the real project contents</li>
   <li><b>.VEP/</b> is the internal, IDE-managed project workspace layer</li>
   <li><b>Integrity.json</b> is used for manifest consistency tracking</li>
-  <li><b>ResourceIndex.json</b> is used as the project-scoped resource registry</li>
+  <li><b>ResourceIndex.json</b> is used as the project-scoped resource registry and also maintains <b>nextResourceHexId</b> for monotonic new RID generation</li>
   <li><b>ProjectState.json</b> is used for per-project IDE continuity</li>
-  <li><b>RecentProjects.json</b> may exist as a secondary convenience layer</li>
   <li><b>.VEP/</b> is important, but should remain rebuildable and safe to regenerate</li>
 </ul>
 <br>
-This model is intended to provide a better balance between correctness,
-performance, clarity and future evolution.
+This model is intended to provide a better balance between:
 <br>
+<br>
+<ul>
+  <li>Correctness</li>
+  <li>Performance</li>
+  <li>Clarity</li>
+  <li>Future evolution</li>
+</ul>
 <br>
 </h4>
 
@@ -875,6 +961,7 @@ It is a structural decision meant to preserve:
   <li>A stronger distinction between physical presence and logical registration</li>
   <li>Stronger long-term maintainability</li>
   <li>Greater resilience through rebuildable workspace data</li>
+  <li>A simple and robust resource identity strategy based on stable, disposable RIDs</li>
 </ul>
 <br>
 If maintained consistently, this model should help VitaEngine offer a more
