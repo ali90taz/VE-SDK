@@ -861,9 +861,13 @@ if ($Global:installFlag) {
         $isRunningFromSnapshot = $false
 
         if ($PSCommandPath) {
-            $currentScriptFullPath = [System.IO.Path]::GetFullPath($PSCommandPath)
-            $snapshotScriptFullPath = [System.IO.Path]::GetFullPath($setupScriptSnapshotPath)
-            $isRunningFromSnapshot = ($currentScriptFullPath -ieq $snapshotScriptFullPath)
+            try {
+                $currentScriptFullPath = [System.IO.Path]::GetFullPath($PSCommandPath)
+                $snapshotScriptFullPath = [System.IO.Path]::GetFullPath($setupScriptSnapshotPath)
+                $isRunningFromSnapshot = ($currentScriptFullPath -ieq $snapshotScriptFullPath)
+            } catch {
+                $isRunningFromSnapshot = $false
+            }
         }
 
         if ((Test-Path $setupScriptInstalledPath) -and (-not $isRunningFromSnapshot)) {
@@ -872,7 +876,7 @@ if ($Global:installFlag) {
                 printText -t " [DONE]" -fc green
             } catch {
                 printText -t " [FAIL]" -fc yellow
-                printText -t "  Unable to copy setup utility script snapshot. Check write permissions on '$setupScriptSnapshotDir'." -fc yellow -fs "b"
+                printText -t "  Unable to copy setup utility script snapshot." -fc yellow -fs "b"
                 printText -t "  Details: $($_.Exception.Message)" -fc yellow
             }
         } elseif ($isRunningFromSnapshot) {
