@@ -859,8 +859,15 @@ if ($Global:installFlag) {
 
         printText -t "  Caching setup utility script snapshot..." -fc cyan -fs "i" -f "nnl"
         ensureDirectory $setupScriptSnapshotDir
+        $isRunningFromSnapshot = $false
 
-        if ((Test-Path $setupScriptInstalledPath) -and ($PSCommandPath -ne $setupScriptSnapshotPath)) {
+        if ($PSCommandPath) {
+            $currentScriptFullPath = [System.IO.Path]::GetFullPath($PSCommandPath)
+            $snapshotScriptFullPath = [System.IO.Path]::GetFullPath($setupScriptSnapshotPath)
+            $isRunningFromSnapshot = ($currentScriptFullPath -ieq $snapshotScriptFullPath)
+        }
+
+        if ((Test-Path $setupScriptInstalledPath) -and (-not $isRunningFromSnapshot)) {
             Copy-Item -Path $setupScriptInstalledPath -Destination $setupScriptSnapshotPath -Force
             printText -t " [DONE]" -fc green
         } elseif (Test-Path $setupScriptSnapshotPath) {
@@ -890,13 +897,14 @@ if ($Global:installFlag) {
         wait 2000
 
         ensureDirectory $vitaEngineSdkShortcuts
+        $setupUtilityLnkCommand = "if (Test-Path '$setupScriptSnapshotPath') { & '$setupScriptSnapshotPath' } else { Invoke-Expression -Command (Invoke-WebRequest -Uri '$setupScriptRemoteSrc' -UseBasicParsing).Content }"
 
         # Setup Utility
         createLnk `
             -lnkName "VitaEngine SDK Setup Utility" `
             -lnkTarget "$($Env:ComSpec)" `
             -lnkPath $vitaEngineSdkShortcuts `
-            -lnkArguments "/k powershell -ExecutionPolicy Unrestricted -Command `"if (Test-Path '$setupScriptSnapshotPath') { & '$setupScriptSnapshotPath' } else { Invoke-Expression -Command (Invoke-WebRequest -Uri '$setupScriptRemoteSrc' -UseBasicParsing).Content }`"" `
+            -lnkArguments "/k powershell -ExecutionPolicy Unrestricted -Command `"$setupUtilityLnkCommand`"" `
             -adminRights $true
 
         # Open in VS Code
