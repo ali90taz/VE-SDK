@@ -845,7 +845,10 @@ if ($Global:installFlag) {
             Remove-Item $vitaEngineSdkDest -Recurse -Force -Confirm:$false
         }
 
-        & git clone -q $vitaEngineSdkSrc $vitaEngineSdkDest
+        if ($Global:devChannel) { & git clone -q -b dev $vitaEngineSdkSrc $vitaEngineSdkDest }
+        if ($Global:stagingChannel) { & git clone -q -b staging $vitaEngineSdkSrc $vitaEngineSdkDest }
+        if ($Global:mainChannel) { & git clone -q -b main $vitaEngineSdkSrc $vitaEngineSdkDest }
+        
         wait 2000
         printText -t " [DONE]" -fc green
 
