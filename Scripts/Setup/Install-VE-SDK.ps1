@@ -8,6 +8,7 @@ $headerInfo = "`nVitaEngine SDK Setup Utility - Version 1.1.0 Pre-Alpha"
 
 # Sources
 $vitaEngineSdkSrc = "https://github.com/ali90taz/VE-SDK"
+$setupScriptRemoteSrc = "https://raw.githubusercontent.com/ali90taz/VE-SDK/refs/heads/dev/Scripts/Setup/Install-VE-SDK.ps1"
 
 $nodeVersionPattern = '^v18\.\d{1,2}\.\d{1,2}$'
 $gitVersionPattern  = '^git version \d{1,2}\.\d{1,2}\.\d{1,2}\.windows\.\d{1,2}$'
@@ -55,6 +56,9 @@ $vitaEngineSdkShortcuts = Join-Path $Env:ProgramData "Microsoft\Windows\Start Me
 $desktopPath = $userDesktop
 $mainShortcutName = "VitaEngine SDK"
 $regFilesPath = Join-Path $vitaEngineSdkDest "Misc\RegFiles"
+$setupScriptInstalledPath = Join-Path $vitaEngineSdkDest "Scripts\Setup\Install-VE-SDK.ps1"
+$setupScriptSnapshotDir = Join-Path $Env:ProgramData "VE-SDK"
+$setupScriptSnapshotPath = Join-Path $setupScriptSnapshotDir "Install-VE-SDK.ps1"
 
 # Flags
 $Global:gitFound = $false
@@ -853,6 +857,19 @@ if ($Global:installFlag) {
         wait 2000
         printText -t " [DONE]" -fc green
 
+        printText -t "  Caching setup utility script snapshot..." -fc cyan -fs "i" -f "nnl"
+        ensureDirectory $setupScriptSnapshotDir
+
+        if ((Test-Path $setupScriptInstalledPath) -and ($PSCommandPath -ne $setupScriptSnapshotPath)) {
+            Copy-Item -Path $setupScriptInstalledPath -Destination $setupScriptSnapshotPath -Force
+            printText -t " [DONE]" -fc green
+        } elseif (Test-Path $setupScriptSnapshotPath) {
+            printText -t " [SKIPPED]" -fc yellow
+        } else {
+            printText -t " [FAIL]" -fc yellow
+            printText -t "  Setup script snapshot was not found in the cloned repository." -fc yellow -fs "b"
+        }
+
         printText -t "  Adding VitaEngine SDK environment variable..." -fc cyan -fs "i" -f "nnl"
         wait 2000
         addEnv -name $vitaEngineSdkEnvVar -value $vitaEngineSdkDest
@@ -879,7 +896,7 @@ if ($Global:installFlag) {
             -lnkName "VitaEngine SDK Setup Utility" `
             -lnkTarget "$($Env:ComSpec)" `
             -lnkPath $vitaEngineSdkShortcuts `
-            -lnkArguments "/k powershell -ExecutionPolicy Unrestricted Invoke-Expression -Command (Invoke-WebRequest -Uri 'https://raw.githubusercontent.com/ali90taz/VE-SDK/refs/heads/dev/Scripts/Setup/Install-VE-SDK.ps1' -UseBasicParsing).Content" `
+            -lnkArguments "/k powershell -ExecutionPolicy Unrestricted -Command `"if (Test-Path '$setupScriptSnapshotPath') { & '$setupScriptSnapshotPath' } else { Invoke-Expression -Command (Invoke-WebRequest -Uri '$setupScriptRemoteSrc' -UseBasicParsing).Content }`"" `
             -adminRights $true
 
         # Open in VS Code
