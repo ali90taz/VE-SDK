@@ -233,11 +233,11 @@ function processRegFile ($file) {
 function createWorkspaceFolder {
     $currentLocation = Get-Location
     Set-Location $userDocuments
-    New-Item -Path "VitaEngine" -ItemType Directory
+    $null = New-Item -Path "VitaEngine" -ItemType Directory -ErrorAction Stop
     ensureDirectory $vitaEngineWorkspaceRoot
     $workspaceFolderTemplate = Join-Path $vitaEngineSdkDest "WorkspaceFolderTemplate"
     if (Test-Path $workspaceFolderTemplate) {
-        Copy-Item -Path (Join-Path $workspaceFolderTemplate '*') -Destination $vitaEngineWorkspaceRoot -Recurse -Force
+        $null = Copy-Item -Path (Join-Path $workspaceFolderTemplate 'VitaEngine' '*') -Destination $vitaEngineWorkspaceRoot -Recurse -Force -ErrorAction Stop
     }
     Set-Location $currentLocation
 }
