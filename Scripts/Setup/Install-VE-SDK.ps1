@@ -55,6 +55,9 @@ $vitaEngineSdkShortcuts = Join-Path $Env:ProgramData "Microsoft\Windows\Start Me
 $desktopPath = $userDesktop
 $mainShortcutName = "VitaEngine SDK"
 $regFilesPath = Join-Path $vitaEngineSdkDest "Misc\RegFiles"
+$setupScriptInstalledPath = Join-Path $vitaEngineSdkDest "Scripts\Setup\Install-VE-SDK.ps1"
+$setupScriptSnapshotDir = Join-Path $Env:ProgramData "VE-SDK"
+$setupScriptSnapshotPath = Join-Path $setupScriptSnapshotDir "Install-VE-SDK.ps1"
 
 # Flags
 $Global:gitFound = $false
@@ -853,6 +856,40 @@ if ($Global:installFlag) {
         wait 2000
         printText -t " [DONE]" -fc green
 
+        printText -t "  Caching setup utility script snapshot..." -fc cyan -fs "i" -f "nnl"
+        ensureDirectory $setupScriptSnapshotDir
+        $isRunningFromSnapshot = $false
+
+        if ($PSCommandPath) {
+            try {
+                $currentScriptFullPath = [System.IO.Path]::GetFullPath($PSCommandPath)
+                $snapshotScriptFullPath = [System.IO.Path]::GetFullPath($setupScriptSnapshotPath)
+                $isRunningFromSnapshot = ($currentScriptFullPath -ieq $snapshotScriptFullPath)
+            } catch {
+                $isRunningFromSnapshot = $false
+            }
+        }
+
+        if ((Test-Path $setupScriptInstalledPath) -and (-not $isRunningFromSnapshot)) {
+            try {
+                Copy-Item -Path $setupScriptInstalledPath -Destination $setupScriptSnapshotPath -Force -ErrorAction Stop
+                printText -t " [DONE]" -fc green
+            } catch {
+                printText -t " [FAIL]" -fc yellow
+                printText -t "  Unable to copy setup utility script snapshot." -fc yellow -fs "b"
+                printText -t "  Details: $($_.Exception.Message)" -fc yellow
+            }
+        } elseif ($isRunningFromSnapshot) {
+            printText -t " [SKIPPED]" -fc yellow
+            printText -t "  Setup utility snapshot update skipped because the setup is already running from this snapshot." -fc yellow -fs "b"
+        } elseif (Test-Path $setupScriptSnapshotPath) {
+            printText -t " [SKIPPED]" -fc yellow
+            printText -t "  Existing setup utility snapshot kept because no newer source script was found to refresh it." -fc yellow -fs "b"
+        } else {
+            printText -t " [FAIL]" -fc yellow
+            printText -t "  Setup utility source script was not found at '$setupScriptInstalledPath'." -fc yellow -fs "b"
+        }
+
         printText -t "  Adding VitaEngine SDK environment variable..." -fc cyan -fs "i" -f "nnl"
         wait 2000
         addEnv -name $vitaEngineSdkEnvVar -value $vitaEngineSdkDest
@@ -873,13 +910,12 @@ if ($Global:installFlag) {
         wait 2000
 
         ensureDirectory $vitaEngineSdkShortcuts
-
         # Setup Utility
         createLnk `
             -lnkName "VitaEngine SDK Setup Utility" `
             -lnkTarget "$($Env:ComSpec)" `
             -lnkPath $vitaEngineSdkShortcuts `
-            -lnkArguments "/k powershell -ExecutionPolicy Unrestricted Invoke-Expression -Command (Invoke-WebRequest -Uri 'https://raw.githubusercontent.com/ali90taz/VE-SDK/refs/heads/dev/Scripts/Setup/Install-VE-SDK.ps1' -UseBasicParsing).Content" `
+            -lnkArguments "/k powershell -ExecutionPolicy RemoteSigned -File `"$setupScriptSnapshotPath`"" `
             -adminRights $true
 
         # Open in VS Code
