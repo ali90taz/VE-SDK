@@ -873,15 +873,16 @@ if ($Global:installFlag) {
             } catch {
                 printText -t " [FAIL]" -fc yellow
                 printText -t "  Unable to copy setup utility script snapshot. Check write permissions on '$setupScriptSnapshotDir'." -fc yellow -fs "b"
+                printText -t "  Details: $($_.Exception.Message)" -fc yellow
             }
-        } elseif ($isRunningFromSnapshot -and (Test-Path $setupScriptSnapshotPath)) {
+        } elseif ($isRunningFromSnapshot) {
             printText -t " [SKIPPED]" -fc yellow
             printText -t "  Setup utility snapshot update skipped because the setup is already running from this snapshot." -fc yellow -fs "b"
         } elseif (Test-Path $setupScriptSnapshotPath) {
             printText -t " [SKIPPED]" -fc yellow
         } else {
             printText -t " [FAIL]" -fc yellow
-            printText -t "  Unable to refresh the setup utility script snapshot from the cloned repository." -fc yellow -fs "b"
+            printText -t "  Setup utility source script was not found at '$setupScriptInstalledPath'." -fc yellow -fs "b"
         }
 
         printText -t "  Adding VitaEngine SDK environment variable..." -fc cyan -fs "i" -f "nnl"
