@@ -4,7 +4,7 @@
 # Global Variables
 # ==============================================================================
 
-$headerInfo = "`nVitaEngine SDK Setup Utility - Version 1.0.17 Pre-Alpha"
+$headerInfo = "`nVitaEngine SDK Setup Utility - Version 1.1.0 Pre-Alpha"
 
 # Sources
 $vitaEngineSdkSrc = "https://github.com/ali90taz/VE-SDK"
@@ -36,8 +36,6 @@ $userDesktop   = Join-Path "$($Env:HOMEDRIVE)$($Env:HOMEPATH)" "Desktop"
 # SDK paths
 $vitaEngineSdkDest        = Join-Path $userDocuments "VitaEngine SDK"
 $vitaEngineIdeDest        = Join-Path $vitaEngineSdkDest "Source\IDE"
-$vitaEngineProjectsRoot   = Join-Path $userDocuments "VitaEngine"
-$vitaEngineProjectsFolder = Join-Path $vitaEngineProjectsRoot "Projects"
 
 # Local app data paths
 $vitaEngineSdkData    = Join-Path $Env:LOCALAPPDATA "VE-SDK"
@@ -224,12 +222,15 @@ function processRegFile ($file) {
     }
 }
 
-function createDemoProjectsFolder {
-    ensureDirectory $vitaEngineProjectsFolder
-
-    $demosPath = Join-Path $vitaEngineSdkDest "Demos"
-    if (Test-Path $demosPath) {
-        Copy-Item -Path (Join-Path $demosPath '*') -Destination $vitaEngineProjectsFolder -Recurse -Force
+function createWorkspaceFolder {
+    $currentLocation = Get-Location
+    Set-Location $userDocuments
+    New-Item -Path "VitaEngine" -ItemType Directory
+    $vitaEngineWorkspaceRoot = Join-Path $userDocuments "VitaEngine"
+    ensureDirectory $vitaEngineWorkspaceRoot
+    $workspaceFolderTemplate = Join-Path $vitaEngineSdkDest "WorkspaceFolderTemplate"
+    if (Test-Path $workspaceFolderTemplate) {
+        Copy-Item -Path (Join-Path $workspaceFolderTemplate '*') -Destination $vitaEngineWorkspaceRoot -Recurse -Force
     }
 }
 
@@ -863,9 +864,9 @@ if ($Global:installFlag) {
         processRegFile "REGISTER_VEP_EXTENSION.reg"
         printText -t " [DONE]" -fc green
 
-        printText -t "  Creating VitaEngine demo projects folder..." -fc cyan -fs "i" -f "nnl"
+        printText -t "  Creating VitaEngine workspace folder..." -fc cyan -fs "i" -f "nnl"
         wait 2000
-        createDemoProjectsFolder
+        createWorkspaceFolder
         printText -t " [DONE]" -fc green
 
         printText -t "  Creating VitaEngine SDK shortcuts..." -fc cyan -fs "i" -f "nnl"
@@ -894,15 +895,7 @@ if ($Global:installFlag) {
             -lnkTarget "$($Env:ComSpec)" `
             -lnkPath $desktopPath `
             -lnkArguments "/c cd /d `"$vitaEngineSdkDest`" & code . & exit"
-
-        # Build Utility
-        createLnk `
-            -lnkName "VitaEngine SDK Build Utility" `
-            -lnkTarget "$($Env:ComSpec)" `
-            -lnkPath $vitaEngineSdkShortcuts `
-            -lnkArguments "/k powershell -ExecutionPolicy Unrestricted Invoke-Expression -Command (Invoke-WebRequest -Uri 'https://raw.githubusercontent.com/ali90taz/VE-SDK/refs/heads/dev/Scripts/Build/Build-VitaEngine.ps1' -UseBasicParsing).Content" `
-            -adminRights $true
-
+            
         printText -t " [DONE]" -fc green
 
         # ----------------------------------------------------------------------
