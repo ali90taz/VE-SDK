@@ -61,7 +61,7 @@ $desktopPath = $userDesktop
 $mainShortcutName = "VitaEngine SDK"
 $regFilesPath = Join-Path $vitaEngineSdkDest "Misc\RegFiles"
 $setupScriptInstalledPath = Join-Path $vitaEngineSdkDest "Scripts\Setup\Install-VE-SDK.ps1"
-$setupScriptSnapshotDir = Join-Path $Env:ProgramData "VE-SDK"
+$setupScriptSnapshotDir = Join-Path $vitaEngineSdkData "scripts"
 $setupScriptSnapshotPath = Join-Path $setupScriptSnapshotDir "Install-VE-SDK.ps1"
 
 # Flags
