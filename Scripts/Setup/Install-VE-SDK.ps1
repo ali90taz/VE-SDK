@@ -8,7 +8,6 @@ $headerInfo = "`nVitaEngine SDK Setup Utility - Version 1.1.0 Pre-Alpha"
 
 # Sources
 $vitaEngineSdkSrc = "https://github.com/ali90taz/VE-SDK"
-$setupScriptRemoteSrc = "https://raw.githubusercontent.com/ali90taz/VE-SDK/refs/heads/dev/Scripts/Setup/Install-VE-SDK.ps1"
 
 $nodeVersionPattern = '^v18\.\d{1,2}\.\d{1,2}$'
 $gitVersionPattern  = '^git version \d{1,2}\.\d{1,2}\.\d{1,2}\.windows\.\d{1,2}$'
@@ -874,7 +873,7 @@ if ($Global:installFlag) {
             printText -t " [SKIPPED]" -fc yellow
         } else {
             printText -t " [FAIL]" -fc yellow
-            printText -t "  Setup script snapshot was not found in the cloned repository." -fc yellow -fs "b"
+            printText -t "  Unable to refresh the setup utility script snapshot from the cloned repository." -fc yellow -fs "b"
         }
 
         printText -t "  Adding VitaEngine SDK environment variable..." -fc cyan -fs "i" -f "nnl"
@@ -897,14 +896,14 @@ if ($Global:installFlag) {
         wait 2000
 
         ensureDirectory $vitaEngineSdkShortcuts
-        $setupUtilityLnkCommand = "if (Test-Path '$setupScriptSnapshotPath') { & '$setupScriptSnapshotPath' } else { Invoke-Expression -Command (Invoke-WebRequest -Uri '$setupScriptRemoteSrc' -UseBasicParsing).Content }"
+        $setupUtilityLnkCommand = "if (Test-Path '$setupScriptSnapshotPath') { & '$setupScriptSnapshotPath' } else { Write-Host 'Local setup snapshot was not found. Reinstall from Install.lnk.' -ForegroundColor Yellow; Read-Host }"
 
         # Setup Utility
         createLnk `
             -lnkName "VitaEngine SDK Setup Utility" `
             -lnkTarget "$($Env:ComSpec)" `
             -lnkPath $vitaEngineSdkShortcuts `
-            -lnkArguments "/k powershell -ExecutionPolicy Unrestricted -Command `"$setupUtilityLnkCommand`"" `
+            -lnkArguments "/k powershell -ExecutionPolicy RemoteSigned -Command `"$setupUtilityLnkCommand`"" `
             -adminRights $true
 
         # Open in VS Code
