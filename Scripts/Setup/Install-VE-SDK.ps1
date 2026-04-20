@@ -867,8 +867,13 @@ if ($Global:installFlag) {
         }
 
         if ((Test-Path $setupScriptInstalledPath) -and (-not $isRunningFromSnapshot)) {
-            Copy-Item -Path $setupScriptInstalledPath -Destination $setupScriptSnapshotPath -Force
-            printText -t " [DONE]" -fc green
+            try {
+                Copy-Item -Path $setupScriptInstalledPath -Destination $setupScriptSnapshotPath -Force -ErrorAction Stop
+                printText -t " [DONE]" -fc green
+            } catch {
+                printText -t " [FAIL]" -fc yellow
+                printText -t "  Unable to copy setup utility script snapshot. Check write permissions on '$setupScriptSnapshotDir'." -fc yellow -fs "b"
+            }
         } elseif (Test-Path $setupScriptSnapshotPath) {
             printText -t " [SKIPPED]" -fc yellow
         } else {
@@ -896,7 +901,7 @@ if ($Global:installFlag) {
         wait 2000
 
         ensureDirectory $vitaEngineSdkShortcuts
-        $setupUtilityLnkCommand = "if (Test-Path '$setupScriptSnapshotPath') { & '$setupScriptSnapshotPath' } else { Write-Host 'Local setup snapshot was not found. Reinstall from Install.lnk.' -ForegroundColor Yellow; Read-Host }"
+        $setupUtilityLnkCommand = "if (Test-Path '$setupScriptSnapshotPath') { & '$setupScriptSnapshotPath' } else { Write-Host 'Local setup snapshot was not found. Reinstall using the Install.lnk shortcut from the official VE-SDK package.' -ForegroundColor Yellow; Read-Host }"
 
         # Setup Utility
         createLnk `
