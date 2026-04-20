@@ -39,8 +39,12 @@ $userDesktop   = Join-Path "$($Env:HOMEDRIVE)$($Env:HOMEPATH)" "Desktop"
 
 # SDK paths
 $vitaEngineSdkDest        = Join-Path $userDocuments "VitaEngine SDK"
-$vitaEngineIdeDest        = Join-Path $vitaEngineSdkDest "Source\IDE"
-$vitaEngineWorkspaceRoot  = Join-Path $userDocuments "VitaEngine"
+$vitaEngineIdeDest        = Join-Path $vitaEngineSdkDest "Source\IDE" 
+
+#Workspace paths
+$vitaEngineWorkspaceRoot = Join-Path $userDocuments "VitaEngine"
+$vitaEngineWorkspace     = Join-Path $vitaEngineWorkspaceRoot ".VE"
+$projectWorkspace        = Join-Path $vitaEngineWorkspaceRoot "Projects" "VEP-080426152620" ".VEP"
 
 # Local app data paths
 $vitaEngineSdkData    = Join-Path $Env:LOCALAPPDATA "VE-SDK"
@@ -234,6 +238,12 @@ function createWorkspaceFolder {
     $workspaceFolderTemplate = Join-Path $vitaEngineSdkDest "WorkspaceFolderTemplate"
     if (Test-Path $workspaceFolderTemplate) {
         $null = Copy-Item -Path (Join-Path $workspaceFolderTemplate '*') -Destination $userDocuments -Recurse -Force -ErrorAction Stop
+    }
+    if (Test-Path $vitaEngineWorkspace) {
+        $null = Set-ItemProperty -Path $vitaEngineWorkspace -Name Attributes -Value "Hidden"
+    }
+    if (Test-Path $projectWorkspace) {
+        $null = Set-ItemProperty -Path $projectWorkspace -Name Attributes -Value "Hidden"
     }
 }
 
