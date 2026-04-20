@@ -5,7 +5,7 @@
 # ==============================================================================
 
 #Version
-$vitaSdkSetupUtilityVersion = "1.1.1"
+$vitaSdkSetupUtilityVersion = "1.1.2"
 $vitaSdkStage = "Pre-Alpha"
 
 $headerInfo = "`nVitaEngine SDK Setup Utility - Version $vitaSdkSetupUtilityVersion $vitaSdkStage"
