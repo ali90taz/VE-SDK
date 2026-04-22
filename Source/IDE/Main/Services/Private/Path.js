@@ -25,6 +25,18 @@ const recentProjectsFile = vePath.pathJoin(
   ideWorkspaceFolder, 
   'RecentProjects.json'
 );
+const formatSupportFile = vePath.pathJoin(
+
+);
+const langFile = vePath.pathJoin(
+
+);
+const linksFile = vePath.pathJoin(
+
+);
+const settingsFile = vePath.pathJoin(
+
+);
 function getProjectFolder(projectId) {
   return vePath.pathJoin(
     projectsFolder, 
@@ -100,6 +112,10 @@ module.exports = {
   projectsFolder,
   projectsIndexFile,
   recentProjectsFile,
+  formatSupportFile,
+  langFile,
+  linksFile,
+  settingsFile,
   getProjectFolder,
   getProjectWorkspaceFolder,
   getProjectIntegrityFile,

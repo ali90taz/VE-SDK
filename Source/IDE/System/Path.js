@@ -5,11 +5,16 @@ function getUserDocumentsFolder() {
   return app.getPath('documents');
 }
 
-function pathJoin(...path) {
-  return path.join(path);
+function pathJoin(...paths) {
+  return path.join(paths);
+}
+
+function getAppPath() {
+  return path.join(__dirname);
 }
 
 module.exports = {
   getUserDocumentsFolder,
-  pathJoin
+  pathJoin,
+  getAppPath
 };
