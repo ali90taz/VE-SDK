@@ -15,39 +15,6 @@ if (devMode) {
   });
 }
 
-function readRecentProjects() {
-  
-}
-
-function registerHandlers(){  
-  
-    
-  ipc.on(renderCall.channel.shell, (event, action, data) => {
-    switch (action) {
-      case renderCall.shellActions.openUrl:
-        if (data) shell.openExternal(data);
-        break;
-      default:
-        console.warn(`Unknown window action: ${action}`);
-        break;
-    }
-  });
-
-  ipc.handle(renderCall.channel.project, async (event, action, data) => {
-    switch (action) {
-      case renderCall.projectActions.getRecentProjects:
-        return readRecentProjects();
-      case renderCall.projectActions.newProject:
-        return openEditorWindow();
-      case renderCall.projectActions.loadProject:
-        break;
-      default:
-        console.warn(`Unknown project action: ${action}`);
-        break;
-    }
-  });
-}
-
 app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') app.quit();
 });

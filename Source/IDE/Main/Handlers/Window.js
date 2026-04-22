@@ -1,29 +1,28 @@
-const { BrowserWindow } = require('electron');
 const IPC = require('../../Bridge/IpcChannels');
+const windowServices = require('../Services/Public/Window');
 
 function registerWindowHandlers() {
 
   ipc.on(IPC.CHANNELS.WINDOW, (event, payload) => {
 
     const { action } = payload;
-    const window = BrowserWindow.fromWebContents(event.sender);
     
     switch (action) {
       case IPC.WINDOW_ACTIONS.CLOSE:
-        window?.close();
-        break;
+        windowServices.closeWindow(event.sender);
+      break;
       case IPC.WINDOW_ACTIONS.MINIMIZE:
-        window?.minimize();
-        break;
+        windowServices.minimizeWindow(event.sender);
+      break;
       case IPC.WINDOW_ACTIONS.MAXIMIZE:
-        window?.maximize();
-        break;
+        windowServices.maximizeWindow(event.sender);
+      break;
       case IPC.WINDOW_ACTIONS.RESTORE:
-        window?.unmaximize();
-        break;
+        windowServices.restoreWindow(event.sender);
+      break;
       default:
         console.warn(`Unknown window action: ${action}`);
-        break;
+      break;
     }
   });
 }
