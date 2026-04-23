@@ -13,7 +13,7 @@ function sendMessage(message, details) {
     console.log(`${messagePrefix}${message}${details}`);
     return;
   }
-  console.log(`${warningPrefix}${message}`);
+  console.log(`${messagePrefix}${message}`);
 }
 
 function sendWarning(warning, details) {

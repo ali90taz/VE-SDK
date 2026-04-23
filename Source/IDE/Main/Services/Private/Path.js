@@ -26,16 +26,24 @@ const recentProjectsFile = vePath.pathJoin(
   'RecentProjects.json'
 );
 const formatSupportFile = vePath.pathJoin(
-
+  vePath.getAppPath(),
+  'Config',
+  'FormatSupport.json'
 );
-const langFile = vePath.pathJoin(
-
+const localizationFile = vePath.pathJoin(
+  vePath.getAppPath(),
+  'Config',
+  'Localization.json'
 );
 const linksFile = vePath.pathJoin(
-
+  vePath.getAppPath(),
+  'Config',
+  'Links.json'
 );
 const settingsFile = vePath.pathJoin(
-
+  vePath.getAppPath(),
+  'Config',
+  'Settings.json'
 );
 function getProjectFolder(projectId) {
   return vePath.pathJoin(
@@ -45,7 +53,7 @@ function getProjectFolder(projectId) {
 }
 function getProjectWorkspaceFolder(projectId) {
   return vePath.pathJoin(
-    getProjectRootFolder(projectId), 
+    getProjectFolder(projectId), 
     '.VEP'
   );
 }
@@ -113,7 +121,7 @@ module.exports = {
   projectsIndexFile,
   recentProjectsFile,
   formatSupportFile,
-  langFile,
+  localizationFile,
   linksFile,
   settingsFile,
   getProjectFolder,
