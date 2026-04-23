@@ -1,4 +1,5 @@
 {
+  "fileId": "projectStateFile",
   "formatVersion": 1,
   "session": {
     "lastOpenedScript": "./Scripts/Main.lua",
