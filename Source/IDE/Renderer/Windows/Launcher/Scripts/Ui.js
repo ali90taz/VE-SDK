@@ -1,17 +1,12 @@
-import settingsFile from "../../../../Config/Settings.json" with { type: 'json' }
 import cssVarsFile from "../Styles/Variables.json" with { type: 'json' }
-import langFile from "../../../../Config/Lang.json" with { type: 'json' }
 
 import * as miscHelpers from "../../../Shared/Scripts/MiscHelpers.js"
 import * as cssHelpers from "../../../Shared/Scripts/CssHelpers.js"
 import * as domHelpers from "../../../Shared/Scripts/DomHelpers.js"
 
-const settings = settingsFile;
 const cssVars = cssVarsFile;
-const lang = langFile;
 
 function defineBehaviors() {
-  cssHelpers.setCssVariable(cssVars.setting.userSelect, settings.userSelect);
 }
 
 function applyTheme() {
