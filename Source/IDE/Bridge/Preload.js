@@ -1,6 +1,7 @@
 
 const { contextBridge, ipcRenderer } = require('electron');
 const IPC = require('./IpcChannels');
+const { setTheme } = require('../Renderer/Shared/Scripts/Theme');
 
 contextBridge.exposeInMainWorld('veApi', {
 
@@ -25,7 +26,9 @@ contextBridge.exposeInMainWorld('veApi', {
   shell: {
     openUrl: (url) => ipcRenderer.send(IPC.CHANNELS.SHELL, {
       action: IPC.SHELL_ACTIONS.OPEN_URL,
-      data: { url }
+      data: { 
+        url 
+      }
     }),
   },
 
@@ -111,15 +114,27 @@ contextBridge.exposeInMainWorld('veApi', {
     }),
   },
 
-  settings: {
-    setTheme: (theme) => ipcRenderer.send(IPC.CHANNELS.SETTINGS, {
-      action: IPC.SETTINGS_ACTIONS.SET_THEME,
-      data: { theme }
+  localization: {
+    setLanguage: (languageId) => ipcRenderer.send(IPC.CHANNELS.LOCALIZATION, {
+      action: IPC.LOCALIZATION_ACTIONS.SET_LANGUAGE,
+      data: { 
+        languageId 
+      }
     }),
-
-    setLanguage: (language) => ipcRenderer.send(IPC.CHANNELS.SETTINGS, {
-      action: IPC.SETTINGS_ACTIONS.SET_LANGUAGE,
-      data: { language }
-    }),
+    getLanguage: () => ipcRenderer.invoke(IPC.CHANNELS.LOCALIZATION, {
+      action: IPC.LOCALIZATION_ACTIONS.GET_LANGUAGE
+    })
   },
+
+  theme: {
+    setTheme: (themeId) => ipcRenderer.send(IPC.CHANNELS.THEME, {
+      action: IPC.THEME_ACTIONS.SET_THEME,
+      data: {
+        themeId
+      }
+    }),
+    getTheme: () => ipcRenderer.invoke(IPC.CHANNELS.THEME, {
+      action: IPC.THEME_ACTIONS.GET_THEME
+    })
+  }
 });

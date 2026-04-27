@@ -1,5 +1,6 @@
 const { BrowserWindow } = require('electron');
 const windowStateKeeper = require('electron-window-state');
+const vePath = require('../../System/Path');
 
 function createEditorWindow(devMode) {
   const editorWindowState = devMode
@@ -26,7 +27,7 @@ function createEditorWindow(devMode) {
       contextIsolation: true,
       sandbox: false,
       devTools: devMode,
-      preload: path.join(__dirname, 'Bridge', 'Preload.js'),
+      preload: vePath.pathJoin(__dirname, 'Bridge', 'Preload.js'),
     }
   };
 

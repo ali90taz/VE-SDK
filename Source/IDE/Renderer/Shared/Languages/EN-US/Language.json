@@ -1,0 +1,57 @@
+{
+  "formatVersion": 1,
+  "languageId": "en-us",
+  "name": "English (US)",
+  "base": "english",
+  "author": "VitaEngine Team",
+  "windows": {
+    "launcherWindow": {
+      "gitHubButton": {
+        "title": "Open GitHub project page"
+      },
+      "infoButton": {
+        "title": "Open Info Window"
+      },
+      "titleBar": {
+        "title": "Drag Window"
+      },
+      "minimizeButton": {
+        "title": "Minimize Window"
+      },
+      "closeButton": {
+        "title": "Close Window"
+      },
+      "projectActions-label": {
+        "textContent": "Start"
+      },
+      "newProject": {
+        "textContent": "New Project...",
+        "title": "Creates a new blank project"
+      },
+      "openProject": {
+        "textContent": "Open Project...",
+        "title": "Open a previously created project"
+      },
+      "recentProjects-label": {
+        "textContent": "Recent Projects"
+      },
+      "noRecentProjects-message": {
+        "textContent": "No recent projects yet :/"
+      },
+      "warningText": {
+        "textContent": "This software is not licensed by Sony."
+      },
+      "infoWindow": {
+        "infoWindow-closeButton": {
+          "title": "Close Window"
+        },
+        "infoWindow-version": {
+          "textContent": "Version: "
+        }
+      }
+    },
+    "editorWindow": {
+
+    }
+  }
+}

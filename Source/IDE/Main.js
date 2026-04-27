@@ -1,7 +1,7 @@
-
-const { app } = require('electron');
+const { app, BrowserWindow } = require('electron');
 const vePath = require('./System/Path');
 const debugServices = require('./Main/Services/Private/Debug');
+const navigation = require('./Main/App/Navigation');
 
 if (debugServices.devMode) {
   require('electron-reload')(vePath.getAppPath(), {
@@ -17,14 +17,14 @@ if (debugServices.devMode) {
 }
 
 app.on('window-all-closed', () => {
-  if (process.platform !== 'darwin') aspp.quit();
+  if (process.platform !== 'darwin') app.quit();
 });
 
 app.whenReady().then( async () => {
-
-    app.on('activate', async () => {
-      if (BrowserWindow.getAllWindows().length === 0) {
-        
-      }
-    });
+  await navigation.handleStartup();
+  app.on('activate', async () => {
+    if (BrowserWindow.getAllWindows().length === 0) {
+      await navigation.handleStartup();
+    }
+  });
 });

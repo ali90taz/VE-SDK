@@ -1,6 +1,13 @@
 {
   "formatVersion": 1,
   "fileId": "settingsFile",
-  "theme":"Default",
+  "theme":{
+    "mode": "default",
+    "themeId": ""
+  },
+  "language": {
+    "mode": "default",
+    "languageId": ""
+  },
   "userSelect":"none"
 }

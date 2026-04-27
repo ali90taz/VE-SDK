@@ -6,7 +6,7 @@ function getUserDocumentsFolder() {
 }
 
 function pathJoin(...paths) {
-  return path.join(paths);
+  return path.join(...paths);
 }
 
 function getAppPath() {

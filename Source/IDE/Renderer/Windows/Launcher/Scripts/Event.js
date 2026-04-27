@@ -32,6 +32,10 @@ export function registerEvents() {
   eventHelpers.addWindowEvent(eventHelpers.EVENT.WINDOW.RESIZE, () => {
     ui.refresh();
   });
+
+  eventHelpers.addWindowEvent(eventHelpers.EVENT.WINDOW.FOCUS, () => {
+    ui.refresh();
+  });
   
   registerLinkEvents();
 

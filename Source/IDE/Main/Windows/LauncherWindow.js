@@ -1,5 +1,6 @@
 const { BrowserWindow } = require('electron');
 const windowStateKeeper = require('electron-window-state');
+const vePath = require('../../System/Path');
 
 function createLauncherWindow(devMode) {
   const launcherWindowState = devMode
@@ -26,15 +27,12 @@ function createLauncherWindow(devMode) {
       contextIsolation: true,
       sandbox: false,
       devTools: devMode,
-      preload: path.join(__dirname, 'Bridge', 'Preload.js'),
+      preload: vePath.pathJoin(__dirname, 'Bridge', 'Preload.js'),
     }
   };
 
-  var launcherWindow = new BrowserWindow(windowOptions);
+  const launcherWindow = new BrowserWindow(windowOptions);
   launcherWindowState?.manage(launcherWindow);
-  launcherWindow.on('closed', () => {
-    launcherWindow = null;
-  });
   return launcherWindow;
 }
 

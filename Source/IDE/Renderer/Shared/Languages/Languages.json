@@ -1,0 +1,12 @@
+{
+  "fileId": "languagesFile",
+  "formatVersion": 1,
+  "languages": [
+    {
+      "languageId": "en-us",
+      "name": "English (US)",
+      "base": "english",
+      "path": "./EN-US/Language.json"
+    }
+  ]
+}

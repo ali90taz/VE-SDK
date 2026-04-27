@@ -114,6 +114,14 @@ function getProjectResourceFolder(projectId, resourceType) {
   }
 }
 
+function getVepFilePathFromArg(...argv) {
+  const fileArg = argv.find(
+    arg => typeof arg === 'string' && arg.toLowerCase().endsWith('.vep')
+  );
+  if (!fileArg) { return null; }
+  return fileArg;
+} 
+
 module.exports = {
   globalWorkspaceFolder,
   ideWorkspaceFolder,
@@ -128,5 +136,6 @@ module.exports = {
   getProjectWorkspaceFolder,
   getProjectIntegrityFile,
   getProjectStateFile,
-  getProjectResourceIndexFile
+  getProjectResourceIndexFile,
+  getVepFilePathFromArg
 };

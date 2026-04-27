@@ -5,7 +5,8 @@ export const EVENT = {
     OUT: 'mouseout'
   },
   WINDOW: {
-    RESIZE: 'resize'
+    RESIZE: 'resize',
+    FOCUS: 'focus'
   }
 }
 

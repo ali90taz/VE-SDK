@@ -8,7 +8,8 @@ const IPC = {
     DEPLOY: "veApi:deploy",
     PACKAGE: "veApi:package",
     COMPANION: "veApi:companion",
-    SETTINGS: "veApi:settings",
+    LOCALIZATION: "veApi:localization",
+    THEME: "veApi:theme"
   },
   WINDOW_ACTIONS: {
     CLOSE: "close",
@@ -47,9 +48,13 @@ const IPC = {
     RESTART: "restart",
     GET_LOGS: "get-logs",
   },
-  SETTINGS_ACTIONS: {
+  LOCALIZATION_ACTIONS: {
     SET_LANGUAGE: "set-language",
+    GET_LANGUAGE: "get-language"
+  },
+  THEME_ACTIONS: {
     SET_THEME: "set-theme",
+    GET_THEME: "get-theme"
   }
 }
 
