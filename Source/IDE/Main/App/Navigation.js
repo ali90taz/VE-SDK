@@ -7,8 +7,48 @@ const createLauncherWindow = require('../Windows/LauncherWindow');
 let editorWindow = null;
 let launcherWindow = null;
 
+function getEditorWindow() {
+  if (editorWindow && editorWindow.isDestroyed()) {
+    editorWindow = null;
+  }
+  return editorWindow;
+}
+
+function getLauncherWindow() {
+  if (launcherWindow && launcherWindow.isDestroyed()) {
+    launcherWindow = null;
+  }
+  return launcherWindow;
+}
+
+function hasOpenWindow() {
+  return !!(getEditorWindow() || getLauncherWindow());
+}
+
+function getStartupProjectFilePath() {
+  return pathServices.getVepFilePathFromArg(...veArg.getArgs());
+}
+
+function closeEditorWindow() {
+  const currentEditorWindow = getEditorWindow();
+  if (!currentEditorWindow) {
+    return;
+  }
+  currentEditorWindow.close();
+  editorWindow = null;
+}
+
+function closeLauncherWindow() {
+  const currentLauncherWindow = getLauncherWindow();
+  if (!closeLauncherWindow) {
+    return;
+  }
+  currentLauncherWindow.close();
+  launcherWindow = null;
+}
+
 async function handleStartup() {
-  const projectFilePath = pathServices.getVepFilePathFromArg(...veArg.getArgs());
+  const projectFilePath = getStartupProjectFilePath();
   if (projectFilePath) {
     await openEditorWindow();
     return;
@@ -16,40 +56,48 @@ async function handleStartup() {
   await openLauncherWindow()
 }
 
-function closeWindow(window) {
-  if (window && !window.isDestroyed()) {
-    window.close();
-  }
-}
-
 async function openEditorWindow() {
-  if (launcherWindow && !launcherWindow.isDestroyed()) {
-      closeWindow(launcherWindow);
+  closeLauncherWindow();
+
+  let currentEditorWindow = getEditorWindow();
+  if (!currentEditorWindow) {
+    currentEditorWindow = createEditorWindow(debugServices.devMode);
+    editorWindow = currentEditorWindow;
   }
-  if (!editorWindow || editorWindow.isDestroyed()) {
-      createEditorWindow(debugServices.devMode());
+
+  await currentEditorWindow.loadFile('./Renderer/Windows/Editor/Index.html');
+  currentEditorWindow.show();
+
+  if (
+    debugServices.devMode &&
+    !currentEditorWindow.webContents.isDevToolsOpened()
+  ) {
+    currentEditorWindow.webContents.openDevTools({ mode: 'detach' });
   }
-  await editorWindow.loadFile('./Renderer/Windows/Editor/Index.html');
-  editorWindow.show();
-  if (devMode && !editorWindow.webContents.isDevToolsOpened()) {
-      editorWindow.webContents.openDevTools({ mode: 'detach' });
-  }
-  editorWindow.webContents.send('window-is-ready');
+
+  currentEditorWindow.webContents.send('window-is-ready');
 }
 
 async function openLauncherWindow() {
-  if (editorWindow && !editorWindow.isDestroyed()) {
-    closeWindow(editorWindow);
+  closeEditorWindow();
+
+  let currentLauncherWindow = getLauncherWindow();
+  if (!currentLauncherWindow) {
+    currentLauncherWindow = createLauncherWindow(debugServices.devMode);
+    launcherWindow = currentLauncherWindow;
   }
-  if (!launcherWindow || launcherWindow.isDestroyed()) {
-    createLauncherWindow(debugServices.devMode());
+
+  await currentLauncherWindow.loadFile('./Renderer/Windows/Launcher/Index.html');
+  currentLauncherWindow.show();
+
+  if (
+    debugServices.devMode &&
+    !currentLauncherWindow.webContents.isDevToolsOpened()
+  ) {
+    currentLauncherWindow.webContents.openDevTools({ mode: 'detach' });
   }
-  await launcherWindow.loadFile('./Renderer/Windows/Launcher/Index.html');
-  launcherWindow.show();
-  if (devMode && !launcherWindow.webContents.isDevToolsOpened()) {
-    launcherWindow.webContents.openDevTools({mode: 'detach'});
-  }
-  launcherWindow.webContents.send('window-is-ready');
+
+  currentLauncherWindow.webContents.send('window-is-ready');
 }
 
 module.exports = {
