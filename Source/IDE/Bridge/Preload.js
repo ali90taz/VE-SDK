@@ -1,7 +1,6 @@
 
 const { contextBridge, ipcRenderer } = require('electron');
 const IPC = require('./IpcChannels');
-const { setTheme } = require('../Renderer/Shared/Scripts/Theme');
 
 contextBridge.exposeInMainWorld('veApi', {
 

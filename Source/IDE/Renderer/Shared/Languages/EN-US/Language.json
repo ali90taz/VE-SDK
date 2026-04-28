@@ -1,11 +1,12 @@
 {
   "formatVersion": 1,
+  "fileId": "languageFile",
   "languageId": "en-us",
   "name": "English (US)",
   "base": "english",
   "author": "VitaEngine Team",
   "windows": {
-    "launcherWindow": {
+    "launcher": {
       "gitHubButton": {
         "title": "Open GitHub project page"
       },
@@ -50,7 +51,7 @@
         }
       }
     },
-    "editorWindow": {
+    "editor": {
 
     }
   }

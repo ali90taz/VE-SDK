@@ -10,23 +10,27 @@ export const LANGUAGE_ID = {
   EN_US: "en-us",
 };
 
-export async function getLanguage() {
-  try {
-    const latestLanguage = await window.veApi.localization.getLanguage();
-  } catch (error) {
-
-  }
-}
-
 export function getAvailableLanguages() {
-  try {
-    languagesFile.
-  } catch (error) {
 
-  }
 }
 
-export function setLanguage(mode, languageId) {
+export async function getLanguageDefinition() {
+  
+}
+
+export function resolveLanguageId(mode, languageId) {
+
+}
+
+export function applyLanguageToWindow(windowId, languageData) {
+
+}
+
+export function restoreLanguage(windowId) {
+
+}
+
+export function setLanguage(windowId, mode, languageId, persist = true) {
 
   switch (languageId) {
 

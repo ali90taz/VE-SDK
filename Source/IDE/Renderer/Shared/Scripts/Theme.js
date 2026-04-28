@@ -9,10 +9,26 @@ export const THEME_ID = {
   DARK: "dark",
 };
 
-export function getThemes() {
+export function getAvailableThemes() {
 
 }
 
-export function setTheme(mode, themeId) {
+export function getThemeDefinition(themeId) {
 
+}
+
+export function resolveTheme(mode, themeId) {
+
+}
+
+export function applyThemeToWindow(windowId, themeData) {
+
+}
+
+export function restoreTheme(windowId) {
+
+}
+
+export function setTheme(windowId, mode, themeId, persist = true) {
+  
 }
